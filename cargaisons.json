@@ -1,0 +1,24 @@
+{
+    "cargaisons": [
+        {
+            "id": 1,
+            "reference": "CRG001",
+            "maxWeight": 5000,
+            "totalAmount": 30000,
+            "distance": 350,
+            "type": "MARITIME",
+            "globalState": "OPEN",
+            "progressionState": "IN_ROAD"
+        },
+        {
+            "id": "6653d53cbc124",
+            "reference": "CR001",
+            "maxWeight": "110",
+            "totalAmount": "0",
+            "distance": 110,
+            "type": "MARITIME",
+            "globalState": "OPEN",
+            "progressionState": "PENDING"
+        }
+    ]
+}

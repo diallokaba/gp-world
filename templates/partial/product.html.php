@@ -1,0 +1,1 @@
+<h1 class="text-red-600">Je suis un produit</h1>
