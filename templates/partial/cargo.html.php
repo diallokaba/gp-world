@@ -41,8 +41,11 @@
         <thead class="bg-custom-blue-sky text-black">
         <tr>
             <th></th>
-            <th>Pois / Nbr Colis</th>
-            <th>Montant total</th>
+            <th>Poids / Nbr Colis</th>
+            <th>Lieu de départ</th>
+            <th>Lieu d'arrivée</th>
+            <th>Date de départ</th>
+            <th>Date d'arrivée</th>
             <th>Distance</th>
             <th>Type</th>
             <th>Etat Global</th>
@@ -251,16 +254,22 @@
             </select>
           </label>
           <div class="pl-2.5 text-red-600 hidden" id="err-cargo-type">error</div>
-          <label class="border border-gray-300 rounded-xl flex items-center p-2.5 mt-5">
-            <span class="w-36">Date de départ:</span>
-            <input type="date" name="leavingDate" id="leavingDate" class="grow outline-none border border-gray-300 rounded-lg py-1 pl-1">
-          </label>
-          <div class="pl-2.5 text-red-600 hidden" id="err-leaving-date">error</div>
-          <label class="border border-gray-300 rounded-xl flex items-center p-2.5 mt-5">
-            <span class="w-36">Date d'arrivée:</span>
-            <input type="date" name="arrivedDate" id="arrivedDate" class="grow border outline-none border-gray-300 rounded-lg py-1 pl-1">
-          </label>
-          <div class="pl-2.5 text-red-600 hidden" id="err-arrived-date">error</div>
+          <div class="flex justify-between">
+            <div class="flex flex-col">
+                <label class="border border-gray-300 rounded-xl flex items-center p-2.5 mt-5">
+                    <span class="">Date de départ:&nbsp;&nbsp;</span>
+                    <input type="date" name="leavingDate" id="leavingDate" class="w-80 outline-none border border-gray-300 rounded-lg py-1 pl-1">
+                </label>
+                <div class="pl-2.5 text-red-600 hidden" id="err-leaving-date">error</div>
+            </div>
+            <div class="flex flex-col">
+                <label class="border border-gray-300 rounded-xl flex items-center p-2.5 mt-5">
+                    <span>Date d'arrivée:&nbsp;&nbsp;</span>
+                    <input type="date" name="arrivedDate" id="arrivedDate" class="w-80 border outline-none border-gray-300 rounded-lg py-1 pl-1">
+                </label>
+                <div class="pl-2.5 text-red-600 hidden" id="err-arrived-date">error</div>
+            </div>
+          </div>
           <!-- <label class="border border-gray-300 rounded-xl flex items-center p-2.5 mt-5">
             <span class="w-36">Distance:</span>
             <input id="distance" name="distance" type="number" class="grow border border-gray-300 rounded-lg py-1 px-2 outline-none" placeholder="Entrer la distance en KM" />
@@ -276,8 +285,34 @@
           <div class="pl-2.5 text-red-600 hidden mt-2" id="radio-choice">error</div>
           <div id="quantity">
           </div>
+          <div class="mt-5">
+            <div id="map" style="width: 100%; height: 300px;"></div>
+          </div>
+          <div class="flex gap-2 justify-between mt-5">
+            <div class="flex flex-col">
+                <label class="border border-gray-300 rounded-xl flex items-center p-2.5 mt-5">
+                    <span class="">Départ:&nbsp;</span>
+                    <input type="texte" name="departurePoint" id="departurePoint" class="grow outline-none border border-gray-300 rounded-lg py-1 pl-1 bg-gray-200" readonly>
+                </label>
+                <div class="pl-2.5 text-red-600 hidden" id="err-departure-point">error</div>
+            </div>
+            <div class="flex flex-col">
+                <label class="border border-gray-300 rounded-xl flex items-center p-2.5 mt-5">
+                    <span class="">Arrivée:&nbsp;</span>
+                    <input type="text" name="arrivalPoint" id="arrivalPoint" class="grow border outline-none border-gray-300 rounded-lg py-1 pl-1 bg-gray-200" readonly>
+                </label>
+                <div class="pl-2.5 text-red-600 hidden" id="err-arrival-point">error</div>
+            </div>
+            <div class="flex flex-col">
+                <label class="border border-gray-300 rounded-xl flex items-center p-2.5 mt-5">
+                    <span class="">Distance:&nbsp;</span>
+                    <input type="text" name="distance" id="distance" class="grow border outline-none border-gray-300 rounded-lg py-1 pl-1 bg-gray-200" readonly>
+                </label>
+                <div class="pl-2.5 text-red-600 hidden" id="err-distance">error</div>
+            </div>
+          </div>
           <div class="flex justify-end gap-3 mt-5">
-            <button type="button" class="btn btn-warning" onclick="document.getElementById('my_modal_4').close()">Annuler</button>
+            <button type="button" class="btn btn-error text-white" onclick="document.getElementById('my_modal_4').close()">Annuler</button>
             <button class="btn btn-primary text-white">Ajouter</button>
           </div>
     </form>
@@ -288,3 +323,5 @@
 
 
 <script type="module" src="./dist/cargo-impl.js"></script>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script type="module" src="./dist/map.js"></script>

@@ -4,6 +4,8 @@ const quantity = document.querySelector("#quantity");
 const cargoType = document.querySelector("#cargo-type");
 const leavingDate = document.querySelector("#leavingDate");
 const arrivedDate = document.querySelector("#arrivedDate");
+const departurePoint = document.querySelector("#departurePoint");
+const arrivalPoint = document.querySelector("#arrivalPoint");
 const distance = document.querySelector("#distance");
 const form = document.querySelector("#add-cargo");
 const radioChoice = document.getElementById("radio-choice");
@@ -85,6 +87,7 @@ form === null || form === void 0 ? void 0 : form.addEventListener('submit', (e) 
         }
     }
     const errLeavingDate = document.getElementById('err-leaving-date');
+    let leavingDateLessThanTodayDate = false;
     if (leavingDate.value.trim() === '') {
         errLeavingDate === null || errLeavingDate === void 0 ? void 0 : errLeavingDate.classList.remove('hidden');
         errLeavingDate === null || errLeavingDate === void 0 ? void 0 : errLeavingDate.classList.add('visible');
@@ -92,7 +95,20 @@ form === null || form === void 0 ? void 0 : form.addEventListener('submit', (e) 
         isValid = false;
     }
     else {
-        errLeavingDate === null || errLeavingDate === void 0 ? void 0 : errLeavingDate.classList.add('hidden');
+        let todayDate = new Date();
+        let formatLeavingDate = new Date(leavingDate.value.trim());
+        todayDate.setHours(0, 0, 0, 0);
+        formatLeavingDate.setHours(0, 0, 0, 0);
+        if (formatLeavingDate < todayDate) {
+            errLeavingDate === null || errLeavingDate === void 0 ? void 0 : errLeavingDate.classList.remove('hidden');
+            errLeavingDate === null || errLeavingDate === void 0 ? void 0 : errLeavingDate.classList.add('visible');
+            errLeavingDate.innerText = 'La date de départ ne doit pas être inférieur à la date jour';
+            leavingDateLessThanTodayDate = true;
+            isValid = false;
+        }
+        else {
+            errLeavingDate === null || errLeavingDate === void 0 ? void 0 : errLeavingDate.classList.add('hidden');
+        }
     }
     const errArrivedDate = document.getElementById('err-arrived-date');
     if (arrivedDate.value.trim() === '') {
@@ -103,6 +119,51 @@ form === null || form === void 0 ? void 0 : form.addEventListener('submit', (e) 
     }
     else {
         errArrivedDate === null || errArrivedDate === void 0 ? void 0 : errArrivedDate.classList.add('hidden');
+    }
+    const errDeparturePoint = document.getElementById('err-departure-point');
+    if (departurePoint.value.trim() === '') {
+        errDeparturePoint === null || errDeparturePoint === void 0 ? void 0 : errDeparturePoint.classList.remove('hidden');
+        errDeparturePoint === null || errDeparturePoint === void 0 ? void 0 : errDeparturePoint.classList.add('visible');
+        errDeparturePoint.innerText = 'Le lieu de départ est obligatoire';
+        isValid = false;
+    }
+    else {
+        errDeparturePoint === null || errDeparturePoint === void 0 ? void 0 : errDeparturePoint.classList.add('hidden');
+    }
+    const errArrivalPoint = document.getElementById('err-arrival-point');
+    if (arrivalPoint.value.trim() === '') {
+        errArrivalPoint === null || errArrivalPoint === void 0 ? void 0 : errArrivalPoint.classList.remove('hidden');
+        errArrivalPoint === null || errArrivalPoint === void 0 ? void 0 : errArrivalPoint.classList.add('visible');
+        errArrivalPoint.innerText = 'La lieu d\'arrivée est obligatoire';
+        isValid = false;
+    }
+    else {
+        errArrivalPoint === null || errArrivalPoint === void 0 ? void 0 : errArrivalPoint.classList.add('hidden');
+    }
+    const errDistance = document.getElementById('err-distance');
+    if (distance.value.trim() === '') {
+        errDistance === null || errDistance === void 0 ? void 0 : errDistance.classList.remove('hidden');
+        errDistance === null || errDistance === void 0 ? void 0 : errDistance.classList.add('visible');
+        errDistance.innerText = 'La distance est obligatoire';
+        isValid = false;
+    }
+    else {
+        errDistance === null || errDistance === void 0 ? void 0 : errDistance.classList.add('hidden');
+    }
+    if (arrivedDate.value.trim() != '' && leavingDate.value.trim() != '' && !leavingDateLessThanTodayDate) {
+        let lDate = new Date(leavingDate.value.trim());
+        let aDate = new Date(arrivedDate.value.trim());
+        lDate.setHours(0, 0, 0, 0);
+        aDate.setHours(0, 0, 0, 0);
+        if (aDate < lDate) {
+            errArrivedDate === null || errArrivedDate === void 0 ? void 0 : errArrivedDate.classList.remove('hidden');
+            errArrivedDate === null || errArrivedDate === void 0 ? void 0 : errArrivedDate.classList.add('visible');
+            errArrivedDate.innerText = 'La date d\'arrivée doit être supérieur à la date de départ';
+            isValid = false;
+        }
+        else {
+            errArrivedDate === null || errArrivedDate === void 0 ? void 0 : errArrivedDate.classList.add('hidden');
+        }
     }
     const errCargoType = document.getElementById('err-cargo-type');
     if (cargoType.value == 0) {
@@ -117,21 +178,44 @@ form === null || form === void 0 ? void 0 : form.addEventListener('submit', (e) 
     if (isValid) {
         const formData = new FormData();
         formData.append('action', 'addCargaison');
-        formData.append('reference', 'CR001');
+        let newId = 1;
+        if (cargaisons.length > 0) {
+            const lastCargo = cargaisons[cargaisons.length - 1];
+            newId = Number(lastCargo.id) + 1;
+        }
+        formData.append("id", newId.toString());
+        formData.append("reference", 'CR' + padStart(newId.toString(), 3, '0'));
         if (byWeight.checked) {
             formData.append('maxWeight', weightMax.value.toString());
         }
         else {
+            formData.append('maxWeight', 'null');
+        }
+        if (byProduct.checked) {
             formData.append('maxNbrProduct', productMax.value.toString());
         }
+        else {
+            formData.append('maxNbrProduct', 'null');
+        }
         formData.append('totalAmount', (0).toString());
-        //formData.append('totalAmount',  distance.value.toString());
-        // formData.append('lieu_depart', lieu_depart);
-        // formData.append('lieu_arrivee', lieu_arrivee);
-        // formData.append('distance_km', distance_km.toString());
+        formData.append('distance', distance.value.toString());
+        formData.append('departurePoint', departurePoint.value.trim().toString());
+        formData.append('arrivalPoint', arrivalPoint.value.trim().toString());
+        formData.append('distance', distance.value.toString());
+        formData.append('leavingDate', leavingDate.value.toString());
+        formData.append('arrivedDate', arrivedDate.value.toString());
         formData.append('type', cargoType.value.toString());
         formData.append('globalState', 'OPEN');
         formData.append('progressionState', 'PENDING');
+        if (cargoType.value.trim() === "AIR") {
+            formData.append('image', 'https://www.inc-conso.fr/sites/default/files/avion-800_1.png');
+        }
+        else if (cargoType.value.trim() === "MARITIME") {
+            formData.append('image', 'https://www.trade-easy.fr/wp-content/uploads/2022/06/Cout-fret-maritime-TRADE.EASY_.png');
+        }
+        else {
+            formData.append('image', 'https://miro.medium.com/v2/resize:fit:772/1*73RG4jdNMfewnPLP73KVPw.png');
+        }
         console.log(formData);
         fetch('api.php', {
             method: 'POST',
@@ -143,7 +227,8 @@ form === null || form === void 0 ? void 0 : form.addEventListener('submit', (e) 
             const jsonData = JSON.parse(data);
             if (jsonData.status === "success") {
                 alert(jsonData.message);
-                displayCargo();
+                //displayCargo();
+                window.location.reload();
                 // const modal = document.getElementById('modal');
                 // if (modal) modal.classList.add('hidden');
             }
@@ -154,11 +239,12 @@ form === null || form === void 0 ? void 0 : form.addEventListener('submit', (e) 
             .catch(error => console.error('Erreur:', error));
     }
 });
+let cargaisons = [];
 function displayCargo() {
     fetch('cargaisons.json')
         .then(response => response.json())
         .then(data => {
-        const cargaisons = data.cargaisons;
+        cargaisons = data.cargaisons;
         const cargaisonList = document.getElementById('tbody-cargo');
         if (!cargaisonList)
             return;
@@ -172,7 +258,7 @@ function displayCargo() {
                     <div class="avatar">
                         <div class="mask mask-squircle w-12 h-12">
                             <img
-                                src="https://www.inc-conso.fr/sites/default/files/avion-800_1.png"
+                                src="${cargaison.image}"
                                 alt="Avatar Tailwind CSS Component"
                             />
                         </div>
@@ -183,9 +269,12 @@ function displayCargo() {
                 </div>
              </div>
             </td>
-            <td >${cargaison.maxWeight ? cargaison.maxWeight + 'KG' : cargaison.maxNbrProduct}</td>
-            <td >${cargaison.totalAmount}</td>
-            <td>${cargaison.distance + 'KM'}</td>
+            <td>${String(cargaison.maxWeight) != 'null' ? cargaison.maxWeight + ' (KG)' : cargaison.maxNbrProduct}</td>
+            <td>${cargaison.departurePoint}</td>
+            <td>${cargaison.arrivalPoint}</td>
+            <td>${cargaison.leavingDate}</td>
+            <td>${cargaison.arrivedDate}</td>
+            <td>${cargaison.distance + ' (KM)'}</td>
             <td>${cargaison.type}</td>
             <td>${cargaison.globalState}</td>
             <td>${cargaison.progressionState}</td>
@@ -204,4 +293,16 @@ function displayCargo() {
         .catch(error => console.error('Erreur:', error));
 }
 displayCargo();
+function padStart(str, targetLength, padString) {
+    str = str.toString();
+    padString = padString || ' ';
+    if (str.length >= targetLength) {
+        return str;
+    }
+    targetLength = targetLength - str.length;
+    while (padString.length < targetLength) {
+        padString += padString;
+    }
+    return padString.slice(0, targetLength) + str;
+}
 export {};

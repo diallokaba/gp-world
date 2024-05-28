@@ -14,14 +14,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     $action = $_POST['action'];
     if ($action === 'addCargaison') {
         $newCargaison = [
-            "id" => uniqid(),
+            "id" => $_POST['id'],
             "reference" => $_POST['reference'],
             "maxWeight" => $_POST['maxWeight'],
+            "maxNbrProduct" => $_POST['maxNbrProduct'],
             "totalAmount" => $_POST['totalAmount'],
-            "distance" => 110,
+            "distance" => $_POST["distance"],
+            "departurePoint" => $_POST['departurePoint'],
+            "arrivalPoint" => $_POST["arrivalPoint"],
+            "leavingDate" => $_POST['leavingDate'],
+            "arrivedDate" => $_POST["arrivedDate"],
             "type" => $_POST['type'],
             "globalState" => $_POST['globalState'],
-            "progressionState" => $_POST['progressionState']
+            "progressionState" => $_POST['progressionState'],
+            "image" => $_POST['image']
         ];
 
         $data = readJSON('cargaisons.json');

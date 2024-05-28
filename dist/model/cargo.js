@@ -1,19 +1,20 @@
 export class Cargo {
-    constructor(id, reference, maxWeight, maxNbrProduct, totalAmount, type, _leavingDate, _arrivedDate, distance, _departurePoint, _arrivalPoint) {
+    constructor(id, reference, maxWeight, maxNbrProduct, totalAmount, type, leavingDate, arrivedDate, distance, departurePoint, arrivalPoint, image) {
         this._id = id;
         this._reference = reference;
         this._maxWeight = maxWeight;
         this._maxNbrProduct = maxNbrProduct;
         this._totalAmount = totalAmount;
-        this.leavingDate = _leavingDate;
-        this.arrivedDate = _arrivedDate;
+        this._leavingDate = leavingDate;
+        this._arrivedDate = arrivedDate;
         this._type = type;
         this._distance = distance;
         this._globalState = "OPEN";
         this._progressionState = "PENDING",
-            this.departurePoint = _departurePoint;
-        this.arrivalPoint = _arrivalPoint;
+            this._departurePoint = departurePoint;
+        this._arrivalPoint = arrivalPoint;
         this.products = [];
+        this._image = image;
     }
     get reference() {
         return this._reference;
@@ -42,19 +43,34 @@ export class Cargo {
     get progressionState() {
         return this._progressionState;
     }
+    get leavingDate() {
+        return this._globalState;
+    }
+    get arrivedDate() {
+        return this._progressionState;
+    }
+    get departurePoint() {
+        return this._globalState;
+    }
+    get arrivalPoint() {
+        return this._progressionState;
+    }
+    get image() {
+        return this._image;
+    }
 }
 export class Air extends Cargo {
-    constructor(id, reference, maxWeight, maxNbrProduct, totalAmount, type, leavingDate, arrivedDate, distance, departurePoint, arrivalPoint) {
-        super(id, reference, maxWeight, maxNbrProduct, totalAmount, type, leavingDate, arrivedDate, distance, departurePoint, arrivalPoint);
+    constructor(id, reference, maxWeight, maxNbrProduct, totalAmount, type, leavingDate, arrivedDate, distance, departurePoint, arrivalPoint, image) {
+        super(id, reference, maxWeight, maxNbrProduct, totalAmount, type, leavingDate, arrivedDate, distance, departurePoint, arrivalPoint, image);
     }
 }
 export class Maritime extends Cargo {
-    constructor(id, reference, maxWeight, maxNbrProduct, totalAmount, type, leavingDate, arrivedDate, distance, departurePoint, arrivalPoint) {
-        super(id, reference, maxWeight, maxNbrProduct, totalAmount, type, leavingDate, arrivedDate, distance, departurePoint, arrivalPoint);
+    constructor(id, reference, maxWeight, maxNbrProduct, totalAmount, type, leavingDate, arrivedDate, distance, departurePoint, arrivalPoint, image) {
+        super(id, reference, maxWeight, maxNbrProduct, totalAmount, type, leavingDate, arrivedDate, distance, departurePoint, arrivalPoint, image);
     }
 }
 export class Road extends Cargo {
-    constructor(id, reference, maxWeight, maxNbrProduct, totalAmount, type, leavingDate, arrivedDate, distance, departurePoint, arrivalPoint) {
-        super(id, reference, maxWeight, maxNbrProduct, totalAmount, type, leavingDate, arrivedDate, distance, departurePoint, arrivalPoint);
+    constructor(id, reference, maxWeight, maxNbrProduct, totalAmount, type, leavingDate, arrivedDate, distance, departurePoint, arrivalPoint, image) {
+        super(id, reference, maxWeight, maxNbrProduct, totalAmount, type, leavingDate, arrivedDate, distance, departurePoint, arrivalPoint, image);
     }
 }

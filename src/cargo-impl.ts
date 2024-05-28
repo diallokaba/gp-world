@@ -6,6 +6,8 @@ const quantity: any = document.querySelector("#quantity");
 const cargoType: any = document.querySelector("#cargo-type");
 const leavingDate: any = document.querySelector("#leavingDate");
 const arrivedDate: any = document.querySelector("#arrivedDate");
+const departurePoint: any = document.querySelector("#departurePoint");
+const arrivalPoint: any = document.querySelector("#arrivalPoint");
 const distance: any = document.querySelector("#distance");
 const form = document.querySelector("#add-cargo");
 const radioChoice: any = document.getElementById("radio-choice");
@@ -90,13 +92,26 @@ form?.addEventListener('submit', (e) =>{
         }
     }
     const errLeavingDate: any = document.getElementById('err-leaving-date');
+    let leavingDateLessThanTodayDate: boolean = false;
     if(leavingDate.value.trim() === ''){
         errLeavingDate?.classList.remove('hidden');
         errLeavingDate?.classList.add('visible');
         errLeavingDate.innerText = 'La date de départ est obligatoire';
         isValid = false;
     }else{
-        errLeavingDate?.classList.add('hidden');
+        let todayDate = new Date();
+        let formatLeavingDate = new Date(leavingDate.value.trim());
+        todayDate.setHours(0,0,0,0);
+        formatLeavingDate.setHours(0,0,0,0);
+        if(formatLeavingDate < todayDate){
+            errLeavingDate?.classList.remove('hidden');
+            errLeavingDate?.classList.add('visible');
+            errLeavingDate.innerText = 'La date de départ ne doit pas être inférieur à la date jour';
+            leavingDateLessThanTodayDate = true;
+            isValid = false;
+        }else{
+            errLeavingDate?.classList.add('hidden');
+        }
     }
 
     const errArrivedDate: any = document.getElementById('err-arrived-date');
@@ -107,6 +122,53 @@ form?.addEventListener('submit', (e) =>{
         isValid = false;
     }else{
         errArrivedDate?.classList.add('hidden');
+    }
+
+    const errDeparturePoint = document.getElementById('err-departure-point') as HTMLInputElement;
+    if(departurePoint.value.trim() === ''){
+        errDeparturePoint?.classList.remove('hidden');
+        errDeparturePoint?.classList.add('visible');
+        errDeparturePoint.innerText = 'Le lieu de départ est obligatoire';
+        isValid = false;
+    }else{
+        errDeparturePoint?.classList.add('hidden');
+    }
+
+    const errArrivalPoint: any = document.getElementById('err-arrival-point');
+    if(arrivalPoint.value.trim() === ''){
+        errArrivalPoint?.classList.remove('hidden');
+        errArrivalPoint?.classList.add('visible');
+        errArrivalPoint.innerText = 'La lieu d\'arrivée est obligatoire';
+        isValid = false;
+    }else{
+        errArrivalPoint?.classList.add('hidden');
+    }
+
+    const errDistance: any = document.getElementById('err-distance');
+    if(distance.value.trim() === ''){
+        errDistance?.classList.remove('hidden');
+        errDistance?.classList.add('visible');
+        errDistance.innerText = 'La distance est obligatoire';
+        isValid = false;
+    }else{
+        errDistance?.classList.add('hidden');
+    }
+
+    if(arrivedDate.value.trim() != '' && leavingDate.value.trim() != '' && !leavingDateLessThanTodayDate){
+        let lDate = new Date(leavingDate.value.trim());
+        let aDate = new Date(arrivedDate.value.trim());
+
+        lDate.setHours(0,0,0,0);
+        aDate.setHours(0,0,0,0);
+
+        if(aDate < lDate){
+            errArrivedDate?.classList.remove('hidden');
+            errArrivedDate?.classList.add('visible');
+            errArrivedDate.innerText = 'La date d\'arrivée doit être supérieur à la date de départ';
+            isValid = false;
+        }else{
+            errArrivedDate?.classList.add('hidden');
+        }
     }
 
     const errCargoType: any = document.getElementById('err-cargo-type');
@@ -122,20 +184,43 @@ form?.addEventListener('submit', (e) =>{
     if(isValid){
         const formData = new FormData();
         formData.append('action', 'addCargaison');
-        formData.append('reference', 'CR001');
+        let newId: number = 1;
+        if(cargaisons.length > 0){
+            const lastCargo = cargaisons[cargaisons.length - 1];
+            newId = Number(lastCargo.id) +1;
+        }
+        formData.append("id", newId.toString());
+        formData.append("reference", 'CR' + padStart(newId.toString(), 3, '0'));
         if(byWeight.checked){
             formData.append('maxWeight', weightMax.value.toString());
         }else{
-            formData.append('maxNbrProduct', productMax.value.toString());
+            formData.append('maxWeight', 'null');
         }
+
+        if(byProduct.checked){
+            formData.append('maxNbrProduct', productMax.value.toString());
+        }else{
+            formData.append('maxNbrProduct', 'null');
+        }
+
         formData.append('totalAmount',  (0).toString());
-        //formData.append('totalAmount',  distance.value.toString());
-        // formData.append('lieu_depart', lieu_depart);
-        // formData.append('lieu_arrivee', lieu_arrivee);
-        // formData.append('distance_km', distance_km.toString());
+        formData.append('distance',  distance.value.toString());
+        formData.append('departurePoint', departurePoint.value.trim().toString());
+        formData.append('arrivalPoint', arrivalPoint.value.trim().toString());
+        formData.append('distance',  distance.value.toString());
+        formData.append('leavingDate',  leavingDate.value.toString());
+        formData.append('arrivedDate',  arrivedDate.value.toString());
         formData.append('type', cargoType.value.toString());
         formData.append('globalState', 'OPEN');
         formData.append('progressionState', 'PENDING');
+
+        if(cargoType.value.trim() === "AIR"){
+            formData.append('image', 'https://www.inc-conso.fr/sites/default/files/avion-800_1.png');
+        }else if(cargoType.value.trim() === "MARITIME"){
+            formData.append('image', 'https://www.trade-easy.fr/wp-content/uploads/2022/06/Cout-fret-maritime-TRADE.EASY_.png');
+        }else{
+            formData.append('image', 'https://miro.medium.com/v2/resize:fit:772/1*73RG4jdNMfewnPLP73KVPw.png');
+        }
 
         console.log(formData);
 
@@ -149,7 +234,8 @@ form?.addEventListener('submit', (e) =>{
                 const jsonData = JSON.parse(data);
               if (jsonData.status === "success") {
                 alert(jsonData.message);
-                displayCargo();
+                //displayCargo();
+                window.location.reload();
                 // const modal = document.getElementById('modal');
                 // if (modal) modal.classList.add('hidden');
               } else {
@@ -158,14 +244,16 @@ form?.addEventListener('submit', (e) =>{
             })
             .catch(error => console.error('Erreur:', error));
     }
-})
+});
+
+let cargaisons: Cargo[] = [];
 
 function displayCargo(): void {
     fetch('cargaisons.json')
       .then(response => response.json())
       .then(data => {
         
-        const cargaisons: Cargo[] = data.cargaisons;
+        cargaisons = data.cargaisons;
         const cargaisonList = document.getElementById('tbody-cargo');
         if (!cargaisonList) return;
         cargaisonList.innerHTML = '';
@@ -178,7 +266,7 @@ function displayCargo(): void {
                     <div class="avatar">
                         <div class="mask mask-squircle w-12 h-12">
                             <img
-                                src="https://www.inc-conso.fr/sites/default/files/avion-800_1.png"
+                                src="${cargaison.image}"
                                 alt="Avatar Tailwind CSS Component"
                             />
                         </div>
@@ -189,9 +277,12 @@ function displayCargo(): void {
                 </div>
              </div>
             </td>
-            <td >${cargaison.maxWeight ? cargaison.maxWeight + 'KG' : cargaison.maxNbrProduct}</td>
-            <td >${cargaison.totalAmount}</td>
-            <td>${cargaison.distance + 'KM'}</td>
+            <td>${String (cargaison.maxWeight) != 'null' ? cargaison.maxWeight + ' (KG)' : cargaison.maxNbrProduct}</td>
+            <td>${cargaison.departurePoint}</td>
+            <td>${cargaison.arrivalPoint}</td>
+            <td>${cargaison.leavingDate}</td>
+            <td>${cargaison.arrivedDate}</td>
+            <td>${cargaison.distance + ' (KM)'}</td>
             <td>${cargaison.type}</td>
             <td>${cargaison.globalState}</td>
             <td>${cargaison.progressionState}</td>
@@ -212,4 +303,17 @@ function displayCargo(): void {
   }
 
   displayCargo();
+
+  function padStart(str: string, targetLength: number, padString: string) {
+    str = str.toString();
+    padString = padString || ' ';
+    if (str.length >= targetLength) {
+        return str;
+    }
+    targetLength = targetLength - str.length;
+    while (padString.length < targetLength) {
+        padString += padString;
+    }
+    return padString.slice(0, targetLength) + str;
+}
 

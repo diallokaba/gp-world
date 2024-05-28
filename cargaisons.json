@@ -1,24 +1,52 @@
 {
     "cargaisons": [
         {
-            "id": 1,
-            "reference": "CRG001",
-            "maxWeight": 5000,
-            "totalAmount": 30000,
-            "distance": 350,
-            "type": "MARITIME",
+            "id": "1",
+            "reference": "CR003",
+            "maxWeight": "150",
+            "maxNbrProduct": "null",
+            "totalAmount": "0",
+            "distance": "3795.81",
+            "departurePoint": "Guin\u00e9e",
+            "arrivalPoint": "Libye",
+            "leavingDate": "2024-06-09",
+            "arrivedDate": "2024-10-06",
+            "type": "AIR",
             "globalState": "OPEN",
-            "progressionState": "IN_ROAD"
+            "progressionState": "PENDING",
+            "image": "https:\/\/www.inc-conso.fr\/sites\/default\/files\/avion-800_1.png"
         },
         {
-            "id": "6653d53cbc124",
-            "reference": "CR001",
-            "maxWeight": "110",
+            "id": "2",
+            "reference": "CR002",
+            "maxWeight": "null",
+            "maxNbrProduct": "300",
             "totalAmount": "0",
-            "distance": 110,
+            "distance": "3998.33",
+            "departurePoint": "Mauritanie",
+            "arrivalPoint": "Soudan",
+            "leavingDate": "2024-05-29",
+            "arrivedDate": "2024-06-09",
             "type": "MARITIME",
             "globalState": "OPEN",
-            "progressionState": "PENDING"
+            "progressionState": "PENDING",
+            "image": "https:\/\/www.trade-easy.fr\/wp-content\/uploads\/2022\/06\/Cout-fret-maritime-TRADE.EASY_.png"
+        },
+        {
+            "id": "3",
+            "reference": "CR003",
+            "maxWeight": "700",
+            "maxNbrProduct": "null",
+            "totalAmount": "0",
+            "distance": "6132.42",
+            "departurePoint": "Guin\u00e9e",
+            "arrivalPoint": "Afrique du Sud",
+            "leavingDate": "2024-06-06",
+            "arrivedDate": "2024-09-08",
+            "type": "ROAD",
+            "globalState": "OPEN",
+            "progressionState": "PENDING",
+            "image": "https:\/\/miro.medium.com\/v2\/resize:fit:772\/1*73RG4jdNMfewnPLP73KVPw.png"
         }
     ]
 }
