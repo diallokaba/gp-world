@@ -32,7 +32,7 @@ map.on("click", function(e: any) {
             .bindPopup("Lieu d'arrivée")
             .openPopup();
         updateInputWithLocationName(e.latlng, "arrivalPoint");
-        //calculateDistance(leavingMarker.getLatLng(), e.latlng);
+        calculateDistance(leavingMarker.getLatLng(), e.latlng);
 
         arrivedMarker.on('dragend', function(event: any) {
             let marker = event.target;

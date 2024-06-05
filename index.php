@@ -12,6 +12,7 @@
     body, html{
         height: 100%;
         width: 100%;
+        background-color:white;
     }
     .main-content-height{
         flex: 1;

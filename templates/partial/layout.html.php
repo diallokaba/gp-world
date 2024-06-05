@@ -1,7 +1,7 @@
-<nav class="bg-custom-blue-sky shadow-md">
+<nav class="bg-pink-600 shadow-md">
         <div class="flex justify-between items-center">
             <div class="flex flex-row items-center ml-4">
-                <a class="flex flex-row items-center cursor-pointer" href="#"><img class="h-20" src="./dist/images/gp-world.jpeg" alt="GP-WORLD LOGO"><span class="font-bold text-xl ml-2">GP-World</span></a>
+                <a class="flex flex-row items-center cursor-pointer" href="#"><img class="h-20" src="./dist/images/" alt="SMD-GP"><span class="font-bold text-xl ml-2">SMD-GP</span></a>
                 <button class="ml-16 cursor-pointer"><i class="fa-solid fa-bars text-xl"></i></button>
             </div>
             <div class="relative flex-1 hidden lg:block mx-16">
@@ -12,10 +12,8 @@
             </div>
             <div class="flex items-center mr-4">
                 <div class="relative mr-4 cursor-pointer">
-                    <i class="fa-solid fa-bell text-xl text-gray-500"></i>
-                    <span class="absolute -top-1 -right-2 bg-red-500 text-white rounded-full text-xs w-4 h-4 flex items-center justify-center">3</span>
                 </div>
-                <img class="h-10 rounded-full cursor-pointer hover:scale-125 transition-transform duration-200 ease-out" src="./dist/images/profile.png" alt="Moi">
+                <img class="h-10 rounded-full cursor-pointer hover:scale-125 transition-transform duration-200 ease-out" src="./dist/images/" alt="Moi">
             </div>
             <!-- <div class="mr-4">
                 <img class="h-10 rounded-full cursor-pointer hover:scale-125 transition-transform duration-200 ease-out" src="./dist/images/profile.png" alt="Moi">
@@ -85,11 +83,11 @@
             </div>
 
             <!-- footer -->
-            <footer class="p-4 bg-custom-blue-sky flex items-center justify-between">
+            <footer class="p-4 bg-pink-600 flex items-center justify-between">
                 <div>
                     <a class="flex flex-row items-center cursor-pointer" href="#">
-                        <img class="h-12" src="./dist/images/gp-world.jpeg" alt="GP-WORLD LOGO">
-                        <span class="font-bold text-sm ml-2">GP-World</span>
+                        <img class="h-12" src="./dist/images/" alt="SMD-GP">
+                        <span class="font-bold text-sm ml-2">SMD-GP</span>
                     </a>
                 </div>
                 <div>
