@@ -293,9 +293,9 @@
             <!-- <input type="text" class="grow" placeholder="Email" /> -->
             <select class="grow py-2 pl-1 outline-none rounded-lg" id="product-type" name="type">
                 <option value="0">Choisir un type de produit</option>
-                <option value="CHIMICAL">Chimique</option>
-                <option value="MATERIAL">Matériel</option>
-                <option value="ALIMENTARY">Alimentaire</option>
+                <option value="CHIMICAL" id="chimical-option">Chimique</option>
+                <option value="MATERIAL" id="marterial-option">Matériel</option>
+                <option value="ALIMENTARY" id="alimentary-option">Alimentaire</option>
             </select>
           </label>
           <div class="pl-2.5 text-red-600 hidden" id="err-cargo-type">error</div>
@@ -325,30 +325,12 @@
             </div>
             <div id="receiver-info"></div>
         </fieldset>
+          <label class="border border-gray-300 rounded-xl flex items-center p-2.5 mt-4">
+                <span class="">Prix total:&nbsp;&nbsp;</span>
+                <input type="text" name="distance" id="total-price-product" class="grow border outline-none border-gray-300 rounded-lg py-1 pl-2 bg-gray-200" value="0" readonly>
+            </label>
+            <div class="pl-2.5 text-red-600 hidden" id="err-distance">error</div>
 
-          <!-- <div class="flex gap-2 justify-between mt-4">
-            <div class="flex flex-col">
-                <label class="border border-gray-300 rounded-xl flex items-center p-2.5 mt-4">
-                    <span class="">Départ:&nbsp;</span>
-                    <input type="texte" name="departurePoint" id="departurePoint" class="grow outline-none border border-gray-300 rounded-lg py-1 pl-1 bg-gray-200" readonly>
-                </label>
-                <div class="pl-2.5 text-red-600 hidden" id="err-departure-point">error</div>
-            </div>
-            <div class="flex flex-col">
-                <label class="border border-gray-300 rounded-xl flex items-center p-2.5 mt-4">
-                    <span class="">Arrivée:&nbsp;</span>
-                    <input type="text" name="arrivalPoint" id="arrivalPoint" class="grow border outline-none border-gray-300 rounded-lg py-1 pl-1 bg-gray-200" readonly>
-                </label>
-                <div class="pl-2.5 text-red-600 hidden" id="err-arrival-point">error</div>
-            </div>
-            <div class="flex flex-col">
-                <label class="border border-gray-300 rounded-xl flex items-center p-2.5 mt-4">
-                    <span class="">Distance:&nbsp;</span>
-                    <input type="text" name="distance" id="distance" class="grow border outline-none border-gray-300 rounded-lg py-1 pl-1 bg-gray-200" readonly>
-                </label>
-                <div class="pl-2.5 text-red-600 hidden" id="err-distance">error</div>
-            </div>
-          </div> -->
           <div class="flex justify-end gap-3 mt-4">
             <button type="button" class="btn btn-error text-white" onclick="document.getElementById('my_modal_5').close()">Annuler</button>
             <button class="btn btn-primary text-white">Ajouter</button>

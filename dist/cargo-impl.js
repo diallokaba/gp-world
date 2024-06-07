@@ -405,10 +405,10 @@ function pagination(page = currentPage) {
                 const cargaison = cargaisons.find(c => Number(c.id) === Number(cargoId));
                 let weight = String(cargaison === null || cargaison === void 0 ? void 0 : cargaison.maxWeight) != 'null' ? cargaison === null || cargaison === void 0 ? void 0 : cargaison.maxWeight : cargaison === null || cargaison === void 0 ? void 0 : cargaison.maxNbrProduct;
                 if ((cargaison === null || cargaison === void 0 ? void 0 : cargaison.globalState) !== 'OPEN' || (cargaison === null || cargaison === void 0 ? void 0 : cargaison.progressionState) !== 'PENDING') {
-                    alert('Impossible d\'ajouter un produit à cette cargaison. Pour ajouter un produit à une cargaison, les états de la cargaison doivent restés à ouvert et en attente');
+                    showAlertMessage('Impossible d\'ajouter un produit à cette cargaison', 'Pour ajouter un produit, la cargaison doit être en état "Ouvert" et "En attente"');
                 }
                 else if (Number(weight) === 0) {
-                    alert('L\'ajout d\'un produit à cette cargaison n\'est pas possible car le poids maximum ou le nombre de colis maximum de la cargaison est de 0');
+                    showAlertMessage('Impossible d\'ajouter un produit à cette cargaison', 'Le poids maximum de la cargaison ou le nombre de colis maximum de la cargaison est de 0');
                 }
                 else {
                     if (cargaison) {
@@ -452,6 +452,23 @@ document.querySelectorAll("#cargo-code-search, #leaving-date-search, #arrived-da
     });
 });
 pagination();
+function showAlertMessage(title, message) {
+    Swal.fire({
+        title: `${title}`,
+        text: `${message}`,
+        icon: 'error',
+        timer: 4000,
+        showConfirmButton: false,
+        timerProgressBar: true,
+        customClass: {
+            popup: 'swal-custom',
+            title: 'swal-custom-title',
+            content: 'swal-custom-content',
+            icon: 'swal-custom-icon',
+            timerProgressBar: 'swal-custom-timer-progress-bar'
+        }
+    });
+}
 function addProductToCargo(c) {
     var _a;
     const productType = document.getElementById('product-type');
@@ -462,7 +479,7 @@ function addProductToCargo(c) {
     if (String(c.maxWeight) != 'null') {
         inputWeight.innerHTML = `
             <label class="border border-gray-300 rounded-xl flex items-center p-2.5 mt-5">
-                <span class="w-[500px]">Poids du colis:</span>
+                <span style="width: 170px">Poids du colis:</span>
                 <input type="text" name="weight" id="weight" class="w-full outline-none border border-gray-300 rounded-lg py-1 pl-1">
             </label>
             <div class="pl-2.5 text-red-600 hidden" id="err-leaving-date">error</div>
@@ -471,16 +488,15 @@ function addProductToCargo(c) {
     else {
         productWeight = 1;
     }
+    if (c.type === 'ROAD' || c.type === 'AIR') {
+        const optionChimical = document.getElementById('chimical-option');
+        optionChimical.disabled = true;
+    }
     const newProductType = productType.cloneNode(true);
     (_a = productType.parentNode) === null || _a === void 0 ? void 0 : _a.replaceChild(newProductType, productType);
     newProductType.addEventListener('change', (e) => {
         var _a, _b;
         const typeOfProduct = e.target.value;
-        if (typeOfProduct === 'CHIMICAL' && c.type !== 'MARITIME') {
-            alert('Les produits chimique ne peuvent transités que par voie maritime');
-            productType.value = '0';
-            return;
-        }
         const toxicity = document.querySelector("#chimical-toxicity");
         toxicity.innerHTML = "";
         if (typeOfProduct === 'CHIMICAL') {
@@ -508,10 +524,15 @@ function addProductToCargo(c) {
             `;
             productMaterialType = document.getElementById('product-material-type');
         }
+        let fragileAndMaritime = false;
         if (productMaterialType != null) {
             productMaterialType.addEventListener("change", () => {
                 if (productMaterialType.value === 'FRAGILE' && c.type === 'MARITIME') {
-                    alert("Les produits fragile ne peuvent pas transités par voie martime");
+                    showAlertMessage('Erreur', 'Les produits fragile ne peuvent pas transités par voie martime');
+                    fragileAndMaritime = true;
+                }
+                else {
+                    fragileAndMaritime = false;
                 }
             });
         }
@@ -520,74 +541,89 @@ function addProductToCargo(c) {
             const phoneInput = event.target.value.trim();
             const senderInfoDiv = document.getElementById("sender-info");
             senderInfoDiv.innerHTML = ''; // Clear previous content
-            if (phoneInput) {
-                userSender = users.find(u => u.phone === phoneInput);
-                if (userSender && userSender.type === "sender") {
-                    // User found and is a sender, display read-only inputs
-                    senderInfoDiv.innerHTML = `
-                            <div class="flex mt-5">
-                                <div class="flex w-full mr-2 items-center">
-                                    <div>
-                                        <label>Prénom:&nbsp;&nbsp;&nbsp;</label>
+            if (!fragileAndMaritime) {
+                if (phoneInput) {
+                    userSender = users.find(u => u.telephone === phoneInput);
+                    console.log(userSender);
+                    if (userSender && userSender.type === "sender") {
+                        // User found and is a sender, display read-only inputs
+                        senderInfoDiv.innerHTML = `
+                                <div class="flex mt-5">
+                                    <div class="flex w-full mr-2 items-center">
+                                        <div>
+                                            <label>Prénom:&nbsp;</label>
+                                        </div>
+                                        <input class="h-12 pl-2 rounded-full outline-none border border-gray-300 bg-gray-200" type="text" id="sender-firstname" value="${userSender.firstname}" readonly>
                                     </div>
-                                    <input style="width: 380px" class="h-12 pl-2 rounded-full outline-none border border-gray-300 bg-gray-200" type="text" id="sender-firstname" value="${userSender.firstname}" readonly>
-                                </div>&nbsp;&nbsp;&nbsp;&nbsp;
-                                <div class="flex w-full mr-2 items-center">
-                                    <div>
-                                        <label>Nom:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                    <div class="flex w-full mr-2 items-center">
+                                        <div>
+                                            <label>Nom:&nbsp</label>
+                                        </div>
+                                        <input class="w-full h-12 pl-2 rounded-full outline-none border border-gray-300 bg-gray-200" type="text" id="sender-lastname" value="${userSender.lastname}" readonly>
                                     </div>
-                                    <input class="w-full h-12 pl-2 rounded-full outline-none border border-gray-300 bg-gray-200" type="text" id="sender-lastname" value="${userSender.lastname}" readonly>
+                                    <div class="flex w-full mr-2 items-center">
+                                        <div>
+                                            <label>Email:&nbsp;</label>
+                                        </div>
+                                        <input class="w-full h-12 pl-2 rounded-full outline-none border border-gray-300 bg-gray-200" type="email" id="sender-email" value="${userSender.email}" readonly>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="flex mt-5">
-                                <div class="flex w-full mr-2 items-center">
-                                    <div>
-                                        <label>Email:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                <div class="flex mt-5">
+                                    <div class="flex w-full mr-2 items-center">
+                                        <div>
+                                            <label>Address:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                        </div>
+                                        <input class="w-full h-12 pl-2 rounded-full outline-none border border-gray-300 bg-gray-200" type="text" id="sender-address" value="${userSender.address}" readonly>
                                     </div>
-                                    <input class="w-full h-12 pl-2 rounded-full outline-none border border-gray-300 bg-gray-200" type="email" id="sender-email" value="${userSender.email}" readonly>
+                                    <div class="flex w-full ml-2 items-center">
+                                        <div>
+                                            <label>Téléphone:&nbsp;&nbsp;</label>
+                                        </div>
+                                        <input style="width: 355px" class="w-full h-12 pl-2 rounded-full outline-none border border-gray-300 bg-gray-200" type="text" id="sender-phone" value="${userSender.telephone}" readonly>
+                                    </div>
                                 </div>
-                                <div class="flex w-full ml-2 items-center">
-                                    <div>
-                                        <label>Téléphone:&nbsp;&nbsp;</label>
+                            `;
+                    }
+                    else {
+                        // User not found or not a sender, display writable inputs
+                        senderInfoDiv.innerHTML = `
+                                <div class="flex mt-5">
+                                    <div class="flex w-full mr-2 items-center">
+                                        <div>
+                                            <label>Prénom:&nbsp;</label>
+                                        </div>
+                                        <input class="h-12 pl-2 rounded-full outline-none border border-gray-300" type="text" id="sender-firstname">
                                     </div>
-                                    <input style="width: 355px" class="w-full h-12 pl-2 rounded-full outline-none border border-gray-300 bg-gray-200" type="text" id="sender-phone" value="${userSender.phone}" readonly>
+                                    <div class="flex w-full mr-2 items-center">
+                                        <div>
+                                            <label>Nom:&nbsp</label>
+                                        </div>
+                                        <input class="w-full h-12 pl-2 rounded-full outline-none border border-gray-300" type="text" id="sender-lastname">
+                                    </div>
+                                    <div class="flex w-full mr-2 items-center">
+                                        <div>
+                                            <label>Email:&nbsp;</label>
+                                        </div>
+                                        <input class="w-full h-12 pl-2 rounded-full outline-none border border-gray-300" type="email" id="sender-email">
+                                    </div>
                                 </div>
-                            </div>
-                        `;
-                }
-                else {
-                    // User not found or not a sender, display writable inputs
-                    senderInfoDiv.innerHTML = `
-                            <div class="flex mt-5">
-                                <div class="flex w-full mr-2 items-center">
-                                    <div>
-                                        <label>Prénom:&nbsp;&nbsp;&nbsp;</label>
+                                
+                                <div class="flex mt-5">
+                                    <div class="flex w-full mr-2 items-center">
+                                        <div>
+                                            <label>Address:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                        </div>
+                                        <input class="w-full h-12 pl-2 rounded-full outline-none border border-gray-300" type="text" id="sender-address">
                                     </div>
-                                    <input style="width: 380px" class="h-12 pl-2 rounded-full outline-none border border-gray-300" type="text" id="sender-firstname">
-                                </div>&nbsp;&nbsp;&nbsp;&nbsp;
-                                <div class="flex w-full mr-2 items-center">
-                                    <div>
-                                        <label>Nom:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                    <div class="flex w-full ml-2 items-center">
+                                        <div>
+                                            <label>Téléphone:&nbsp;&nbsp;</label>
+                                        </div>
+                                        <input style="width: 355px" class="h-12 pl-2 rounded-full outline-none border border-gray-300 bg-gray-200" type="text" id="sender-phone" value="${phoneInput}" readonly>
                                     </div>
-                                    <input class="w-full h-12 pl-2 rounded-full outline-none border border-gray-300" type="text" id="sender-lastname">
                                 </div>
-                            </div>
-                            
-                            <div class="flex mt-5">
-                                <div class="flex w-full mr-2 items-center">
-                                    <div>
-                                        <label>Email:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                                    </div>
-                                    <input class="w-full h-12 pl-2 rounded-full outline-none border border-gray-300" type="email" id="sender-email">
-                                </div>
-                                <div class="flex w-full ml-2 items-center">
-                                    <div>
-                                        <label>Téléphone:&nbsp;&nbsp;</label>
-                                    </div>
-                                    <input style="width: 355px" class="h-12 pl-2 rounded-full outline-none border border-gray-300" type="text" id="sender-phone" value="${phoneInput}" readonly>
-                                </div>
-                            </div>
-                        `;
+                            `;
+                    }
                 }
             }
         });
@@ -596,76 +632,108 @@ function addProductToCargo(c) {
             const phoneInput = event.target.value.trim();
             const receiverInfoDiv = document.getElementById("receiver-info");
             receiverInfoDiv.innerHTML = ''; // Clear previous content
-            if (phoneInput) {
-                userReceiver = users.find(u => u.phone === phoneInput);
-                if (userReceiver && userReceiver.type === "receiver") {
-                    receiverInfoDiv.innerHTML = `
+            if (!fragileAndMaritime) {
+                if (phoneInput) {
+                    userReceiver = users.find(u => u.telephone === phoneInput);
+                    console.log(userReceiver);
+                    if (userReceiver && userReceiver.type === "receiver") {
+                        receiverInfoDiv.innerHTML = `
                             <div class="flex mt-5">
                                 <div class="flex w-full mr-2 items-center">
                                     <div>
-                                        <label>Prénom:&nbsp;&nbsp;&nbsp;</label>
+                                        <label>Prénom:&nbsp;</label>
                                     </div>
-                                    <input style="width: 380px" class="h-12 pl-2 rounded-full outline-none border border-gray-300 bg-gray-200" type="text" id="receiver-firstname" value="${userReceiver.firstname}" readonly>
-                                </div>&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <input class="h-12 pl-2 rounded-full outline-none border border-gray-300 bg-gray-200" type="text" id="receiver-firstname" value="${userReceiver.firstname}" readonly>
+                                </div>
                                 <div class="flex w-full mr-2 items-center">
                                     <div>
-                                        <label>Nom:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                        <label>Nom:&nbsp</label>
                                     </div>
                                     <input class="w-full h-12 pl-2 rounded-full outline-none border border-gray-300 bg-gray-200" type="text" id="receiver-lastname" value="${userReceiver.lastname}" readonly>
                                 </div>
-                            </div>
-                            <div class="flex mt-5">
                                 <div class="flex w-full mr-2 items-center">
                                     <div>
-                                        <label>Email:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                        <label>Email:&nbsp;</label>
                                     </div>
                                     <input class="w-full h-12 pl-2 rounded-full outline-none border border-gray-300 bg-gray-200" type="email" id="receiver-email" value="${userReceiver.email}" readonly>
                                 </div>
+                            </div>
+                            <div class="flex mt-5">
+                                <div class="flex w-full mr-2 items-center">
+                                    <div>
+                                        <label>Address:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                    </div>
+                                    <input class="w-full h-12 pl-2 rounded-full outline-none border border-gray-300 bg-gray-200" type="text" id="receiver-address" value="${userReceiver.address}" readonly>
+                                </div>
                                 <div class="flex w-full ml-2 items-center">
                                     <div>
                                         <label>Téléphone:&nbsp;&nbsp;</label>
                                     </div>
-                                    <input style="width: 355px" class="w-full h-12 pl-2 rounded-full outline-none border border-gray-300 bg-gray-200" type="text" id="receiver-phone" value="${userReceiver.phone}" readonly>
+                                    <input style="width: 355px" class="w-full h-12 pl-2 rounded-full outline-none border border-gray-300 bg-gray-200" type="text" id="receiver-phone" value="${userReceiver.telephone}" readonly>
                                 </div>
                             </div>
                         `;
-                }
-                else {
-                    // User not found or not a sender, display writable inputs
-                    receiverInfoDiv.innerHTML = `
+                    }
+                    else {
+                        // User not found or not a sender, display writable inputs
+                        receiverInfoDiv.innerHTML = `
                             <div class="flex mt-5">
                                 <div class="flex w-full mr-2 items-center">
                                     <div>
-                                        <label>Prénom:&nbsp;&nbsp;&nbsp;</label>
+                                        <label>Prénom:&nbsp;</label>
                                     </div>
-                                    <input style="width: 380px" class="h-12 pl-2 rounded-full outline-none border border-gray-300" type="text" id="receiver-firstname">
-                                </div>&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <input class="h-12 pl-2 rounded-full outline-none border border-gray-300" type="text" id="receiver-firstname">
+                                </div>
                                 <div class="flex w-full mr-2 items-center">
                                     <div>
-                                        <label>Nom:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                        <label>Nom:&nbsp</label>
                                     </div>
                                     <input class="w-full h-12 pl-2 rounded-full outline-none border border-gray-300" type="text" id="receiver-lastname">
                                 </div>
+                                <div class="flex w-full mr-2 items-center">
+                                    <div>
+                                        <label>Email:&nbsp;</label>
+                                    </div>
+                                    <input class="w-full h-12 pl-2 rounded-full outline-none border border-gray-300" type="email" id="receiver-email">
+                                </div>
                             </div>
-                            
+                    
                             <div class="flex mt-5">
                                 <div class="flex w-full mr-2 items-center">
                                     <div>
-                                        <label>Email:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                        <label>Address:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
                                     </div>
-                                    <input class="w-full h-12 pl-2 rounded-full outline-none border border-gray-300" type="email" id="receiver-email">
+                                    <input class="w-full h-12 pl-2 rounded-full outline-none border border-gray-300" type="text" id="receiver-address">
                                 </div>
                                 <div class="flex w-full ml-2 items-center">
                                     <div>
                                         <label>Téléphone:&nbsp;&nbsp;</label>
                                     </div>
-                                    <input style="width: 355px" class="h-12 pl-2 rounded-full outline-none border border-gray-300" type="text" id="receiver-phone" value="${phoneInput}" readonly>
+                                    <input style="width: 355px" class="h-12 pl-2 rounded-full outline-none border border-gray-300 bg-gray-200" type="text" id="receiver-phone" value="${phoneInput}" readonly>
                                 </div>
                             </div>
                         `;
+                    }
                 }
             }
         });
+        let totalPrice = 0;
+        if (String(c.maxWeight) != 'null') {
+            const weight = document.getElementById('weight');
+            weight.addEventListener('input', (e) => {
+                productWeight = Number(e.target.value);
+                totalPrice = calculatePriceOfProduct(c.type, typeOfProduct, productWeight, c.distance);
+                if (totalPrice < 10000) {
+                    totalPrice = 10000;
+                }
+                document.querySelector("#total-price-product").value = String(totalPrice);
+            });
+        }
+        totalPrice = calculatePriceOfProduct(c.type, typeOfProduct, productWeight, c.distance);
+        if (totalPrice < 10000) {
+            totalPrice = 10000;
+        }
+        document.querySelector("#total-price-product").value = String(totalPrice);
         const formProduct = document.getElementById("add-product");
         formProduct.addEventListener("submit", (e) => {
             e.preventDefault();
@@ -673,19 +741,30 @@ function addProductToCargo(c) {
             const senderFirstname = document.getElementById("sender-firstname").value.trim();
             const senderLastname = document.getElementById("sender-lastname").value.trim();
             const senderEmail = document.getElementById("sender-email").value.trim();
+            const senderAddress = document.getElementById("sender-address").value.trim();
             const senderPhone = document.getElementById("sender-phone").value.trim();
-            const sender = new Sender(3, senderFirstname, senderLastname, senderEmail, senderPhone, "sender");
+            const sender = new Sender(3, senderFirstname, senderLastname, senderEmail, senderAddress, senderPhone, "sender");
             //Les infos du recepteur
             const receiverFirstname = document.getElementById("receiver-firstname").value.trim();
             const receiverLastname = document.getElementById("receiver-lastname").value.trim();
             const receiverEmail = document.getElementById("receiver-email").value.trim();
+            const receiverAddress = document.getElementById("receiver-address").value.trim();
             const receiverPhone = document.getElementById("receiver-phone").value.trim();
-            const receiver = new Receiver(4, receiverFirstname, receiverLastname, receiverEmail, receiverPhone, "receiver");
+            const receiver = new Receiver(4, receiverFirstname, receiverLastname, receiverEmail, receiverAddress, receiverPhone, "receiver");
             if (!userSender) {
                 saveUserSender(sender);
             }
             if (!userReceiver) {
                 saveUserReceiver(receiver);
+            }
+            let totalAmountCargo = Number(c.totalAmount) + totalPrice;
+            let updatedQuantity = 0;
+            if (String(c.maxWeight) != 'null') {
+                const weight = document.getElementById('weight').value.trim();
+                updatedQuantity = Number(c.maxWeight) - Number(weight);
+            }
+            else {
+                updatedQuantity = Number(c.maxNbrProduct) - 1;
             }
             const formData = new FormData(formProduct);
             formData.append("id", (1).toString());
@@ -693,24 +772,67 @@ function addProductToCargo(c) {
             formData.append("cargoId", (c.id).toString());
             formData.append("sender", JSON.stringify(sender));
             formData.append("receiver", JSON.stringify(receiver));
+            formData.append("totalPrice", totalPrice.toString());
+            formData.append("totalAmount", totalAmountCargo.toString());
+            formData.append("updatedQuantity", updatedQuantity.toString());
+            formData.append("emailReceiver", receiverEmail);
             fetch('api.php', {
                 method: 'POST',
                 body: formData
             })
                 .then(response => response.text())
                 .then(data => {
-                console.log("Raw server response:", data);
-                const jsonData = JSON.parse(data);
-                if (jsonData.status === "success") {
-                    alert(jsonData.message);
+                console.log("Raw server response:", data); // Affiche la réponse brute du serveur
+                try {
+                    const jsonData = JSON.parse(data);
+                    if (jsonData.status === "success") {
+                        const myModal = document.getElementById('my_modal_5');
+                        myModal.close();
+                        Swal.fire({
+                            title: "Succès",
+                            text: "Produit ajouté avec succès à la cargaison",
+                            icon: "success",
+                            timer: 4000,
+                            showConfirmButton: false,
+                            timerProgressBar: true,
+                        });
+                    }
+                    else {
+                        alert('Erreur lors de l\'ajout du produit dans la cargaison');
+                    }
                 }
-                else {
-                    alert('Erreur lors de l\'ajout du produit dans la cargaison');
+                catch (error) {
+                    console.error('JSON parsing error:', error);
+                    alert('Erreur de réponse du serveur. Veuillez réessayer plus tard.');
                 }
-            })
-                .catch(error => console.error('Erreur:', error));
+            }).catch(error => console.error('Erreur:', error));
         });
     });
+}
+function calculatePriceOfProduct(cargaisonType, productType, genericQuantity, cargoDistance) {
+    console.log(cargaisonType, productType, genericQuantity);
+    if (cargaisonType === 'ROAD' && productType === 'ALIMENTARY') {
+        return 100 * genericQuantity * cargoDistance;
+    }
+    else if (cargaisonType === 'ROAD' && productType === 'MATERIAL') {
+        return 100 * genericQuantity * cargoDistance;
+    }
+    else if (cargaisonType === 'MARITIME' && productType === 'ALIMENTARY') {
+        return 90 * genericQuantity * cargoDistance;
+    }
+    else if (cargaisonType === 'MARITIME' && productType === 'CHIMICAL') {
+        return 500 * genericQuantity * cargoDistance;
+    }
+    else if (cargaisonType === 'MARITIME' && productType === 'MATERIAL') {
+        return 400 * genericQuantity * cargoDistance;
+    }
+    else if (cargaisonType === 'AIR' && productType === 'ALIMENTARY') {
+        return 300 * genericQuantity * cargoDistance;
+    }
+    else if (cargaisonType === 'AIR' && productType === 'MATERIAL') {
+        return 1000 * genericQuantity;
+    }
+    return 0;
 }
 function saveUserSender(sender) {
     const formData = new FormData();
@@ -725,7 +847,7 @@ function saveUserSender(sender) {
         console.log("data sender:", data);
         const jsonData = JSON.parse(data);
         if (jsonData.status === "success")
-            alert(jsonData.message);
+            console.log("J'ajoute le sender"); //alert(jsonData.message);
         else
             alert('Erreur lors de l\'ajout de l\'expéditeur');
     }).catch(error => console.error('Erreur:', error));
@@ -743,7 +865,7 @@ function saveUserReceiver(receiver) {
         console.log("data sender:", data);
         const jsonData = JSON.parse(data);
         if (jsonData.status === "success")
-            alert(jsonData.message);
+            console.log("J'ajoute le receiver"); //alert(jsonData.message);
         else
             alert('Erreur lors de l\'ajout du destinataire');
     }).catch(error => console.error('Erreur:', error));

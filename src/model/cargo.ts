@@ -2,10 +2,8 @@ import { Product } from "./product";
 
 export abstract class Cargo {
     products: Product[];
-    protected totalAmount: number;
 
-    constructor(protected _id: number, protected _reference: string, protected _maxWeight: number, protected _maxNbrProduct: number, _totalAmount: number, protected _type: string, protected _leavingDate: string, protected _arrivedDate: string, protected _distance: number, protected _departurePoint: string, protected _arrivalPoint: string, protected _globalState: string, protected _progressionState: string, protected _image: string) {
-        this.totalAmount = _totalAmount;
+    constructor(protected _id: number, protected _reference: string, protected _maxWeight: number, protected _maxNbrProduct: number, protected _totalAmount: number, protected _type: string, protected _leavingDate: string, protected _arrivedDate: string, protected _distance: number, protected _departurePoint: string, protected _arrivalPoint: string, protected _globalState: string, protected _progressionState: string, protected _image: string) {
         this.products = [];
     }
 
@@ -25,8 +23,8 @@ export abstract class Cargo {
         return this._maxNbrProduct;
     }
 
-    public getTotalAmount(): number{
-        return this.totalAmount;
+    public totalAmount(): number{
+        return this._totalAmount;
     }
 
     public get distance(): number{

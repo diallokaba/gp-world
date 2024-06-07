@@ -3,12 +3,12 @@
         {
             "id": "1",
             "reference": "CR00001",
-            "maxWeight": "150",
+            "maxWeight": "21",
             "maxNbrProduct": "null",
-            "totalAmount": "0",
+            "totalAmount": "42869000",
             "distance": "3427.92",
-            "departurePoint": "Guin\u00e9e",
-            "arrivalPoint": "S\u00e9n\u00e9gal",
+            "departurePoint": "Guinnee",
+            "arrivalPoint": "Senegal",
             "leavingDate": "2024-06-08",
             "arrivedDate": "2024-07-07",
             "type": "ROAD",
@@ -19,11 +19,12 @@
                 {
                     "id": "1",
                     "code": "PR00000001",
-                    "weight": "10",
+                    "weight": "15",
                     "state": "PENDING",
                     "type": "ALIMENTARY",
+                    "totalPrice": "5141880",
                     "sender": {
-                        "id": 1,
+                        "id": 3,
                         "firstname": "ibrahima kaba",
                         "lastname": "Diallo",
                         "email": "dialloibhazard@gmail.com",
@@ -31,7 +32,7 @@
                         "type": "sender"
                     },
                     "receiver": {
-                        "id": 2,
+                        "id": 4,
                         "firstname": "Khalil",
                         "lastname": "Diallo",
                         "email": "khalil@gmail.com",
@@ -42,23 +43,156 @@
                 {
                     "id": "1",
                     "code": "PR00000001",
-                    "weight": "12",
+                    "weight": "1",
                     "state": "PENDING",
                     "type": "ALIMENTARY",
+                    "totalPrice": "342792",
                     "sender": {
                         "id": 3,
-                        "firstname": "Awa",
-                        "lastname": "Dione",
-                        "email": "awa@gmail.com",
-                        "telephone": "788730634",
+                        "firstname": "soda",
+                        "lastname": "diop",
+                        "email": "sodadiop065@gmail.com",
+                        "address": "ODC",
+                        "telephone": "743210099",
                         "type": "sender"
                     },
                     "receiver": {
                         "id": 4,
-                        "firstname": "Soda",
-                        "lastname": "Diop",
-                        "email": "soda@gmail.com",
-                        "telephone": "773063819",
+                        "firstname": "passer",
+                        "lastname": "passer",
+                        "email": "passer@gmail.com",
+                        "address": "passer",
+                        "telephone": "751234590",
+                        "type": "receiver"
+                    }
+                },
+                {
+                    "id": "1",
+                    "code": "PR00000001",
+                    "weight": "2",
+                    "state": "PENDING",
+                    "type": "ALIMENTARY",
+                    "totalPrice": "10000",
+                    "sender": {
+                        "id": 3,
+                        "firstname": "isi",
+                        "lastname": "isi",
+                        "email": "ikdiallodk@groupeisi.com",
+                        "address": "Sam",
+                        "telephone": "701234567",
+                        "type": "sender"
+                    },
+                    "receiver": {
+                        "id": 4,
+                        "firstname": "Ousseynou",
+                        "lastname": "Dieudiou",
+                        "email": "ousseynou@gmail.com",
+                        "address": "Pikine",
+                        "telephone": "785304869",
+                        "type": "receiver"
+                    }
+                },
+                {
+                    "id": "1",
+                    "code": "PR00000001",
+                    "weight": "1",
+                    "state": "PENDING",
+                    "type": "ALIMENTARY",
+                    "totalPrice": "342792",
+                    "sender": {
+                        "id": 3,
+                        "firstname": "Ousseynou",
+                        "lastname": "Dieudiou",
+                        "email": "diedhiouousseynou53@gmail.com",
+                        "address": "Pikine",
+                        "telephone": "785304869",
+                        "type": "sender"
+                    },
+                    "receiver": {
+                        "id": 4,
+                        "firstname": "isi",
+                        "lastname": "isi",
+                        "email": "ikdiallodk@groupeisi.com",
+                        "address": "Sam",
+                        "telephone": "701234567",
+                        "type": "receiver"
+                    }
+                },
+                {
+                    "id": "1",
+                    "code": "PR00000001",
+                    "weight": "2",
+                    "state": "PENDING",
+                    "type": "ALIMENTARY",
+                    "totalPrice": "685584",
+                    "sender": {
+                        "id": 3,
+                        "firstname": "Ousseynou",
+                        "lastname": "Dieudiou",
+                        "email": "diedhiouousseynou53@gmail.com",
+                        "address": "Pikine",
+                        "telephone": "785304869",
+                        "type": "sender"
+                    },
+                    "receiver": {
+                        "id": 4,
+                        "firstname": "isi",
+                        "lastname": "isi",
+                        "email": "ikdiallodk@groupeisi.com",
+                        "address": "Sam",
+                        "telephone": "701234567",
+                        "type": "receiver"
+                    }
+                },
+                {
+                    "id": "1",
+                    "code": "PR00000001",
+                    "weight": "3",
+                    "state": "PENDING",
+                    "type": "ALIMENTARY",
+                    "totalPrice": "1028376",
+                    "sender": {
+                        "id": 3,
+                        "firstname": "Ousseynou",
+                        "lastname": "Dieudiou",
+                        "email": "diedhiouousseynou53@gmail.com",
+                        "address": "Pikine",
+                        "telephone": "785304869",
+                        "type": "sender"
+                    },
+                    "receiver": {
+                        "id": 4,
+                        "firstname": "isi",
+                        "lastname": "isi",
+                        "email": "ikdiallodk@groupeisi.com",
+                        "address": "Sam",
+                        "telephone": "701234567",
+                        "type": "receiver"
+                    }
+                },
+                {
+                    "id": "1",
+                    "code": "PR00000001",
+                    "weight": "2",
+                    "state": "PENDING",
+                    "type": "ALIMENTARY",
+                    "totalPrice": "685584",
+                    "sender": {
+                        "id": 3,
+                        "firstname": "Ousseynou",
+                        "lastname": "Dieudiou",
+                        "email": "diedhiouousseynou53@gmail.com",
+                        "address": "Pikine",
+                        "telephone": "785304869",
+                        "type": "sender"
+                    },
+                    "receiver": {
+                        "id": 4,
+                        "firstname": "isi",
+                        "lastname": "isi",
+                        "email": "ikdiallodk@groupeisi.com",
+                        "address": "Sam",
+                        "telephone": "701234567",
                         "type": "receiver"
                     }
                 }

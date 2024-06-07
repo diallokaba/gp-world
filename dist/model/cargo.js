@@ -4,6 +4,7 @@ export class Cargo {
         this._reference = _reference;
         this._maxWeight = _maxWeight;
         this._maxNbrProduct = _maxNbrProduct;
+        this._totalAmount = _totalAmount;
         this._type = _type;
         this._leavingDate = _leavingDate;
         this._arrivedDate = _arrivedDate;
@@ -13,7 +14,6 @@ export class Cargo {
         this._globalState = _globalState;
         this._progressionState = _progressionState;
         this._image = _image;
-        this.totalAmount = _totalAmount;
         this.products = [];
     }
     get id() {
@@ -28,8 +28,8 @@ export class Cargo {
     get maxNbrProduct() {
         return this._maxNbrProduct;
     }
-    getTotalAmount() {
-        return this.totalAmount;
+    totalAmount() {
+        return this._totalAmount;
     }
     get distance() {
         return this._distance;

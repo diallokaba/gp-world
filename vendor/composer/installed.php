@@ -1,0 +1,41 @@
+<?php return array(
+    'root' => array(
+        'pretty_version' => 'dev-master',
+        'version' => 'dev-master',
+        'type' => 'library',
+        'install_path' => __DIR__ . '/../../',
+        'aliases' => array(),
+        'reference' => 'cb1965798032688afffa485b89f0a277beb83062',
+        'name' => '__root__',
+        'dev' => true,
+    ),
+    'versions' => array(
+        '__root__' => array(
+            'pretty_version' => 'dev-master',
+            'version' => 'dev-master',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../../',
+            'aliases' => array(),
+            'reference' => 'cb1965798032688afffa485b89f0a277beb83062',
+            'dev_requirement' => false,
+        ),
+        'phpmailer/phpmailer' => array(
+            'pretty_version' => 'v6.9.1',
+            'version' => '6.9.1.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../phpmailer/phpmailer',
+            'aliases' => array(),
+            'reference' => '039de174cd9c17a8389754d3b877a2ed22743e18',
+            'dev_requirement' => false,
+        ),
+        'setasign/fpdf' => array(
+            'pretty_version' => '1.8.2',
+            'version' => '1.8.2.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../setasign/fpdf',
+            'aliases' => array(),
+            'reference' => 'd77904018090c17dc9f3ab6e944679a7a47e710a',
+            'dev_requirement' => false,
+        ),
+    ),
+);
