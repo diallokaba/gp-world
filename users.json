@@ -4,7 +4,7 @@
             "id": "1",
             "firstname": "ibrahima kaba",
             "lastname": "Diallo",
-            "phone": "785222795",
+            "telephone": "785222795",
             "email": "dialloibhazard@gmail.com",
             "type": "sender"
         },
@@ -12,7 +12,7 @@
             "id": "2",
             "firstname": "Khalil",
             "lastname": "Diallo",
-            "phone": "761735729",
+            "telephone": "761735729",
             "email": "khalil@gmail.com",
             "type": "receiver"
         },
@@ -30,6 +30,14 @@
             "lastname": "Diop",
             "email": "soda@gmail.com",
             "telephone": "773063819",
+            "type": "receiver"
+        },
+        {
+            "id": 4,
+            "firstname": "pot",
+            "lastname": "pot",
+            "email": "pot@gmail.com",
+            "telephone": "700003412",
             "type": "receiver"
         }
     ]

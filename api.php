@@ -53,6 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             "weight" => $_POST['weight'],
             "state" => $_POST['state'],
             "type" => $_POST['type'],
+            "totalPrice" => $_POST['totalPrice'],
             "sender" => $sender,
             "receiver" => $receiver
         ];
@@ -60,9 +61,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
         $data = readJSON('cargaisons.json');
         foreach ($data['cargaisons'] as &$cargaison) {
             if ($cargaison['id'] == $cargoId) {
-                if (!isset($cargaison['products'])) {
+                if (!isset($cargaison['products'])) {                    
                     $cargaison['products'] = [];
                 }
+                if($cargaison['maxWeight'] != 'null'){
+                    $cargaison['maxWeight'] = $_POST['updatedQuantity'];
+                }else if($cargaison['maxNbrProduct'] != 'null'){
+                    $cargaison['maxNbrProduct'] = $_POST['updatedQuantity'];
+                }
+                $cargaison['totalAmount'] = $_POST['totalAmount'];
                 $cargaison['products'][] = $product;
                 break;
             }

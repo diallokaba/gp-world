@@ -1,5 +1,5 @@
 export abstract class User{
-    constructor(protected id: number, protected firstname: string, protected lastname: string, protected email: string, protected telephone: string, protected type: string){
+    constructor(public id: number, public firstname: string, public lastname: string, public email: string, public telephone: string, public type: string){
     }
 }
 

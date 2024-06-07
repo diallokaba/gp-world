@@ -1,4 +1,4 @@
-let map: L.Map;
+ let map: L.Map;
 let leavingMarker: L.Marker | null = null;
 let arrivedMarker: L.Marker | null = null;
 
@@ -96,4 +96,4 @@ function calculateDistance(start:any, end:any) {
 
 setTimeout(() => {
     map.invalidateSize();
-}, 100);
+}, 100); 
