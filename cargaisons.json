@@ -3,9 +3,9 @@
         {
             "id": "1",
             "reference": "CR00001",
-            "maxWeight": "150",
+            "maxWeight": "NaN",
             "maxNbrProduct": "null",
-            "totalAmount": "0",
+            "totalAmount": "112818568",
             "distance": "3427.92",
             "departurePoint": "Guin\u00e9e",
             "arrivalPoint": "S\u00e9n\u00e9gal",
@@ -38,29 +38,143 @@
                         "telephone": "761735729",
                         "type": "receiver"
                     }
+
                 },
                 {
                     "id": "1",
                     "code": "PR00000001",
                     "weight": "12",
                     "state": "PENDING",
-                    "type": "ALIMENTARY",
+                    "type": "MATERIAL",
+                    "totalPrice": "4113504",
                     "sender": {
                         "id": 3,
-                        "firstname": "Awa",
-                        "lastname": "Dione",
-                        "email": "awa@gmail.com",
-                        "telephone": "788730634",
+                        "firstname": "soda",
+                        "lastname": "Diop",
+                        "email": "sodadiop065@gmail.com",
+                        "telephone": "773063819",
                         "type": "sender"
                     },
                     "receiver": {
                         "id": 4,
-                        "firstname": "Soda",
+                        "firstname": "soda",
                         "lastname": "Diop",
-                        "email": "soda@gmail.com",
-                        "telephone": "773063819",
+                        "email": "fantatine18@gmail.com",
+                        "telephone": "785286330",
                         "type": "receiver"
                     }
+                },
+                {
+                    "id": "1",
+                    "code": "PR00000001",
+                    "weight": "12",
+                    "state": "PENDING",
+                    "type": "MATERIAL",
+                    "totalPrice": "4113504",
+                    "sender": {
+                        "id": 3,
+                        "firstname": "soda",
+                        "lastname": "Diop",
+                        "email": "sodadiop065@gmail.com",
+                        "telephone": "773063819",
+                        "type": "sender"
+                    },
+                    "receiver": {
+                        "id": 4,
+                        "firstname": "Fanta",
+                        "lastname": "tine",
+                        "email": "fantatine18@gmail.com",
+                        "telephone": "785286330",
+                        "type": "receiver"
+                    }
+                },
+                {
+                    "id": "1",
+                    "code": "PR00000001",
+                    "weight": "12",
+                    "state": "PENDING",
+                    "type": "MATERIAL",
+                    "totalPrice": "4113504",
+                    "sender": {
+                        "id": 3,
+                        "firstname": "soda",
+                        "lastname": "Diop",
+                        "email": "sodadiop065@gmail.com",
+                        "telephone": "773063819",
+                        "type": "sender"
+                    },
+                    "receiver": {
+                        "id": 4,
+                        "firstname": "Fanta",
+                        "lastname": "Tine",
+                        "email": "fantatine18@gmail.com",
+                        "telephone": "785286330",
+                        "type": "receiver"
+                    }
+                },
+                {
+                    "id": "1",
+                    "code": "PR00000001",
+                    "weight": "12",
+                    "state": "PENDING",
+                    "type": "MATERIAL",
+                    "totalPrice": "4113504",
+                    "sender": {
+                        "id": 3,
+                        "firstname": "soda",
+                        "lastname": "Diop",
+                        "email": "sodadiop065@gmail.com",
+                        "telephone": "773063819",
+                        "type": "sender"
+                    },
+                    "receiver": {
+                        "id": 4,
+                        "firstname": "Fanta",
+                        "lastname": "Tine",
+                        "email": "fantatine18@gmail.com",
+                        "telephone": "785286330",
+                        "type": "receiver"
+                    }
+                },
+                {
+                    "id": "1",
+                    "code": "PR00000001",
+                    "weight": "12",
+                    "state": "PENDING",
+                    "type": "MATERIAL",
+                    "totalPrice": "4113504",
+                    "sender": "soda",
+                    "receiver": "Fanta"
+                },
+                {
+                    "id": "1",
+                    "code": "PR00000001",
+                    "weight": "12",
+                    "state": "PENDING",
+                    "type": "MATERIAL",
+                    "totalPrice": "4113504",
+                    "sender": null,
+                    "receiver": null
+                },
+                {
+                    "id": "1",
+                    "code": "PR00000001",
+                    "weight": "12",
+                    "state": "PENDING",
+                    "type": "MATERIAL",
+                    "totalPrice": "4113504",
+                    "sender": null,
+                    "receiver": null
+                },
+                {
+                    "id": "1",
+                    "code": "PR00000001",
+                    "weight": "11",
+                    "state": "PENDING",
+                    "type": "MATERIAL",
+                    "totalPrice": "3770712",
+                    "sender": "soda",
+                    "receiver": "Fanta"
                 }
             ]
         },
@@ -85,8 +199,8 @@
             "id": "3",
             "reference": "CR00003",
             "maxWeight": "null",
-            "maxNbrProduct": "12",
-            "totalAmount": "0",
+            "maxNbrProduct": "11",
+            "totalAmount": "1887072",
             "distance": "4717.68",
             "departurePoint": "Guin\u00e9e",
             "arrivalPoint": "Soudan",
@@ -96,7 +210,56 @@
             "globalState": "OPEN",
             "progressionState": "PENDING",
             "image": "https:\/\/www.trade-easy.fr\/wp-content\/uploads\/2022\/06\/Cout-fret-maritime-TRADE.EASY_.png",
-            "products": []
+            "products": [
+                {
+                    "id": "1",
+                    "code": "PR00000001",
+                    "weight": null,
+                    "state": "PENDING",
+                    "type": "MATERIAL",
+                    "totalPrice": "2358840",
+                    "sender": {
+                        "id": 3,
+                        "firstname": "soda",
+                        "lastname": "Diop",
+                        "email": "sodadiop065@gmail.com",
+                        "telephone": "+221 0773063819",
+                        "type": "sender"
+                    },
+                    "receiver": {
+                        "id": 4,
+                        "firstname": "soda",
+                        "lastname": "Diop",
+                        "email": "sodadiop065@gmail.com",
+                        "telephone": "+221 0773063819",
+                        "type": "receiver"
+                    }
+                },
+                {
+                    "id": "1",
+                    "code": "PR00000001",
+                    "weight": null,
+                    "state": "PENDING",
+                    "type": "MATERIAL",
+                    "totalPrice": "1887072",
+                    "sender": {
+                        "id": 3,
+                        "firstname": "soda",
+                        "lastname": "Diop",
+                        "email": "sodadiop065@gmail.com",
+                        "telephone": "+221 0773063819",
+                        "type": "sender"
+                    },
+                    "receiver": {
+                        "id": 4,
+                        "firstname": "soda",
+                        "lastname": "Diop",
+                        "email": "sodadiop065@gmail.com",
+                        "telephone": "+221 0773063819",
+                        "type": "receiver"
+                    }
+                }
+            ]
         },
         {
             "id": "4",
@@ -114,54 +277,6 @@
             "progressionState": "PENDING",
             "image": "https:\/\/miro.medium.com\/v2\/resize:fit:772\/1*73RG4jdNMfewnPLP73KVPw.png",
             "products": [
-                {
-                    "id": "1",
-                    "code": "PR00000001",
-                    "weight": null,
-                    "state": "PENDING",
-                    "type": "MATERIAL",
-                    "totalPrice": "471768",
-                    "sender": {
-                        "id": 3,
-                        "firstname": "ibrahima kaba",
-                        "lastname": "Diallo",
-                        "email": "dialloibhazard@gmail.com",
-                        "telephone": "785222795",
-                        "type": "sender"
-                    },
-                    "receiver": {
-                        "id": 4,
-                        "firstname": "Khalil",
-                        "lastname": "Diallo",
-                        "email": "khalil@gmail.com",
-                        "telephone": "761735729",
-                        "type": "receiver"
-                    }
-                },
-                {
-                    "id": "1",
-                    "code": "PR00000001",
-                    "weight": null,
-                    "state": "PENDING",
-                    "type": "MATERIAL",
-                    "totalPrice": "471768",
-                    "sender": {
-                        "id": 3,
-                        "firstname": "ibrahima kaba",
-                        "lastname": "Diallo",
-                        "email": "dialloibhazard@gmail.com",
-                        "telephone": "785222795",
-                        "type": "sender"
-                    },
-                    "receiver": {
-                        "id": 4,
-                        "firstname": "Khalil",
-                        "lastname": "Diallo",
-                        "email": "khalil@gmail.com",
-                        "telephone": "761735729",
-                        "type": "receiver"
-                    }
-                },
                 {
                     "id": "1",
                     "code": "PR00000001",
@@ -411,6 +526,38 @@
             "globalState": "OPEN",
             "progressionState": "PENDING",
             "image": "https:\/\/miro.medium.com\/v2\/resize:fit:772\/1*73RG4jdNMfewnPLP73KVPw.png"
+        },
+        {
+            "id": "13",
+            "reference": "CR0013",
+            "maxWeight": "21",
+            "maxNbrProduct": "null",
+            "totalAmount": "0",
+            "distance": "832.51",
+            "departurePoint": "Alg\u00e9rie",
+            "arrivalPoint": "Alg\u00e9rie",
+            "leavingDate": "2024-06-07",
+            "arrivedDate": "2024-06-07",
+            "type": "ROAD",
+            "globalState": "OPEN",
+            "progressionState": "EN ATTENTE",
+            "image": "https:\/\/miro.medium.com\/v2\/resize:fit:772\/1*73RG4jdNMfewnPLP73KVPw.png"
+        },
+        {
+            "id": "14",
+            "reference": "CR0014",
+            "maxWeight": "12",
+            "maxNbrProduct": "null",
+            "totalAmount": "0",
+            "distance": "17145.58",
+            "departurePoint": "-29.535229562948455, -302.34375000000006",
+            "arrivalPoint": "17.978733095556183, -457.03125000000006",
+            "leavingDate": "2024-07-20",
+            "arrivedDate": "2024-07-25",
+            "type": "AIR",
+            "globalState": "OPEN",
+            "progressionState": "EN ATTENTE",
+            "image": "https:\/\/www.inc-conso.fr\/sites\/default\/files\/avion-800_1.png"
         }
     ]
 }

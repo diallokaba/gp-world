@@ -20,7 +20,7 @@ byWeight === null || byWeight === void 0 ? void 0 : byWeight.addEventListener('c
         quantity.innerHTML =
             `<label class="border border-gray-300 rounded-xl flex items-center p-2.5 mt-5">
             <span class="w-36">Poids Max:</span>
-            <input id="weightMax" name="maxWeight" type="number" class="grow border border-gray-300 rounded-lg py-1 px-2 outline-none" placeholder="Entrer le poids maximum en KG que peut contenir cette cargaison" />
+            <input id="weightMax" name="maxWeight" type="number" class="bg-white grow border border-gray-300 rounded-lg py-1 px-2 outline-none" placeholder="Entrer le poids maximum en KG que peut contenir cette cargaison" />
         </label>
         <div class="pl-2.5 text-red-600 hidden" id="weight-max-err">error</div>
         `;
@@ -33,7 +33,7 @@ byProduct === null || byProduct === void 0 ? void 0 : byProduct.addEventListener
         quantity.innerHTML =
             `<label class="border border-gray-300 rounded-xl flex items-center p-2.5 mt-5">
             <span class="w-36">Produit Max:</span>
-            <input id="productMax" name="maxNbrProduct" type="number" class="grow border border-gray-300 rounded-lg py-1 px-2 outline-none" placeholder="Entrer le nombre de produit maximum que pourra contenir cette cargaison" />
+            <input id="productMax" name="maxNbrProduct" type="number" class="bg-white grow border border-gray-300 rounded-lg py-1 px-2 outline-none" placeholder="Entrer le nombre de produit maximum que pourra contenir cette cargaison" />
         </label>
         <div class="pl-2.5 text-red-600 hidden" id="nbr-product-err">error</div>
         `;
@@ -372,7 +372,7 @@ function pagination(page = currentPage) {
                         </div>
                         <div>
                         <div class="font-bold">${cargaison.reference}</div>
-                        <div class="border-2 border-white text-xs opacity-50 badge badge-xs badge-error"></div>
+                       
                     </div>
                 </div>
                 </td>
@@ -384,9 +384,14 @@ function pagination(page = currentPage) {
                 <td>${cargaison.distance + ' (KM)'}</td>
                 <td>${cargaison.type}</td>
                 <td>${cargaison.globalState}</td>
-                <td>${cargaison.progressionState}</td>
-                <td><button type="button" class="add-product-btn" data-id="${cargaison.id}">Ajouter produit</button></td>
-                <td><button class="bg-blue-500 text-white px-4 py-1 ml-2 rounded hover:bg-blue-600 show-details-btn" data-id="${cargaison.id}">Détails</button></td>
+                <select class="mt-6 bg-pink-600 text-white px-2 py-1 rounded hover:bg-blue-800 ">
+                <option>${cargaison.progressionState}</option>
+                <option>En Cours</option>
+                <option>Retard</option>
+                <option>Perdue</option>
+                </select>
+                <td><button type="button" class="add-product-btn bg-blue-500 text-white px-4 py-1 ml-2 rounded hover:bg-blue-800" data-id="${cargaison.id}">Ajouter</button></td>
+                <td><button class="bg-blue-500 text-white px-4 py-1 ml-2 rounded hover:bg-blue-800 show-details-btn" data-id="${cargaison.id}">Détails</button></td>
                 `;
                 tbodyCargo.appendChild(row);
             }
@@ -446,6 +451,7 @@ function pagination(page = currentPage) {
     <p><strong>Lieu d'arrivée:</strong> ${cargaisonD.arrivalPoint}</p>
     <p><strong>Date de début:</strong> ${cargaisonD.arrivedDate}</p>
     <p><strong>Date de fin:</strong> ${cargaisonD.leavingDate}</p>
+    <p><strong>Etat: </strong>${cargaisonD.globalState}</p>
     `;
             cargoDetails.innerHTML = details;
             //affiche info produit
@@ -464,16 +470,32 @@ function pagination(page = currentPage) {
                 </div>
             </div>
             </td >
-            
-            <td>${product.id}</td>
             <td>${product.code}</td>
             <td>${product.weight}</td>
             <td>${product.state}</td>
             <td>${product.type}</td>
+            <select class="mt-6 bg-pink-600 text-white px-2 py-1 rounded hover:bg-blue-800 ">${cargaison.progressionState}
+            <option>Arrivé</option>
+            <option>Perdue</option>
+            <option>Archivé</option>
+            </select>
             `;
                 prod === null || prod === void 0 ? void 0 : prod.appendChild(row);
                 console.log(cargaisonD.products);
             });
+            openModal();
+            function closeModal() {
+                const detailsModal = document.getElementById('detailsModal');
+                if (detailsModal) {
+                    detailsModal.style.display = 'none';
+                }
+            }
+            function openModal() {
+                const detailsModal = document.getElementById('detailsModal');
+                if (detailsModal) {
+                    detailsModal.style.display = 'flex';
+                }
+            }
             /*  if (cargaisonD) {
          
                  if (cargaisonD.products && cargaisonD.products.length > 0) {
@@ -547,7 +569,7 @@ function addProductToCargo(c) {
         inputWeight.innerHTML = `
             <label class="border border-gray-300 rounded-xl flex items-center p-2.5 mt-5">
                 <span style="width: 170px">Poids du colis:</span>
-                <input type="text" name="weight" id="weight" class="w-full outline-none border border-gray-300 rounded-lg py-1 pl-1">
+                <input type="text" name="weight" id="weight" class="w-full outline-none border border-gray-300 bg-gray-300 rounded-lg py-1 pl-1 bg-gray-300">
             </label>
             <div class="pl-2.5 text-red-600 hidden" id="err-leaving-date">error</div>
         `;
@@ -571,7 +593,7 @@ function addProductToCargo(c) {
             toxicity.innerHTML = `
                 <label class="border border-gray-300 rounded-xl flex items-center p-2.5 mt-5">
                     <span class="w-64">Dégré de toxicité:</span>
-                    <input type="text" name="toxicity" id="toxicity" class="w-full outline-none border border-gray-300 rounded-lg py-1 pl-1">
+                    <input type="text" name="toxicity" id="toxicity" class="w-full outline-none border border-gray-300 bg-gray-300 rounded-lg py-1 pl-1 bg-gray-300">
                 </label>
                 <div class="pl-2.5 text-red-600 hidden" id="err-leaving-date">error</div>
             `;
@@ -620,13 +642,13 @@ function addProductToCargo(c) {
                                         <div>
                                             <label>Prénom:&nbsp;&nbsp;&nbsp;</label>
                                         </div>
-                                        <input style="width: 380px" class="h-12 pl-2 rounded-full outline-none border border-gray-300 bg-gray-200" type="text" id="sender-firstname" value="${userSender.firstname}" readonly>
+                                        <input style="width: 380px" class="h-12 pl-2 rounded-full outline-none border border-gray-300 bg-gray-300" type="text" id="sender-firstname" value="${userSender.firstname}" readonly>
                                     </div>&nbsp;&nbsp;&nbsp;&nbsp;
                                     <div class="flex w-full mr-2 items-center">
                                         <div>
                                             <label>Nom:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
                                         </div>
-                                        <input class="w-full h-12 pl-2 rounded-full outline-none border border-gray-300 bg-gray-200" type="text" id="sender-lastname" value="${userSender.lastname}" readonly>
+                                        <input class="w-full h-12 pl-2 rounded-full outline-none border border-gray-300 bg-gray-300" type="text" id="sender-lastname" value="${userSender.lastname}" readonly>
                                     </div>
                                 </div>
                                 <div class="flex mt-5">
@@ -634,7 +656,7 @@ function addProductToCargo(c) {
                                         <div>
                                             <label>Email:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
                                         </div>
-                                        <input class="w-full h-12 pl-2 rounded-full outline-none border border-gray-300 bg-gray-200" type="email" id="sender-email" value="${userSender.email}" readonly>
+                                        <input class="w-full h-12 pl-2 rounded-full outline-none border border-gray-300 bg-gray-300" type="email" id="sender-email" value="${userSender.email}" readonly>
                                     </div>
                                     <div class="flex w-full ml-2 items-center">
                                         <div>
@@ -653,13 +675,13 @@ function addProductToCargo(c) {
                                         <div>
                                             <label>Prénom:&nbsp;&nbsp;&nbsp;</label>
                                         </div>
-                                        <input style="width: 380px" class="h-12 pl-2 rounded-full outline-none border border-gray-300" type="text" id="sender-firstname">
+                                        <input style="width: 380px" class="h-12 pl-2 rounded-full outline-none border border-gray-300 bg-gray-300" type="text" id="sender-firstname">
                                     </div>&nbsp;&nbsp;&nbsp;&nbsp;
                                     <div class="flex w-full mr-2 items-center">
                                         <div>
                                             <label>Nom:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
                                         </div>
-                                        <input class="w-full h-12 pl-2 rounded-full outline-none border border-gray-300" type="text" id="sender-lastname">
+                                        <input class="w-full h-12 pl-2 rounded-full outline-none border border-gray-300 bg-gray-300" type="text" id="sender-lastname">
                                     </div>
                                 </div>
                                 
@@ -668,13 +690,13 @@ function addProductToCargo(c) {
                                         <div>
                                             <label>Email:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
                                         </div>
-                                        <input class="w-full h-12 pl-2 rounded-full outline-none border border-gray-300" type="email" id="sender-email">
+                                        <input class="w-full h-12 pl-2 rounded-full outline-none border border-gray-300 bg-gray-300" type="email" id="sender-email">
                                     </div>
                                     <div class="flex w-full ml-2 items-center">
                                         <div>
                                             <label>Téléphone:&nbsp;&nbsp;</label>
                                         </div>
-                                        <input style="width: 355px" class="h-12 pl-2 rounded-full outline-none border border-gray-300" type="text" id="sender-phone" value="${phoneInput}" readonly>
+                                        <input style="width: 355px" class="h-12 pl-2 rounded-full outline-none border border-gray-300 bg-gray-300" type="text" id="sender-phone" value="${phoneInput}" readonly>
                                     </div>
                                 </div>
                             `;
@@ -703,7 +725,7 @@ function addProductToCargo(c) {
                                     <div>
                                         <label>Nom:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
                                     </div>
-                                    <input class="w-full h-12 pl-2 rounded-full outline-none border border-gray-300 bg-gray-200" type="text" id="receiver-lastname" value="${userReceiver.lastname}" readonly>
+                                    <input class="w-full h-12 pl-2 rounded-full outline-none border border-gray-300 bg-gray-300" type="text" id="receiver-lastname" value="${userReceiver.lastname}" readonly>
                                 </div>
                             </div>
                             <div class="flex mt-5">
@@ -711,13 +733,13 @@ function addProductToCargo(c) {
                                     <div>
                                         <label>Email:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
                                     </div>
-                                    <input class="w-full h-12 pl-2 rounded-full outline-none border border-gray-300 bg-gray-200" type="email" id="receiver-email" value="${userReceiver.email}" readonly>
+                                    <input class="w-full h-12 pl-2 rounded-full outline-none border border-gray-300 bg-gray-300" type="email" id="receiver-email" value="${userReceiver.email}" readonly>
                                 </div>
                                 <div class="flex w-full ml-2 items-center">
                                     <div>
                                         <label>Téléphone:&nbsp;&nbsp;</label>
                                     </div>
-                                    <input style="width: 355px" class="w-full h-12 pl-2 rounded-full outline-none border border-gray-300 bg-gray-200" type="text" id="receiver-phone" value="${userReceiver.phone}" readonly>
+                                    <input style="width: 355px" class="w-full h-12 pl-2 rounded-full outline-none border border-gray-300 bg-gray-300" type="text" id="receiver-phone" value="${userReceiver.phone}" readonly>
                                 </div>
                             </div>
                         `;
@@ -730,13 +752,13 @@ function addProductToCargo(c) {
                                     <div>
                                         <label>Prénom:&nbsp;&nbsp;&nbsp;</label>
                                     </div>
-                                    <input style="width: 380px" class="h-12 pl-2 rounded-full outline-none border border-gray-300" type="text" id="receiver-firstname">
+                                    <input style="width: 380px" class="h-12 pl-2 rounded-full outline-none border border-gray-300bg-gray-300 bg-gray-300" type="text" id="receiver-firstname">
                                 </div>&nbsp;&nbsp;&nbsp;&nbsp;
                                 <div class="flex w-full mr-2 items-center">
                                     <div>
                                         <label>Nom:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
                                     </div>
-                                    <input class="w-full h-12 pl-2 rounded-full outline-none border border-gray-300" type="text" id="receiver-lastname">
+                                    <input class="w-full h-12 pl-2 rounded-full outline-none border border-gray-300 bg-gray-300" type="text" id="receiver-lastname">
                                 </div>
                             </div>
                             
@@ -745,13 +767,13 @@ function addProductToCargo(c) {
                                     <div>
                                         <label>Email:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
                                     </div>
-                                    <input class="w-full h-12 pl-2 rounded-full outline-none border border-gray-300" type="email" id="receiver-email">
+                                    <input class="w-full h-12 pl-2 rounded-full outline-none border border-gray-300 bg-gray-300" type="email" id="receiver-email">
                                 </div>
                                 <div class="flex w-full ml-2 items-center">
                                     <div>
                                         <label>Téléphone:&nbsp;&nbsp;</label>
                                     </div>
-                                    <input style="width: 355px" class="h-12 pl-2 rounded-full outline-none border border-gray-300" type="text" id="receiver-phone" value="${phoneInput}" readonly>
+                                    <input style="width: 355px" class="h-12 pl-2 rounded-full outline-none border border-gray-300 bg-gray-300" type="text" id="receiver-phone" value="${phoneInput}" readonly>
                                 </div>
                             </div>
                         `;

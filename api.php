@@ -1,4 +1,85 @@
 <?php
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+use Twilio\Rest\Client;
+require '/var/www/html/New-projetTS/vendor/autoload.php';
+require '/var/www/html/New-projetTS/vendor/setasign/fpdf/fpdf.php';
+// Fonction pour envoyer un SMS
+function envoyerSMS($destinataire, $message) {
+    // Vos identifiants Twilio
+    $sid = 'VOTRE_SID_TWILIO';
+    $token = 'VOTRE_TOKEN_TWILIO';
+    $twilioNumber = 'VOTRE_NUMERO_TWILIO';
+
+    // Initialisation du client Twilio
+    $twilio = new Client($sid, $token);
+
+    try {
+        // Envoi du message SMS
+        $twilio->messages->create(
+            $destinataire,
+            [
+                "from" => $twilioNumber,
+                "body" => $message
+            ]
+        );
+        return true;
+    } catch (Exception $e) {
+        error_log("Erreur lors de l'envoi du SMS: " . $e->getMessage());
+        return false;
+    }
+}
+
+
+function envoyerEmail($destinataire, $sujet, $message, $pdfContent) {
+    $mail = new PHPMailer(true);
+    try {
+        // Configurer le serveur SMTP
+        $mail->isSMTP();
+        $mail->Host = 'smtp.gmail.com'; // Remplacez par votre serveur SMTP
+        $mail->SMTPAuth = true;
+        $mail->Username = 'sodadiop065@gmail.com'; // Remplacez par votre email
+        $mail->Password = 'nflr yemm rlva ibhd'; // Remplacez par votre mot de passe
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port = 587;
+
+        // Destinataires
+        $mail->setFrom('sodadiop065@gmail.com', 'Cargo');
+        $mail->addAddress($destinataire);
+
+        // Contenu
+        $mail->isHTML(true);
+        $mail->Subject = $sujet;
+        $mail->Body    = $message;
+
+        // Pièce jointe PDF
+        $mail->addStringAttachment($pdfContent, 'details_produit.pdf');
+
+        $mail->send();
+        return true;
+    } catch (Exception $e) {
+        error_log("Message could not be sent. Mailer Error: {$mail->ErrorInfo}");
+        return false;
+    }
+}
+
+function generatePDF($product) {
+    $pdf = new FPDF();
+    $pdf->AddPage();
+    $pdf->SetFont('Arial', 'B', 16);
+    $pdf->Cell(0, 10, 'Details du Produit', 0, 1, 'C');
+
+    $pdf->SetFont('Arial', '', 12);
+    foreach ($product as $key => $value) {
+        if (is_array($value)) {
+            $value = json_encode($value);
+        }
+        $pdf->Cell(50, 10, ucfirst($key) . ':', 1);
+        $pdf->Cell(0, 10, $value, 1, 1);
+    }
+
+    return $pdf->Output('S');
+}
 
 function readJSON($filename) {
     $json_data = file_get_contents($filename);
@@ -54,8 +135,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             "state" => $_POST['state'],
             "type" => $_POST['type'],
             "totalPrice" => $_POST['totalPrice'],
-            "sender" => $sender,
-            "receiver" => $receiver
+            "sender" => $sender['firstname'],
+            "receiver" => $receiver['firstname']
+         
         ];
 
         $data = readJSON('cargaisons.json');
@@ -66,7 +148,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                 }
                 if($cargaison['maxWeight'] != 'null'){
                     $cargaison['maxWeight'] = $_POST['updatedQuantity'];
-                }else if($cargaison['maxNbrProduct'] != 'null'){
+                } else if($cargaison['maxNbrProduct'] != 'null'){
                     $cargaison['maxNbrProduct'] = $_POST['updatedQuantity'];
                 }
                 $cargaison['totalAmount'] = $_POST['totalAmount'];
@@ -75,12 +157,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             }
         }
         writeJSON('cargaisons.json', $data);
-
+     
         echo json_encode(["status" => "success", "message" => "Produit ajouté à la cargaison avec succès"]);
+
+        // Générer le PDF
+        $pdfContent = generatePDF($product);
+
+        // Envoie mail
+        if (!empty($sender['email'])) {
+            envoyerEmail($sender['email'], 'Enregistrement colis', 'Votre colis ' . $product['code'] . ' vient d\'être mis dans la cargaison', $pdfContent);
+            envoyerEmail($receiver['email'], 'Enregistrement colis', 'Votre colis ' . $product['code'] . ' vient d\'être mis dans la cargaison', $pdfContent);
+            
+        }
+   
         exit;
     }
 
-    if($action === 'addUserSender'){
+    if ($action === 'addUserSender') {
         error_log("Received User Sender request");
         error_log("POST data: " . print_r($_POST, true));
         $sender = json_decode($_POST['sender'], true);
@@ -92,7 +185,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
         exit;
     }
 
-    if($action === 'addUserReceiver'){
+    if ($action === 'addUserReceiver') {
         error_log("Received User receiver request");
         error_log("POST data: " . print_r($_POST, true));
         $receiver = json_decode($_POST['receiver'], true);
@@ -111,6 +204,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['action'])) {
         $data = readJSON('cargaisons.json');
         echo json_encode(["data" => $data]);
         exit;
-        
     }
 }
+?>

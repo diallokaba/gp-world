@@ -1,36 +1,20 @@
 {
     "users": [
         {
-            "id": "1",
-            "firstname": "ibrahima kaba",
-            "lastname": "Diallo",
-            "phone": "785222795",
-            "email": "dialloibhazard@gmail.com",
-            "type": "sender"
-        },
-        {
-            "id": "2",
-            "firstname": "Khalil",
-            "lastname": "Diallo",
-            "phone": "761735729",
-            "email": "khalil@gmail.com",
+            "id": 4,
+            "firstname": "soda",
+            "lastname": "Diop",
+            "email": "fantatine18@gmail.com",
+            "telephone": "+221 0773063819",
             "type": "receiver"
         },
         {
             "id": 3,
-            "firstname": "Awa",
-            "lastname": "Dione",
-            "email": "awa@gmail.com",
-            "telephone": "788730634",
-            "type": "sender"
-        },
-        {
-            "id": 4,
-            "firstname": "Soda",
+            "firstname": "soda",
             "lastname": "Diop",
-            "email": "soda@gmail.com",
+            "email": "sodadiop065@gmail.com",
             "telephone": "773063819",
-            "type": "receiver"
+            "type": "sender"
         }
     ]
 }
