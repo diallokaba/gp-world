@@ -343,5 +343,6 @@
   </div>
 </dialog>
 
+<script type="module" src="./dist/cargo-impl.js"></script>
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 <script type="module" src="./dist/map.js"></script>

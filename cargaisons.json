@@ -3,9 +3,9 @@
         {
             "id": "1",
             "reference": "CR00001",
-            "maxWeight": "8",
+            "maxWeight": "992",
             "maxNbrProduct": "null",
-            "totalAmount": "47325296",
+            "totalAmount": "52477176",
             "distance": "3427.92",
             "departurePoint": "Guinnee",
             "arrivalPoint": "Senegal",
@@ -323,6 +323,110 @@
                         "email": "gningeli03@gmail.com",
                         "address": "ODC",
                         "telephone": "776795840",
+                        "type": "receiver"
+                    }
+                },
+                {
+                    "id": "1",
+                    "code": "PR00000001",
+                    "weight": "2",
+                    "state": "PENDING",
+                    "type": "ALIMENTARY",
+                    "totalPrice": "685584",
+                    "sender": {
+                        "id": 3,
+                        "firstname": "moi",
+                        "lastname": "moi",
+                        "email": "moi@gmail.com",
+                        "address": "kaffrine",
+                        "telephone": "785662333",
+                        "type": "sender"
+                    },
+                    "receiver": {
+                        "id": 4,
+                        "firstname": "lui",
+                        "lastname": "lui",
+                        "email": "lui@gmail.com",
+                        "address": "timesquare",
+                        "telephone": "72134567",
+                        "type": "receiver"
+                    }
+                },
+                {
+                    "id": "1",
+                    "code": "PR00000001",
+                    "weight": "2",
+                    "state": "PENDING",
+                    "type": "ALIMENTARY",
+                    "totalPrice": "685584",
+                    "sender": {
+                        "id": 3,
+                        "firstname": "moi",
+                        "lastname": "moi",
+                        "email": "moi@gmail.com",
+                        "address": "kaffrine",
+                        "telephone": "785662333",
+                        "type": "sender"
+                    },
+                    "receiver": {
+                        "id": 4,
+                        "firstname": "lui",
+                        "lastname": "lui",
+                        "email": "lui@gmail.com",
+                        "address": "timesquare",
+                        "telephone": "72134567",
+                        "type": "receiver"
+                    }
+                },
+                {
+                    "id": "1",
+                    "code": "PR00000001",
+                    "weight": "3",
+                    "state": "PENDING",
+                    "type": "MATERIAL",
+                    "totalPrice": "1028376",
+                    "sender": {
+                        "id": 3,
+                        "firstname": "leaf",
+                        "lastname": "leaf",
+                        "email": "leaf@gmail.com",
+                        "address": "foire",
+                        "telephone": "723445423",
+                        "type": "sender"
+                    },
+                    "receiver": {
+                        "id": 4,
+                        "firstname": "loves",
+                        "lastname": "loves",
+                        "email": "loves@gmail.com",
+                        "address": "pikine",
+                        "telephone": "723445421",
+                        "type": "receiver"
+                    }
+                },
+                {
+                    "id": "1",
+                    "code": "PR00000001",
+                    "weight": "1",
+                    "state": "PENDING",
+                    "type": "ALIMENTARY",
+                    "totalPrice": "10000",
+                    "sender": {
+                        "id": 3,
+                        "firstname": "ibrahima",
+                        "lastname": "kaba",
+                        "email": "ikdiallodk@groupeisi.com",
+                        "address": "kakimbo",
+                        "telephone": "721235678",
+                        "type": "sender"
+                    },
+                    "receiver": {
+                        "id": 4,
+                        "firstname": "youssouf",
+                        "lastname": "youssouf",
+                        "email": "youssouf@gmail.com",
+                        "address": "sonfonia",
+                        "telephone": "701234567",
                         "type": "receiver"
                     }
                 }

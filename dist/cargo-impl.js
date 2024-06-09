@@ -25,6 +25,8 @@ let productWeightInputField;
 const productType = document.getElementById('product-type');
 const newProductType = productType.cloneNode(true);
 let productMaterialType;
+const senderInfoDiv = document.getElementById("sender-info");
+const receiverInfoDiv = document.getElementById("receiver-info");
 byWeight === null || byWeight === void 0 ? void 0 : byWeight.addEventListener('click', () => {
     if (byWeight.checked === true) {
         radioChoice.classList.add('hidden');
@@ -583,11 +585,10 @@ function addProductToCargo(c) {
         }
         (_a = document.getElementById("search-sender")) === null || _a === void 0 ? void 0 : _a.addEventListener("input", (event) => {
             phoneInputSender = event.target.value.trim();
-            const senderInfoDiv = document.getElementById("sender-info");
             senderInfoDiv.innerHTML = ''; // Clear previous content
             if (phoneInputSender) {
                 userSender = users.find(u => u.telephone === phoneInputSender);
-                if (userSender && userSender.type === "sender") {
+                if (userSender !== undefined && userSender.type === "sender") {
                     // User found and is a sender, display read-only inputs
                     senderInfoDiv.innerHTML = `
                         <div class="flex mt-5">
@@ -695,11 +696,10 @@ function addProductToCargo(c) {
                 samePhoneNumberErrorMessage.classList.add("hidden");
                 isValid = true;
             }
-            const receiverInfoDiv = document.getElementById("receiver-info");
             receiverInfoDiv.innerHTML = ''; // Clear previous content
             if (phoneInputReceiver) {
                 userReceiver = users.find(u => u.telephone === phoneInputReceiver);
-                if (userReceiver && userReceiver.type === "receiver") {
+                if (userReceiver !== undefined && userReceiver.type === "receiver") {
                     receiverInfoDiv.innerHTML = `
                         <div class="flex mt-5">
                             <div class="flex w-full mr-2 items-center">
@@ -846,7 +846,6 @@ function addProductToCargo(c) {
         }
         else {
             errEmptyNumber.classList.add('hidden');
-            isValid = true;
         }
         if (isValid) {
             if (!userSender) {
@@ -868,8 +867,8 @@ function addProductToCargo(c) {
             formData.append("id", (1).toString());
             formData.append("code", "PR00000001");
             formData.append("cargoId", (c.id).toString());
-            //formData.append("sender", JSON.stringify(sender));
-            //formData.append("receiver", JSON.stringify(receiver));
+            formData.append("sender", JSON.stringify(sender));
+            formData.append("receiver", JSON.stringify(receiver));
             formData.append("totalPrice", totalPrice.toString());
             formData.append("totalAmount", totalAmountCargo.toString());
             formData.append("updatedQuantity", updatedQuantity.toString());
@@ -895,6 +894,8 @@ function addProductToCargo(c) {
                             showConfirmButton: false,
                             timerProgressBar: true,
                         });
+                        clearProductForm();
+                        pagination();
                     }
                     else {
                         alert('Erreur lors de l\'ajout du produit dans la cargaison');
@@ -918,7 +919,6 @@ function isValidFieldProduct() {
         }
         else {
             errMsgProductMaterialType.classList.add('hidden');
-            isValid = true;
         }
     }
     if (newProductType.value === '0') {
@@ -926,7 +926,6 @@ function isValidFieldProduct() {
         errMsgProductType.classList.remove('hidden');
     }
     else {
-        isValid = true;
         errMsgProductType.classList.add('hidden');
     }
     if (divProductWeight.innerHTML !== '') {
@@ -944,7 +943,6 @@ function isValidFieldProduct() {
         }
         else {
             errMsgProductWeight.classList.add('hidden');
-            isValid = true;
         }
     }
     return isValid;
@@ -952,97 +950,87 @@ function isValidFieldProduct() {
 function validateFieldSenderAndReceiver(firstname, lastname, email, address, phoneNumber, userType) {
     let isValid = true;
     if (userType === 'sender') {
-        const errMsgSenderFirstname = document.getElementById('sender-firstname');
-        const errMsgSenderLastname = document.getElementById('sender-lastname');
-        const errMsgSenderEmail = document.getElementById('sender-email');
-        const errMsgSenderAddress = document.getElementById('sender-address');
-        const errMsgSenderTelephone = document.getElementById('sender-phone');
-        if (firstname === '') {
+        const errMsgSenderFirstname = document.getElementById('err-sender-firstname');
+        const errMsgSenderLastname = document.getElementById('err-sender-lastname');
+        const errMsgSenderEmail = document.getElementById('err-sender-email');
+        const errMsgSenderAddress = document.getElementById('err-sender-address');
+        const errMsgSenderTelephone = document.getElementById('err-sender-phone');
+        if (firstname === "") {
             errMsgSenderFirstname === null || errMsgSenderFirstname === void 0 ? void 0 : errMsgSenderFirstname.classList.remove('hidden');
             isValid = false;
         }
         else {
             errMsgSenderFirstname === null || errMsgSenderFirstname === void 0 ? void 0 : errMsgSenderFirstname.classList.add('hidden');
-            isValid = true;
         }
-        if (lastname === '') {
+        if (lastname === "") {
             errMsgSenderLastname === null || errMsgSenderLastname === void 0 ? void 0 : errMsgSenderLastname.classList.remove('hidden');
             isValid = false;
         }
         else {
             errMsgSenderLastname === null || errMsgSenderLastname === void 0 ? void 0 : errMsgSenderLastname.classList.add('hidden');
-            isValid = true;
         }
-        if (email === '') {
+        if (email === "") {
             errMsgSenderEmail === null || errMsgSenderEmail === void 0 ? void 0 : errMsgSenderEmail.classList.remove('hidden');
             isValid = false;
         }
         else {
             errMsgSenderEmail === null || errMsgSenderEmail === void 0 ? void 0 : errMsgSenderEmail.classList.add('hidden');
-            isValid = true;
         }
-        if (address === '') {
+        if (address === "") {
             errMsgSenderAddress === null || errMsgSenderAddress === void 0 ? void 0 : errMsgSenderAddress.classList.remove('hidden');
             isValid = false;
         }
         else {
             errMsgSenderAddress === null || errMsgSenderAddress === void 0 ? void 0 : errMsgSenderAddress.classList.add('hidden');
-            isValid = true;
         }
-        if (phoneNumber === '') {
+        if (phoneNumber === "") {
             errMsgSenderTelephone === null || errMsgSenderTelephone === void 0 ? void 0 : errMsgSenderTelephone.classList.remove('hidden');
             isValid = false;
         }
         else {
             errMsgSenderTelephone === null || errMsgSenderTelephone === void 0 ? void 0 : errMsgSenderTelephone.classList.add('hidden');
-            isValid = true;
         }
     }
     if (userType === 'receiver') {
-        const errMsgReceiverFirstname = document.getElementById('receiver-firstname');
-        const errMsgReceiverLastname = document.getElementById('receiver-lastname');
-        const errMsgReceiverEmail = document.getElementById('receiver-email');
-        const errMsgReceiverAddress = document.getElementById('receiver-address');
-        const errMsgReceiverTelephone = document.getElementById('receiver-phone');
-        if (firstname === '') {
+        const errMsgReceiverFirstname = document.getElementById('err-receiver-firstname');
+        const errMsgReceiverLastname = document.getElementById('err-receiver-lastname');
+        const errMsgReceiverEmail = document.getElementById('err-receiver-email');
+        const errMsgReceiverAddress = document.getElementById('err-receiver-address');
+        const errMsgReceiverTelephone = document.getElementById('err-receiver-phone');
+        if (firstname === "") {
             errMsgReceiverFirstname === null || errMsgReceiverFirstname === void 0 ? void 0 : errMsgReceiverFirstname.classList.remove('hidden');
             isValid = false;
         }
         else {
             errMsgReceiverFirstname === null || errMsgReceiverFirstname === void 0 ? void 0 : errMsgReceiverFirstname.classList.add('hidden');
-            isValid = true;
         }
-        if (lastname === '') {
+        if (lastname === "") {
             errMsgReceiverLastname === null || errMsgReceiverLastname === void 0 ? void 0 : errMsgReceiverLastname.classList.remove('hidden');
             isValid = false;
         }
         else {
             errMsgReceiverLastname === null || errMsgReceiverLastname === void 0 ? void 0 : errMsgReceiverLastname.classList.add('hidden');
-            isValid = true;
         }
-        if (email === '') {
+        if (email === "") {
             errMsgReceiverEmail === null || errMsgReceiverEmail === void 0 ? void 0 : errMsgReceiverEmail.classList.remove('hidden');
             isValid = false;
         }
         else {
             errMsgReceiverEmail === null || errMsgReceiverEmail === void 0 ? void 0 : errMsgReceiverEmail.classList.add('hidden');
-            isValid = true;
         }
-        if (address === '') {
+        if (address === "") {
             errMsgReceiverAddress === null || errMsgReceiverAddress === void 0 ? void 0 : errMsgReceiverAddress.classList.remove('hidden');
             isValid = false;
         }
         else {
             errMsgReceiverAddress === null || errMsgReceiverAddress === void 0 ? void 0 : errMsgReceiverAddress.classList.add('hidden');
-            isValid = true;
         }
-        if (phoneNumber === '') {
+        if (phoneNumber === "") {
             errMsgReceiverTelephone === null || errMsgReceiverTelephone === void 0 ? void 0 : errMsgReceiverTelephone.classList.remove('hidden');
             isValid = false;
         }
         else {
             errMsgReceiverTelephone === null || errMsgReceiverTelephone === void 0 ? void 0 : errMsgReceiverTelephone.classList.add('hidden');
-            isValid = true;
         }
     }
     return isValid;
@@ -1057,6 +1045,8 @@ btnCancelProduct.addEventListener('click', () => {
 function clearProductForm() {
     formProduct.reset();
     errMsgProductType.classList.add('hidden');
+    senderInfoDiv.innerHTML = '';
+    receiverInfoDiv.innerHTML = '';
 }
 function calculatePriceOfProduct(cargaisonType, productType, genericQuantity, cargoDistance) {
     if (cargaisonType === 'ROAD' && productType === 'ALIMENTARY') {

@@ -26,6 +26,8 @@ let productWeightInputField: HTMLInputElement;
 const productType: HTMLSelectElement = (document.getElementById('product-type') as HTMLSelectElement);
 const newProductType = productType.cloneNode(true) as HTMLSelectElement;
 let productMaterialType: HTMLSelectElement;
+const senderInfoDiv = document.getElementById("sender-info") as HTMLDivElement;
+const receiverInfoDiv = document.getElementById("receiver-info") as HTMLDivElement;
 
 byWeight?.addEventListener('click', () =>{
     if(byWeight.checked === true){
@@ -615,11 +617,10 @@ function addProductToCargo(c: Cargo) {
 
         document.getElementById("search-sender")?.addEventListener("input", (event: any) => {
             phoneInputSender = event.target.value.trim();
-            const senderInfoDiv = document.getElementById("sender-info") as HTMLDivElement;
             senderInfoDiv.innerHTML = ''; // Clear previous content
             if (phoneInputSender) {
                 userSender = users.find(u => u.telephone === phoneInputSender);
-                if (userSender && userSender.type === "sender") {
+                if (userSender !== undefined && userSender.type === "sender") {
                     // User found and is a sender, display read-only inputs
                     senderInfoDiv.innerHTML = `
                         <div class="flex mt-5">
@@ -727,13 +728,12 @@ function addProductToCargo(c: Cargo) {
                 samePhoneNumberErrorMessage.classList.add("hidden");
                 isValid = true;
             }
-            const receiverInfoDiv = document.getElementById("receiver-info") as HTMLDivElement;
             receiverInfoDiv.innerHTML = ''; // Clear previous content
             
             if (phoneInputReceiver) {
                 userReceiver = users.find(u => u.telephone === phoneInputReceiver);
                 
-                if (userReceiver && userReceiver.type === "receiver") {
+                if (userReceiver !== undefined && userReceiver.type === "receiver") {
                     receiverInfoDiv.innerHTML = `
                         <div class="flex mt-5">
                             <div class="flex w-full mr-2 items-center">
@@ -889,7 +889,6 @@ function addProductToCargo(c: Cargo) {
             isValid = false;
         }else{
             errEmptyNumber.classList.add('hidden');
-            isValid = true;
         }
         
         if(isValid){
@@ -914,8 +913,8 @@ function addProductToCargo(c: Cargo) {
             formData.append("id", (1).toString());
             formData.append("code", "PR00000001");
             formData.append("cargoId", (c.id).toString());
-            //formData.append("sender", JSON.stringify(sender));
-            //formData.append("receiver", JSON.stringify(receiver));
+            formData.append("sender", JSON.stringify(sender));
+            formData.append("receiver", JSON.stringify(receiver));
             formData.append("totalPrice", totalPrice.toString());
             formData.append("totalAmount", totalAmountCargo.toString());
             formData.append("updatedQuantity", updatedQuantity.toString());
@@ -943,6 +942,8 @@ function addProductToCargo(c: Cargo) {
                                 showConfirmButton: false,
                                 timerProgressBar: true,
                             });
+                            clearProductForm();
+                            pagination();
                         } else {
                             alert('Erreur lors de l\'ajout du produit dans la cargaison');
                         }  
@@ -965,14 +966,12 @@ function isValidFieldProduct(): boolean{
             isValid = false;
         }else{
             errMsgProductMaterialType.classList.add('hidden');
-            isValid = true;
         }
     }
     if(newProductType.value === '0'){
         isValid = false;
         errMsgProductType.classList.remove('hidden');
     }else{
-        isValid = true;
         errMsgProductType.classList.add('hidden');
     }
     if(divProductWeight.innerHTML !== ''){
@@ -988,7 +987,6 @@ function isValidFieldProduct(): boolean{
             isValid = false;
         }else{
             errMsgProductWeight.classList.add('hidden');
-            isValid = true;
         }
     }
     return isValid;
@@ -997,96 +995,86 @@ function isValidFieldProduct(): boolean{
 function validateFieldSenderAndReceiver(firstname: string, lastname: string, email: string, address: string, phoneNumber: string, userType: string): boolean{
     let isValid: boolean = true;
     if(userType === 'sender'){
-        const errMsgSenderFirstname = document.getElementById('sender-firstname');
-        const errMsgSenderLastname = document.getElementById('sender-lastname');
-        const errMsgSenderEmail = document.getElementById('sender-email');
-        const errMsgSenderAddress = document.getElementById('sender-address');
-        const errMsgSenderTelephone = document.getElementById('sender-phone');
-        if(firstname === ''){
+        const errMsgSenderFirstname = document.getElementById('err-sender-firstname');
+        const errMsgSenderLastname = document.getElementById('err-sender-lastname');
+        const errMsgSenderEmail = document.getElementById('err-sender-email');
+        const errMsgSenderAddress = document.getElementById('err-sender-address');
+        const errMsgSenderTelephone = document.getElementById('err-sender-phone');
+        if(firstname === ""){
             errMsgSenderFirstname?.classList.remove('hidden');
             isValid = false;
         }else{
             errMsgSenderFirstname?.classList.add('hidden');
-            isValid = true;
         }
         
-        if(lastname === ''){
+        if(lastname === ""){
             errMsgSenderLastname?.classList.remove('hidden');
             isValid = false;
         }else{
             errMsgSenderLastname?.classList.add('hidden');
-            isValid = true;
         }
         
-        if(email === ''){
+        if(email === ""){
             errMsgSenderEmail?.classList.remove('hidden');
             isValid = false;
         }else{
             errMsgSenderEmail?.classList.add('hidden');
-            isValid = true;
         }
 
-        if(address === ''){
+        if(address === ""){
             errMsgSenderAddress?.classList.remove('hidden');
             isValid = false;
         }else{
             errMsgSenderAddress?.classList.add('hidden');
-            isValid = true
         }
         
-        if(phoneNumber === ''){
+        if(phoneNumber === ""){
             errMsgSenderTelephone?.classList.remove('hidden');
             isValid = false;
         }else{
             errMsgSenderTelephone?.classList.add('hidden');
-            isValid = true;
         }
     }
 
     if(userType === 'receiver'){
-        const errMsgReceiverFirstname = document.getElementById('receiver-firstname');
-        const errMsgReceiverLastname = document.getElementById('receiver-lastname');
-        const errMsgReceiverEmail = document.getElementById('receiver-email');
-        const errMsgReceiverAddress = document.getElementById('receiver-address');
-        const errMsgReceiverTelephone = document.getElementById('receiver-phone');
-        if(firstname === ''){
+        const errMsgReceiverFirstname = document.getElementById('err-receiver-firstname');
+        const errMsgReceiverLastname = document.getElementById('err-receiver-lastname');
+        const errMsgReceiverEmail = document.getElementById('err-receiver-email');
+        const errMsgReceiverAddress = document.getElementById('err-receiver-address');
+        const errMsgReceiverTelephone = document.getElementById('err-receiver-phone');
+        if(firstname === ""){
             errMsgReceiverFirstname?.classList.remove('hidden');
             isValid = false;
         }else{
             errMsgReceiverFirstname?.classList.add('hidden');
-            isValid = true;
         }
         
-        if(lastname === ''){
+        if(lastname === ""){
             errMsgReceiverLastname?.classList.remove('hidden');
             isValid = false;
         }else{
             errMsgReceiverLastname?.classList.add('hidden');
-            isValid = true;
         }
         
-        if(email === ''){
+        if(email === ""){
             errMsgReceiverEmail?.classList.remove('hidden');
             isValid = false;
         }else{
             errMsgReceiverEmail?.classList.add('hidden');
-            isValid = true;
         }
 
-        if(address === ''){
+        if(address === ""){
             errMsgReceiverAddress?.classList.remove('hidden');
             isValid = false;
         }else{
             errMsgReceiverAddress?.classList.add('hidden');
-            isValid = true
         }
         
-        if(phoneNumber === ''){
+        if(phoneNumber === ""){
             errMsgReceiverTelephone?.classList.remove('hidden');
             isValid = false;
         }else{
             errMsgReceiverTelephone?.classList.add('hidden');
-            isValid = true;
         }
     }
 
@@ -1105,6 +1093,8 @@ btnCancelProduct.addEventListener('click', () =>{
 function clearProductForm(){
     formProduct.reset();
     errMsgProductType.classList.add('hidden');
+    senderInfoDiv.innerHTML = '';
+    receiverInfoDiv.innerHTML = '';
 }
 
 
