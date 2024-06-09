@@ -3,9 +3,9 @@
         {
             "id": "1",
             "reference": "CR00001",
-            "maxWeight": "21",
+            "maxWeight": "8",
             "maxNbrProduct": "null",
-            "totalAmount": "42869000",
+            "totalAmount": "47325296",
             "distance": "3427.92",
             "departurePoint": "Guinnee",
             "arrivalPoint": "Senegal",
@@ -193,6 +193,136 @@
                         "email": "ikdiallodk@groupeisi.com",
                         "address": "Sam",
                         "telephone": "701234567",
+                        "type": "receiver"
+                    }
+                },
+                {
+                    "id": "1",
+                    "code": "PR00000001",
+                    "weight": "2",
+                    "state": "PENDING",
+                    "type": "ALIMENTARY",
+                    "totalPrice": "685584",
+                    "sender": {
+                        "id": 3,
+                        "firstname": "soda",
+                        "lastname": "diop",
+                        "email": "ikdiallodk@groupeisi.com",
+                        "address": "ODC",
+                        "telephone": "761735729",
+                        "type": "sender"
+                    },
+                    "receiver": {
+                        "id": 4,
+                        "firstname": "Elimane",
+                        "lastname": "Gning",
+                        "email": "gningeli03@gmail.com",
+                        "address": "ODC",
+                        "telephone": "776795840",
+                        "type": "receiver"
+                    }
+                },
+                {
+                    "id": "1",
+                    "code": "PR00000001",
+                    "weight": "2",
+                    "state": "PENDING",
+                    "type": "ALIMENTARY",
+                    "totalPrice": "685584",
+                    "sender": {
+                        "id": 3,
+                        "firstname": "soda",
+                        "lastname": "diop",
+                        "email": "ikdiallodk@groupeisi.com",
+                        "address": "ODC",
+                        "telephone": "761735729",
+                        "type": "sender"
+                    },
+                    "receiver": {
+                        "id": 4,
+                        "firstname": "Elimane",
+                        "lastname": "Gning",
+                        "email": "gningeli03@gmail.com",
+                        "address": "ODC",
+                        "telephone": "776795840",
+                        "type": "receiver"
+                    }
+                },
+                {
+                    "id": "1",
+                    "code": "PR00000001",
+                    "weight": "1",
+                    "state": "PENDING",
+                    "type": "ALIMENTARY",
+                    "totalPrice": "342792",
+                    "sender": {
+                        "id": 3,
+                        "firstname": "soda",
+                        "lastname": "diop",
+                        "email": "ikdiallodk@groupeisi.com",
+                        "address": "ODC",
+                        "telephone": "761735729",
+                        "type": "sender"
+                    },
+                    "receiver": {
+                        "id": 4,
+                        "firstname": "Elimane",
+                        "lastname": "Gning",
+                        "email": "gningeli03@gmail.com",
+                        "address": "ODC",
+                        "telephone": "776795840",
+                        "type": "receiver"
+                    }
+                },
+                {
+                    "id": "1",
+                    "code": "PR00000001",
+                    "weight": "1",
+                    "state": "PENDING",
+                    "type": "ALIMENTARY",
+                    "totalPrice": "342792",
+                    "sender": {
+                        "id": 3,
+                        "firstname": "soda",
+                        "lastname": "diop",
+                        "email": "ikdiallodk@groupeisi.com",
+                        "address": "ODC",
+                        "telephone": "761735729",
+                        "type": "sender"
+                    },
+                    "receiver": {
+                        "id": 4,
+                        "firstname": "Elimane",
+                        "lastname": "Gning",
+                        "email": "gningeli03@gmail.com",
+                        "address": "ODC",
+                        "telephone": "776795840",
+                        "type": "receiver"
+                    }
+                },
+                {
+                    "id": "1",
+                    "code": "PR00000001",
+                    "weight": "1",
+                    "state": "PENDING",
+                    "type": "ALIMENTARY",
+                    "totalPrice": "342792",
+                    "sender": {
+                        "id": 3,
+                        "firstname": "soda",
+                        "lastname": "diop",
+                        "email": "ikdiallodk@groupeisi.com",
+                        "address": "ODC",
+                        "telephone": "761735729",
+                        "type": "sender"
+                    },
+                    "receiver": {
+                        "id": 4,
+                        "firstname": "Elimane",
+                        "lastname": "Gning",
+                        "email": "gningeli03@gmail.com",
+                        "address": "ODC",
+                        "telephone": "776795840",
                         "type": "receiver"
                     }
                 }

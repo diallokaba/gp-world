@@ -13,6 +13,18 @@ const distance = document.querySelector("#distance");
 const form = document.querySelector("#add-cargo");
 const radioChoice = document.getElementById("radio-choice");
 const tbodyCargo = document.getElementById('tbody-cargo');
+const btnCloseProduct = document.querySelector('.btn-close-product');
+const btnCancelProduct = document.getElementById('btn-cancel-product');
+const formProduct = document.getElementById("add-product");
+const materialElement = document.querySelector("#material");
+const toxicity = document.querySelector("#chimical-toxicity");
+const errMsgProductType = document.querySelector("#err-product-type");
+const divProductWeight = document.getElementById('product-weight');
+const errEmptyNumber = document.getElementById('err-empty-number');
+let productWeightInputField;
+const productType = document.getElementById('product-type');
+const newProductType = productType.cloneNode(true);
+let productMaterialType;
 byWeight === null || byWeight === void 0 ? void 0 : byWeight.addEventListener('click', () => {
     if (byWeight.checked === true) {
         radioChoice.classList.add('hidden');
@@ -405,15 +417,26 @@ function pagination(page = currentPage) {
                 const cargaison = cargaisons.find(c => Number(c.id) === Number(cargoId));
                 let weight = String(cargaison === null || cargaison === void 0 ? void 0 : cargaison.maxWeight) != 'null' ? cargaison === null || cargaison === void 0 ? void 0 : cargaison.maxWeight : cargaison === null || cargaison === void 0 ? void 0 : cargaison.maxNbrProduct;
                 if ((cargaison === null || cargaison === void 0 ? void 0 : cargaison.globalState) !== 'OPEN' || (cargaison === null || cargaison === void 0 ? void 0 : cargaison.progressionState) !== 'PENDING') {
-                    showAlertMessage('Impossible d\'ajouter un produit à cette cargaison', 'Pour ajouter un produit, la cargaison doit être en état "Ouvert" et "En attente"');
+                    showAlertErrorMessage('Impossible d\'ajouter un produit à cette cargaison', 'Pour ajouter un produit, la cargaison doit être en état "Ouvert" et "En attente"');
                 }
                 else if (Number(weight) === 0) {
-                    showAlertMessage('Impossible d\'ajouter un produit à cette cargaison', 'Le poids maximum de la cargaison ou le nombre de colis maximum de la cargaison est de 0');
+                    showAlertErrorMessage('Impossible d\'ajouter un produit à cette cargaison', 'Le poids maximum de la cargaison ou le nombre de colis maximum de la cargaison est de 0');
                 }
                 else {
                     if (cargaison) {
-                        addProductToCargo(cargaison);
                         document.getElementById('my_modal_5').showModal();
+                        const cargoName = document.getElementById('cargo-name');
+                        cargoName.innerText = '';
+                        if (cargaison.type === 'ROAD') {
+                            cargoName.innerText = 'Routière';
+                        }
+                        else if (cargaison.type === 'MARITIME') {
+                            cargoName.innerText = 'Maritime';
+                        }
+                        else {
+                            cargoName.innerText = 'Aérienne';
+                        }
+                        addProductToCargo(cargaison);
                     }
                 }
             });
@@ -452,7 +475,7 @@ document.querySelectorAll("#cargo-code-search, #leaving-date-search, #arrived-da
     });
 });
 pagination();
-function showAlertMessage(title, message) {
+function showAlertErrorMessage(title, message) {
     Swal.fire({
         title: `${title}`,
         text: `${message}`,
@@ -469,35 +492,67 @@ function showAlertMessage(title, message) {
         }
     });
 }
+function sendSMS(phoneNumber, message) {
+    const myHeaders = new Headers();
+    myHeaders.append("Authorization", "App fad946e39e7d544b4d3799811de32d74-a4b4d6e5-a73c-432c-9791-44388ac3cc81");
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Accept", "application/json");
+    const raw = JSON.stringify({
+        "messages": [
+            {
+                "destinations": [{ "to": "221785222794" }],
+                "from": "ServiceSMS",
+                "text": "Congratulations on sending your first message.\nGo ahead and check the delivery report in the next step."
+            }
+        ]
+    });
+    const requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        body: raw,
+        redirect: "follow"
+    };
+    fetch("https://43y4p1.api.infobip.com/sms/2/text/advanced", requestOptions)
+        .then((response) => response.text())
+        .then((result) => console.log(result))
+        .catch((error) => console.error(error));
+}
 function addProductToCargo(c) {
     var _a;
-    const productType = document.getElementById('product-type');
-    let product;
-    const inputWeight = document.getElementById('product-weight');
+    let isValid = true;
+    let userSender;
+    let userReceiver;
+    let totalPrice = 0;
     let productWeight = 0;
-    inputWeight.innerHTML = '';
+    let phoneInputSender = '';
+    let phoneInputReceiver = '';
+    const chimicalOption = newProductType.options[1];
+    if (c.type === 'ROAD' || c.type === 'AIR') {
+        chimicalOption.disabled = true;
+    }
+    else {
+        chimicalOption.disabled = false;
+    }
+    materialElement.innerHTML = '';
+    toxicity.innerHTML = "";
+    divProductWeight.innerHTML = '';
     if (String(c.maxWeight) != 'null') {
-        inputWeight.innerHTML = `
+        divProductWeight.innerHTML = `
             <label class="border border-gray-300 rounded-xl flex items-center p-2.5 mt-5">
                 <span style="width: 170px">Poids du colis:</span>
                 <input type="text" name="weight" id="weight" class="w-full outline-none border border-gray-300 rounded-lg py-1 pl-1">
             </label>
-            <div class="pl-2.5 text-red-600 hidden" id="err-leaving-date">error</div>
+            <div class="pl-2.5 text-red-600 hidden" id="err-product-weight"></div>
         `;
     }
     else {
         productWeight = 1;
     }
-    if (c.type === 'ROAD' || c.type === 'AIR') {
-        const optionChimical = document.getElementById('chimical-option');
-        optionChimical.disabled = true;
-    }
-    const newProductType = productType.cloneNode(true);
     (_a = productType.parentNode) === null || _a === void 0 ? void 0 : _a.replaceChild(newProductType, productType);
+    let typeOfProduct = '';
     newProductType.addEventListener('change', (e) => {
         var _a, _b;
-        const typeOfProduct = e.target.value;
-        const toxicity = document.querySelector("#chimical-toxicity");
+        typeOfProduct = e.target.value;
         toxicity.innerHTML = "";
         if (typeOfProduct === 'CHIMICAL') {
             toxicity.innerHTML = `
@@ -508,9 +563,7 @@ function addProductToCargo(c) {
                 <div class="pl-2.5 text-red-600 hidden" id="err-leaving-date">error</div>
             `;
         }
-        const materialElement = document.querySelector("#material");
         materialElement.innerHTML = '';
-        let productMaterialType = null;
         if (typeOfProduct === 'MATERIAL') {
             materialElement.innerHTML = `
                 <label class="border border-gray-300 rounded-xl flex items-center p-2.5 mt-4">
@@ -518,239 +571,284 @@ function addProductToCargo(c) {
                     <select class="grow py-2 pl-1 outline-none rounded-lg" id="product-material-type" name="material-type">
                         <option value="0">Choisir le matériel de produit</option>
                         <option value="UNBREAKABLE">Incassable</option>
-                        <option value="FRAGILE">Fragile</option>
+                        <option value="FRAGILE" id="fragile">Fragile</option>
                     </select>
                 </label>
+                <div class="pl-1 mt-2 text-red-600 hidden" id="err-product-material-type"><i class="fa-solid fa-triangle-exclamation"></i>&nbsp;Ce champ est obligatoire</div>
             `;
             productMaterialType = document.getElementById('product-material-type');
         }
-        let fragileAndMaritime = false;
-        if (productMaterialType != null) {
-            productMaterialType.addEventListener("change", () => {
-                if (productMaterialType.value === 'FRAGILE' && c.type === 'MARITIME') {
-                    showAlertMessage('Erreur', 'Les produits fragile ne peuvent pas transités par voie martime');
-                    fragileAndMaritime = true;
-                }
-                else {
-                    fragileAndMaritime = false;
-                }
-            });
+        if (c.type === 'MARITIME' && typeOfProduct === 'MATERIAL') {
+            document.getElementById('fragile').disabled = true;
         }
-        let userSender;
         (_a = document.getElementById("search-sender")) === null || _a === void 0 ? void 0 : _a.addEventListener("input", (event) => {
-            const phoneInput = event.target.value.trim();
+            phoneInputSender = event.target.value.trim();
             const senderInfoDiv = document.getElementById("sender-info");
             senderInfoDiv.innerHTML = ''; // Clear previous content
-            if (!fragileAndMaritime) {
-                if (phoneInput) {
-                    userSender = users.find(u => u.telephone === phoneInput);
-                    console.log(userSender);
-                    if (userSender && userSender.type === "sender") {
-                        // User found and is a sender, display read-only inputs
-                        senderInfoDiv.innerHTML = `
-                                <div class="flex mt-5">
-                                    <div class="flex w-full mr-2 items-center">
-                                        <div>
-                                            <label>Prénom:&nbsp;</label>
-                                        </div>
-                                        <input class="h-12 pl-2 rounded-full outline-none border border-gray-300 bg-gray-200" type="text" id="sender-firstname" value="${userSender.firstname}" readonly>
-                                    </div>
-                                    <div class="flex w-full mr-2 items-center">
-                                        <div>
-                                            <label>Nom:&nbsp</label>
-                                        </div>
-                                        <input class="w-full h-12 pl-2 rounded-full outline-none border border-gray-300 bg-gray-200" type="text" id="sender-lastname" value="${userSender.lastname}" readonly>
-                                    </div>
-                                    <div class="flex w-full mr-2 items-center">
-                                        <div>
-                                            <label>Email:&nbsp;</label>
-                                        </div>
-                                        <input class="w-full h-12 pl-2 rounded-full outline-none border border-gray-300 bg-gray-200" type="email" id="sender-email" value="${userSender.email}" readonly>
-                                    </div>
+            if (phoneInputSender) {
+                userSender = users.find(u => u.telephone === phoneInputSender);
+                if (userSender && userSender.type === "sender") {
+                    // User found and is a sender, display read-only inputs
+                    senderInfoDiv.innerHTML = `
+                        <div class="flex mt-5">
+                            <div class="flex w-full mr-2 items-center">
+                                <div>
+                                    <label>Prénom:&nbsp;</label>
                                 </div>
-                                <div class="flex mt-5">
-                                    <div class="flex w-full mr-2 items-center">
-                                        <div>
-                                            <label>Address:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                                        </div>
-                                        <input class="w-full h-12 pl-2 rounded-full outline-none border border-gray-300 bg-gray-200" type="text" id="sender-address" value="${userSender.address}" readonly>
-                                    </div>
-                                    <div class="flex w-full ml-2 items-center">
-                                        <div>
-                                            <label>Téléphone:&nbsp;&nbsp;</label>
-                                        </div>
-                                        <input style="width: 355px" class="w-full h-12 pl-2 rounded-full outline-none border border-gray-300 bg-gray-200" type="text" id="sender-phone" value="${userSender.telephone}" readonly>
-                                    </div>
+                                <input class="h-12 pl-2 rounded-full outline-none border border-gray-300 bg-gray-200" type="text" id="sender-firstname" value="${userSender.firstname}" readonly>
+                            </div>
+                            <div class="flex w-full mr-2 items-center">
+                                <div>
+                                    <label>Nom:&nbsp</label>
                                 </div>
-                            `;
-                    }
-                    else {
-                        // User not found or not a sender, display writable inputs
-                        senderInfoDiv.innerHTML = `
-                                <div class="flex mt-5">
-                                    <div class="flex w-full mr-2 items-center">
-                                        <div>
-                                            <label>Prénom:&nbsp;</label>
-                                        </div>
-                                        <input class="h-12 pl-2 rounded-full outline-none border border-gray-300" type="text" id="sender-firstname">
-                                    </div>
-                                    <div class="flex w-full mr-2 items-center">
-                                        <div>
-                                            <label>Nom:&nbsp</label>
-                                        </div>
-                                        <input class="w-full h-12 pl-2 rounded-full outline-none border border-gray-300" type="text" id="sender-lastname">
-                                    </div>
-                                    <div class="flex w-full mr-2 items-center">
-                                        <div>
-                                            <label>Email:&nbsp;</label>
-                                        </div>
-                                        <input class="w-full h-12 pl-2 rounded-full outline-none border border-gray-300" type="email" id="sender-email">
-                                    </div>
+                                <input class="w-full h-12 pl-2 rounded-full outline-none border border-gray-300 bg-gray-200" type="text" id="sender-lastname" value="${userSender.lastname}" readonly>
+                            </div>
+                            <div class="flex w-full mr-2 items-center">
+                                <div>
+                                    <label>Email:&nbsp;</label>
                                 </div>
-                                
-                                <div class="flex mt-5">
-                                    <div class="flex w-full mr-2 items-center">
-                                        <div>
-                                            <label>Address:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                                        </div>
-                                        <input class="w-full h-12 pl-2 rounded-full outline-none border border-gray-300" type="text" id="sender-address">
-                                    </div>
-                                    <div class="flex w-full ml-2 items-center">
-                                        <div>
-                                            <label>Téléphone:&nbsp;&nbsp;</label>
-                                        </div>
-                                        <input style="width: 355px" class="h-12 pl-2 rounded-full outline-none border border-gray-300 bg-gray-200" type="text" id="sender-phone" value="${phoneInput}" readonly>
-                                    </div>
+                                <input class="w-full h-12 pl-2 rounded-full outline-none border border-gray-300 bg-gray-200" type="email" id="sender-email" value="${userSender.email}" readonly>
+                            </div>
+                        </div>
+                        <div class="flex mt-5">
+                            <div class="flex w-full mr-2 items-center">
+                                <div>
+                                    <label>Address:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
                                 </div>
-                            `;
-                    }
+                                <input class="w-full h-12 pl-2 rounded-full outline-none border border-gray-300 bg-gray-200" type="text" id="sender-address" value="${userSender.address}" readonly>
+                            </div>
+                            <div class="flex w-full ml-2 items-center">
+                                <div>
+                                    <label>Téléphone:&nbsp;&nbsp;</label>
+                                </div>
+                                <input style="width: 355px" class="w-full h-12 pl-2 rounded-full outline-none border border-gray-300 bg-gray-200" type="text" id="sender-phone" value="${userSender.telephone}" readonly>
+                            </div>
+                        </div>
+                    `;
+                }
+                else {
+                    // User not found or not a sender, display writable inputs
+                    senderInfoDiv.innerHTML = `
+                        <div class="flex mt-5">
+                            <div class="flex mr-2">
+                                <div class="mt-3">
+                                    <label>Prénom:&nbsp;</label>
+                                </div>
+                                <div>
+                                    <input class="h-12 pl-2 rounded-full outline-none border border-gray-300" type="text" id="sender-firstname">
+                                    <div class="text-red-600 hidden" id="err-sender-firstname"><i class="fa-solid fa-triangle-exclamation"></i>&nbsp;Ce champ est obligatoire</div>
+                                </div>                            
+                            </div>
+                            
+                            <div class="flex mr-2">
+                                <div class="mt-3">
+                                    <label>Nom:&nbsp</label>
+                                </div>
+                                <div>
+                                    <input class="w-full h-12 pl-2 rounded-full outline-none border border-gray-300" type="text" id="sender-lastname">
+                                    <div class="text-red-600 hidden" id="err-sender-lastname"><i class="fa-solid fa-triangle-exclamation"></i>&nbsp;Ce champ est obligatoire</div> 
+                                </div>
+                            </div>
+                            <div class="flex">
+                                <div class="mt-3">
+                                    <label>Email:&nbsp;</label>
+                                </div>
+                                 <div>
+                                    <input class="w-full h-12 pl-2 rounded-full outline-none border border-gray-300" type="email" id="sender-email">
+                                    <div class="text-red-600 hidden" id="err-sender-email"><i class="fa-solid fa-triangle-exclamation"></i>&nbsp;Ce champ est obligatoire</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex mt-3">
+                            <div class="flex w-full mr-2 ">
+                                <div class="mt-3">
+                                    <label>Address:&nbsp;</label>
+                                </div>
+                                <div>
+                                    <input style="width: 355px" class="h-12 pl-2 rounded-full outline-none border border-gray-300" type="text" id="sender-address">
+                                    <div class="text-red-600 hidden" id="err-sender-address"><i class="fa-solid fa-triangle-exclamation"></i>&nbsp;Ce champ est obligatoire</div>
+                                </div>
+                            </div>
+                            <div class="flex w-full ml-2">
+                                <div class="mt-3">
+                                    <label>Téléphone:&nbsp;&nbsp;</label>
+                                </div>
+                                <div>
+                                    <input style="width: 355px" class="h-12 pl-2 rounded-full outline-none border border-gray-300 bg-gray-200" type="text" id="sender-phone" value="${phoneInputSender}" readonly>
+                                    <div class="text-red-600 hidden" id="err-sender-phone"><i class="fa-solid fa-triangle-exclamation"></i>&nbsp;Ce champ est obligatoire</div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
                 }
             }
         });
-        let userReceiver;
+        const samePhoneNumberErrorMessage = document.querySelector("#err-same-number");
         (_b = document.getElementById("search-receiver")) === null || _b === void 0 ? void 0 : _b.addEventListener("input", (event) => {
-            const phoneInput = event.target.value.trim();
+            phoneInputReceiver = event.target.value.trim();
+            if (phoneInputSender === phoneInputReceiver) {
+                samePhoneNumberErrorMessage.classList.remove("hidden");
+                isValid = false;
+            }
+            else {
+                samePhoneNumberErrorMessage.classList.add("hidden");
+                isValid = true;
+            }
             const receiverInfoDiv = document.getElementById("receiver-info");
             receiverInfoDiv.innerHTML = ''; // Clear previous content
-            if (!fragileAndMaritime) {
-                if (phoneInput) {
-                    userReceiver = users.find(u => u.telephone === phoneInput);
-                    console.log(userReceiver);
-                    if (userReceiver && userReceiver.type === "receiver") {
-                        receiverInfoDiv.innerHTML = `
-                            <div class="flex mt-5">
-                                <div class="flex w-full mr-2 items-center">
-                                    <div>
-                                        <label>Prénom:&nbsp;</label>
-                                    </div>
-                                    <input class="h-12 pl-2 rounded-full outline-none border border-gray-300 bg-gray-200" type="text" id="receiver-firstname" value="${userReceiver.firstname}" readonly>
+            if (phoneInputReceiver) {
+                userReceiver = users.find(u => u.telephone === phoneInputReceiver);
+                if (userReceiver && userReceiver.type === "receiver") {
+                    receiverInfoDiv.innerHTML = `
+                        <div class="flex mt-5">
+                            <div class="flex w-full mr-2 items-center">
+                                <div>
+                                    <label>Prénom:&nbsp;</label>
                                 </div>
-                                <div class="flex w-full mr-2 items-center">
-                                    <div>
-                                        <label>Nom:&nbsp</label>
-                                    </div>
-                                    <input class="w-full h-12 pl-2 rounded-full outline-none border border-gray-300 bg-gray-200" type="text" id="receiver-lastname" value="${userReceiver.lastname}" readonly>
-                                </div>
-                                <div class="flex w-full mr-2 items-center">
-                                    <div>
-                                        <label>Email:&nbsp;</label>
-                                    </div>
-                                    <input class="w-full h-12 pl-2 rounded-full outline-none border border-gray-300 bg-gray-200" type="email" id="receiver-email" value="${userReceiver.email}" readonly>
-                                </div>
+                                <input class="h-12 pl-2 rounded-full outline-none border border-gray-300 bg-gray-200" type="text" id="receiver-firstname" value="${userReceiver.firstname}" readonly>
                             </div>
-                            <div class="flex mt-5">
-                                <div class="flex w-full mr-2 items-center">
-                                    <div>
-                                        <label>Address:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                                    </div>
-                                    <input class="w-full h-12 pl-2 rounded-full outline-none border border-gray-300 bg-gray-200" type="text" id="receiver-address" value="${userReceiver.address}" readonly>
+                            <div class="flex w-full mr-2 items-center">
+                                <div>
+                                    <label>Nom:&nbsp</label>
                                 </div>
-                                <div class="flex w-full ml-2 items-center">
-                                    <div>
-                                        <label>Téléphone:&nbsp;&nbsp;</label>
-                                    </div>
-                                    <input style="width: 355px" class="w-full h-12 pl-2 rounded-full outline-none border border-gray-300 bg-gray-200" type="text" id="receiver-phone" value="${userReceiver.telephone}" readonly>
-                                </div>
+                                <input class="w-full h-12 pl-2 rounded-full outline-none border border-gray-300 bg-gray-200" type="text" id="receiver-lastname" value="${userReceiver.lastname}" readonly>
                             </div>
-                        `;
-                    }
-                    else {
-                        // User not found or not a sender, display writable inputs
-                        receiverInfoDiv.innerHTML = `
-                            <div class="flex mt-5">
-                                <div class="flex w-full mr-2 items-center">
-                                    <div>
-                                        <label>Prénom:&nbsp;</label>
-                                    </div>
+                            <div class="flex w-full mr-2 items-center">
+                                <div>
+                                    <label>Email:&nbsp;</label>
+                                </div>
+                                <input class="w-full h-12 pl-2 rounded-full outline-none border border-gray-300 bg-gray-200" type="email" id="receiver-email" value="${userReceiver.email}" readonly>
+                            </div>
+                        </div>
+                        <div class="flex mt-5">
+                            <div class="flex w-full mr-2 items-center">
+                                <div>
+                                    <label>Address:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                </div>
+                                <input class="w-full h-12 pl-2 rounded-full outline-none border border-gray-300 bg-gray-200" type="text" id="receiver-address" value="${userReceiver.address}" readonly>
+                            </div>
+                            <div class="flex w-full ml-2 items-center">
+                                <div>
+                                    <label>Téléphone:&nbsp;&nbsp;</label>
+                                </div>
+                                <input style="width: 355px" class="w-full h-12 pl-2 rounded-full outline-none border border-gray-300 bg-gray-200" type="text" id="receiver-phone" value="${userReceiver.telephone}" readonly>
+                            </div>
+                        </div>
+                    `;
+                }
+                else {
+                    // User not found or not a sender, display writable inputs
+                    receiverInfoDiv.innerHTML = `
+                        <div class="flex mt-5">
+                            <div class="flex mr-2">
+                                <div class="mt-3">
+                                    <label>Prénom:&nbsp;</label>
+                                </div>
+                                <div>
                                     <input class="h-12 pl-2 rounded-full outline-none border border-gray-300" type="text" id="receiver-firstname">
+                                    <div class="text-red-600 hidden" id="err-receiver-firstname"><i class="fa-solid fa-triangle-exclamation"></i>&nbsp;Ce champ est obligatoire</div>
+                                </div>                            
+                            </div>
+                            <div class="flex mr-2">
+                                <div class="mt-3">
+                                    <label>Nom:&nbsp</label>
                                 </div>
-                                <div class="flex w-full mr-2 items-center">
-                                    <div>
-                                        <label>Nom:&nbsp</label>
-                                    </div>
+                                <div>
                                     <input class="w-full h-12 pl-2 rounded-full outline-none border border-gray-300" type="text" id="receiver-lastname">
+                                    <div class="text-red-600 hidden" id="err-receiver-lastname"><i class="fa-solid fa-triangle-exclamation"></i>&nbsp;Ce champ est obligatoire</div> 
                                 </div>
-                                <div class="flex w-full mr-2 items-center">
-                                    <div>
-                                        <label>Email:&nbsp;</label>
-                                    </div>
+                            </div>
+                            <div class="flex">
+                                <div class="mt-3">
+                                    <label>Email:&nbsp;</label>
+                                </div>
+                                 <div>
                                     <input class="w-full h-12 pl-2 rounded-full outline-none border border-gray-300" type="email" id="receiver-email">
+                                    <div class="text-red-600 hidden" id="err-receiver-email"><i class="fa-solid fa-triangle-exclamation"></i>&nbsp;Ce champ est obligatoire</div>
                                 </div>
                             </div>
-                    
-                            <div class="flex mt-5">
-                                <div class="flex w-full mr-2 items-center">
-                                    <div>
-                                        <label>Address:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                                    </div>
-                                    <input class="w-full h-12 pl-2 rounded-full outline-none border border-gray-300" type="text" id="receiver-address">
+                        </div>
+                
+                        <div class="flex mt-5">
+                            <div class="flex w-full mr-2 ">
+                                <div class="mt-3">
+                                    <label>Address:&nbsp;</label>
                                 </div>
-                                <div class="flex w-full ml-2 items-center">
-                                    <div>
-                                        <label>Téléphone:&nbsp;&nbsp;</label>
-                                    </div>
-                                    <input style="width: 355px" class="h-12 pl-2 rounded-full outline-none border border-gray-300 bg-gray-200" type="text" id="receiver-phone" value="${phoneInput}" readonly>
+                                <div>
+                                    <input style="width: 355px" class="h-12 pl-2 rounded-full outline-none border border-gray-300" type="text" id="receiver-address">
+                                    <div class="text-red-600 hidden" id="err-receiver-address"><i class="fa-solid fa-triangle-exclamation"></i>&nbsp;Ce champ est obligatoire</div>
                                 </div>
                             </div>
-                        `;
-                    }
+                            <div class="flex w-full ml-2">
+                                <div class="mt-3">
+                                    <label>Téléphone:&nbsp;&nbsp;</label>
+                                </div>
+                                <div>
+                                    <input style="width: 355px" class="h-12 pl-2 rounded-full outline-none border border-gray-300 bg-gray-200" type="text" id="receiver-phone" value="${phoneInputReceiver}" readonly>
+                                    <div class="text-red-600 hidden" id="err-receiver-phone"><i class="fa-solid fa-triangle-exclamation"></i>&nbsp;Ce champ est obligatoire</div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
                 }
             }
         });
-        let totalPrice = 0;
-        if (String(c.maxWeight) != 'null') {
-            const weight = document.getElementById('weight');
-            weight.addEventListener('input', (e) => {
-                productWeight = Number(e.target.value);
-                totalPrice = calculatePriceOfProduct(c.type, typeOfProduct, productWeight, c.distance);
-                if (totalPrice < 10000) {
-                    totalPrice = 10000;
-                }
-                document.querySelector("#total-price-product").value = String(totalPrice);
-            });
-        }
-        totalPrice = calculatePriceOfProduct(c.type, typeOfProduct, productWeight, c.distance);
-        if (totalPrice < 10000) {
-            totalPrice = 10000;
-        }
-        document.querySelector("#total-price-product").value = String(totalPrice);
-        const formProduct = document.getElementById("add-product");
-        formProduct.addEventListener("submit", (e) => {
-            e.preventDefault();
-            //Les infors du client
+    });
+    if (String(c.maxWeight) != 'null') {
+        productWeightInputField = document.getElementById('weight');
+        productWeightInputField.addEventListener('input', (e) => {
+            productWeight = Number(e.target.value);
+            totalPrice = calculatePriceOfProduct(c.type, typeOfProduct, productWeight, c.distance);
+            if (totalPrice < 10000) {
+                totalPrice = 10000;
+            }
+            document.querySelector("#total-price-product").value = String(totalPrice);
+        });
+    }
+    totalPrice = calculatePriceOfProduct(c.type, typeOfProduct, productWeight, c.distance);
+    if (totalPrice < 10000) {
+        totalPrice = 10000;
+    }
+    document.querySelector("#total-price-product").value = String(totalPrice);
+    formProduct.addEventListener("submit", (e) => {
+        e.preventDefault();
+        isValid = isValidFieldProduct();
+        //Les infors du client
+        let sender = null;
+        if (phoneInputSender) {
             const senderFirstname = document.getElementById("sender-firstname").value.trim();
             const senderLastname = document.getElementById("sender-lastname").value.trim();
             const senderEmail = document.getElementById("sender-email").value.trim();
             const senderAddress = document.getElementById("sender-address").value.trim();
             const senderPhone = document.getElementById("sender-phone").value.trim();
-            const sender = new Sender(3, senderFirstname, senderLastname, senderEmail, senderAddress, senderPhone, "sender");
-            //Les infos du recepteur
+            isValid = validateFieldSenderAndReceiver(senderFirstname, senderLastname, senderEmail, senderAddress, senderPhone, "sender");
+            if (isValid) {
+                sender = new Sender(3, senderFirstname, senderLastname, senderEmail, senderAddress, senderPhone, "sender");
+            }
+        }
+        //Les infos du recepteur
+        let receiver = null;
+        if (phoneInputReceiver) {
             const receiverFirstname = document.getElementById("receiver-firstname").value.trim();
             const receiverLastname = document.getElementById("receiver-lastname").value.trim();
             const receiverEmail = document.getElementById("receiver-email").value.trim();
             const receiverAddress = document.getElementById("receiver-address").value.trim();
             const receiverPhone = document.getElementById("receiver-phone").value.trim();
-            const receiver = new Receiver(4, receiverFirstname, receiverLastname, receiverEmail, receiverAddress, receiverPhone, "receiver");
+            isValid = validateFieldSenderAndReceiver(receiverFirstname, receiverLastname, receiverEmail, receiverAddress, receiverPhone, "receiver");
+            if (isValid) {
+                receiver = new Receiver(4, receiverFirstname, receiverLastname, receiverEmail, receiverAddress, receiverPhone, "receiver");
+            }
+        }
+        if (phoneInputSender === '' || phoneInputReceiver === '') {
+            errEmptyNumber.classList.remove('hidden');
+            isValid = false;
+        }
+        else {
+            errEmptyNumber.classList.add('hidden');
+            isValid = true;
+        }
+        if (isValid) {
             if (!userSender) {
                 saveUserSender(sender);
             }
@@ -770,12 +868,12 @@ function addProductToCargo(c) {
             formData.append("id", (1).toString());
             formData.append("code", "PR00000001");
             formData.append("cargoId", (c.id).toString());
-            formData.append("sender", JSON.stringify(sender));
-            formData.append("receiver", JSON.stringify(receiver));
+            //formData.append("sender", JSON.stringify(sender));
+            //formData.append("receiver", JSON.stringify(receiver));
             formData.append("totalPrice", totalPrice.toString());
             formData.append("totalAmount", totalAmountCargo.toString());
             formData.append("updatedQuantity", updatedQuantity.toString());
-            formData.append("emailReceiver", receiverEmail);
+            //formData.append("emailReceiver", receiverEmail);
             fetch('api.php', {
                 method: 'POST',
                 body: formData
@@ -788,6 +886,7 @@ function addProductToCargo(c) {
                     if (jsonData.status === "success") {
                         const myModal = document.getElementById('my_modal_5');
                         myModal.close();
+                        //sendSMS(785222794, 'bonjour');
                         Swal.fire({
                             title: "Succès",
                             text: "Produit ajouté avec succès à la cargaison",
@@ -806,11 +905,160 @@ function addProductToCargo(c) {
                     alert('Erreur de réponse du serveur. Veuillez réessayer plus tard.');
                 }
             }).catch(error => console.error('Erreur:', error));
-        });
+        }
     });
 }
+function isValidFieldProduct() {
+    let isValid = true;
+    if (productMaterialType !== undefined) {
+        const errMsgProductMaterialType = document.getElementById('err-product-material-type');
+        if (productMaterialType.value === '0') {
+            errMsgProductMaterialType.classList.remove('hidden');
+            isValid = false;
+        }
+        else {
+            errMsgProductMaterialType.classList.add('hidden');
+            isValid = true;
+        }
+    }
+    if (newProductType.value === '0') {
+        isValid = false;
+        errMsgProductType.classList.remove('hidden');
+    }
+    else {
+        isValid = true;
+        errMsgProductType.classList.add('hidden');
+    }
+    if (divProductWeight.innerHTML !== '') {
+        const errMsgProductWeight = document.getElementById('err-product-weight');
+        errMsgProductWeight.innerHTML = '';
+        if (productWeightInputField.value.trim() === '') {
+            errMsgProductWeight.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i>&nbsp;Ce champ est obligatoire';
+            errMsgProductWeight.classList.remove('hidden');
+            isValid = false;
+        }
+        else if (Number(productWeightInputField.value.trim()) <= 0) {
+            errMsgProductWeight.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i>&nbsp;Le poids minimum d\'un colis est de 1KG';
+            errMsgProductWeight.classList.remove('hidden');
+            isValid = false;
+        }
+        else {
+            errMsgProductWeight.classList.add('hidden');
+            isValid = true;
+        }
+    }
+    return isValid;
+}
+function validateFieldSenderAndReceiver(firstname, lastname, email, address, phoneNumber, userType) {
+    let isValid = true;
+    if (userType === 'sender') {
+        const errMsgSenderFirstname = document.getElementById('sender-firstname');
+        const errMsgSenderLastname = document.getElementById('sender-lastname');
+        const errMsgSenderEmail = document.getElementById('sender-email');
+        const errMsgSenderAddress = document.getElementById('sender-address');
+        const errMsgSenderTelephone = document.getElementById('sender-phone');
+        if (firstname === '') {
+            errMsgSenderFirstname === null || errMsgSenderFirstname === void 0 ? void 0 : errMsgSenderFirstname.classList.remove('hidden');
+            isValid = false;
+        }
+        else {
+            errMsgSenderFirstname === null || errMsgSenderFirstname === void 0 ? void 0 : errMsgSenderFirstname.classList.add('hidden');
+            isValid = true;
+        }
+        if (lastname === '') {
+            errMsgSenderLastname === null || errMsgSenderLastname === void 0 ? void 0 : errMsgSenderLastname.classList.remove('hidden');
+            isValid = false;
+        }
+        else {
+            errMsgSenderLastname === null || errMsgSenderLastname === void 0 ? void 0 : errMsgSenderLastname.classList.add('hidden');
+            isValid = true;
+        }
+        if (email === '') {
+            errMsgSenderEmail === null || errMsgSenderEmail === void 0 ? void 0 : errMsgSenderEmail.classList.remove('hidden');
+            isValid = false;
+        }
+        else {
+            errMsgSenderEmail === null || errMsgSenderEmail === void 0 ? void 0 : errMsgSenderEmail.classList.add('hidden');
+            isValid = true;
+        }
+        if (address === '') {
+            errMsgSenderAddress === null || errMsgSenderAddress === void 0 ? void 0 : errMsgSenderAddress.classList.remove('hidden');
+            isValid = false;
+        }
+        else {
+            errMsgSenderAddress === null || errMsgSenderAddress === void 0 ? void 0 : errMsgSenderAddress.classList.add('hidden');
+            isValid = true;
+        }
+        if (phoneNumber === '') {
+            errMsgSenderTelephone === null || errMsgSenderTelephone === void 0 ? void 0 : errMsgSenderTelephone.classList.remove('hidden');
+            isValid = false;
+        }
+        else {
+            errMsgSenderTelephone === null || errMsgSenderTelephone === void 0 ? void 0 : errMsgSenderTelephone.classList.add('hidden');
+            isValid = true;
+        }
+    }
+    if (userType === 'receiver') {
+        const errMsgReceiverFirstname = document.getElementById('receiver-firstname');
+        const errMsgReceiverLastname = document.getElementById('receiver-lastname');
+        const errMsgReceiverEmail = document.getElementById('receiver-email');
+        const errMsgReceiverAddress = document.getElementById('receiver-address');
+        const errMsgReceiverTelephone = document.getElementById('receiver-phone');
+        if (firstname === '') {
+            errMsgReceiverFirstname === null || errMsgReceiverFirstname === void 0 ? void 0 : errMsgReceiverFirstname.classList.remove('hidden');
+            isValid = false;
+        }
+        else {
+            errMsgReceiverFirstname === null || errMsgReceiverFirstname === void 0 ? void 0 : errMsgReceiverFirstname.classList.add('hidden');
+            isValid = true;
+        }
+        if (lastname === '') {
+            errMsgReceiverLastname === null || errMsgReceiverLastname === void 0 ? void 0 : errMsgReceiverLastname.classList.remove('hidden');
+            isValid = false;
+        }
+        else {
+            errMsgReceiverLastname === null || errMsgReceiverLastname === void 0 ? void 0 : errMsgReceiverLastname.classList.add('hidden');
+            isValid = true;
+        }
+        if (email === '') {
+            errMsgReceiverEmail === null || errMsgReceiverEmail === void 0 ? void 0 : errMsgReceiverEmail.classList.remove('hidden');
+            isValid = false;
+        }
+        else {
+            errMsgReceiverEmail === null || errMsgReceiverEmail === void 0 ? void 0 : errMsgReceiverEmail.classList.add('hidden');
+            isValid = true;
+        }
+        if (address === '') {
+            errMsgReceiverAddress === null || errMsgReceiverAddress === void 0 ? void 0 : errMsgReceiverAddress.classList.remove('hidden');
+            isValid = false;
+        }
+        else {
+            errMsgReceiverAddress === null || errMsgReceiverAddress === void 0 ? void 0 : errMsgReceiverAddress.classList.add('hidden');
+            isValid = true;
+        }
+        if (phoneNumber === '') {
+            errMsgReceiverTelephone === null || errMsgReceiverTelephone === void 0 ? void 0 : errMsgReceiverTelephone.classList.remove('hidden');
+            isValid = false;
+        }
+        else {
+            errMsgReceiverTelephone === null || errMsgReceiverTelephone === void 0 ? void 0 : errMsgReceiverTelephone.classList.add('hidden');
+            isValid = true;
+        }
+    }
+    return isValid;
+}
+btnCloseProduct.addEventListener('click', () => {
+    clearProductForm();
+});
+btnCancelProduct.addEventListener('click', () => {
+    clearProductForm();
+    document.getElementById('my_modal_5').close();
+});
+function clearProductForm() {
+    formProduct.reset();
+    errMsgProductType.classList.add('hidden');
+}
 function calculatePriceOfProduct(cargaisonType, productType, genericQuantity, cargoDistance) {
-    console.log(cargaisonType, productType, genericQuantity);
     if (cargaisonType === 'ROAD' && productType === 'ALIMENTARY') {
         return 100 * genericQuantity * cargoDistance;
     }

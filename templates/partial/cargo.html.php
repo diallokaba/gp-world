@@ -281,24 +281,24 @@
 <dialog id="my_modal_5" class="modal">
   <div class="modal-box w-11/12 max-w-5xl">
     <form method="dialog">
-        <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 product-close-top">✕</button>
+        <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 btn-close-product">✕</button>
       </form>
-    <h3 class="font-bold text-lg">Ajout de produit à une Cargaison</h3>
+    <h3 class="font-bold text-lg">Ajout de produit à une Cargaison <span id="cargo-name"></span></h3>
 
     <form id="add-product" method="POST">
         <input type="hidden" name="action" value="addProduct">
         <input type="hidden" name="state" value="PENDING">
           <label class="border border-gray-300 rounded-xl flex items-center p-2.5 mt-4">
-            <span class="w-36">Type:</span>
+            <span class="w-36">Type de produit:</span>
             <!-- <input type="text" class="grow" placeholder="Email" /> -->
             <select class="grow py-2 pl-1 outline-none rounded-lg" id="product-type" name="type">
                 <option value="0">Choisir un type de produit</option>
-                <option value="CHIMICAL" id="chimical-option">Chimique</option>
+                <option value="CHIMICAL" id="chimical">Chimique</option>
                 <option value="MATERIAL" id="marterial-option">Matériel</option>
                 <option value="ALIMENTARY" id="alimentary-option">Alimentaire</option>
             </select>
           </label>
-          <div class="pl-2.5 text-red-600 hidden" id="err-cargo-type">error</div>
+          <div class="pl-1 mt-2 text-red-600 hidden" id="err-product-type"><i class="fa-solid fa-triangle-exclamation"></i>&nbsp;Ce champ est obligatoire</div>
           <div id="chimical-toxicity"></div>
           <div id="product-weight"></div>
           <div id="material"></div>
@@ -325,14 +325,17 @@
             </div>
             <div id="receiver-info"></div>
         </fieldset>
-          <label class="border border-gray-300 rounded-xl flex items-center p-2.5 mt-4">
-                <span class="">Prix total:&nbsp;&nbsp;</span>
-                <input type="text" name="distance" id="total-price-product" class="grow border outline-none border-gray-300 rounded-lg py-1 pl-2 bg-gray-200" value="0" readonly>
-            </label>
-            <div class="pl-2.5 text-red-600 hidden" id="err-distance">error</div>
+        <div class="text-red-600 pl-1 mt-2 hidden" id="err-same-number"><i class="fa-solid fa-triangle-exclamation"></i>&nbsp;Le numéro de téléphone du client ne doit pas être le même que celui du destinataire</div>
+        <div class="text-red-600 pl-1 mt-2 hidden" id="err-empty-number"><i class="fa-solid fa-triangle-exclamation"></i>&nbsp;Le numéro de téléphone de l'expéditeur ou du destinataire ne doit pas être vide</div>
+        <label class="border border-gray-300 rounded-xl flex items-center p-2.5 mt-4">
+            <span class="">Prix total:&nbsp;&nbsp;</span>
+            <input type="text" name="distance" id="total-price-product" class="grow border outline-none border-gray-300 rounded-lg py-1 pl-2 bg-gray-200" value="0" readonly>
+        </label>
+        <div class="pl-2.5 text-red-600 hidden" id="err-distance">error</div>
 
           <div class="flex justify-end gap-3 mt-4">
-            <button type="button" class="btn btn-error text-white" onclick="document.getElementById('my_modal_5').close()">Annuler</button>
+            <!-- <button type="button" class="btn btn-error text-white btn-close-product" onclick="document.getElementById('my_modal_5').close()">Annuler</button> -->
+            <button type="button" class="btn btn-error text-white" id="btn-cancel-product">Annuler</button>
             <button class="btn btn-primary text-white">Ajouter</button>
           </div>
     </form>
@@ -340,8 +343,5 @@
   </div>
 </dialog>
 
-
-
-<script type="module" src="./dist/cargo-impl.js"></script>
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 <script type="module" src="./dist/map.js"></script>

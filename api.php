@@ -244,9 +244,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                     $cargaison['products'][] = $product;
 
                     // Generate the PDF
-                    $attachment = generateInvoicePDF($sender, $receiver, $product, $cargaison);
+                    //$attachment = generateInvoicePDF($sender, $receiver, $product, $cargaison);
                     // Send the email
-                    sendMailWithAttachement($sender['email'], 'Facture PDF', 'Votre colis a été enregistré avec succès', $attachment);
+                    //sendMailWithAttachement($sender['email'], 'Facture PDF', 'Votre colis a été enregistré avec succès', $attachment);
                     break;
                 }
             }
