@@ -3,9 +3,9 @@
         {
             "id": "1",
             "reference": "CR00001",
-            "maxWeight": "992",
+            "maxWeight": "985",
             "maxNbrProduct": "null",
-            "totalAmount": "52477176",
+            "totalAmount": "54876720",
             "distance": "3427.92",
             "departurePoint": "Guinnee",
             "arrivalPoint": "Senegal",
@@ -429,6 +429,59 @@
                         "telephone": "701234567",
                         "type": "receiver"
                     }
+                },
+                {
+                    "id": "1",
+                    "code": "PR00000001",
+                    "weight": "2",
+                    "state": "PENDING",
+                    "type": "MATERIAL",
+                    "totalPrice": "685584",
+                    "sender": {
+                        "id": 3,
+                        "firstname": "ibrahima",
+                        "lastname": "kaba",
+                        "email": "ikdiallodk@groupeisi.com",
+                        "address": "kakimbo",
+                        "telephone": "721235678",
+                        "type": "sender"
+                    },
+                    "receiver": {
+                        "id": 4,
+                        "firstname": "Khalil",
+                        "lastname": "ibn mahmoud",
+                        "email": "khalil@gmail.com",
+                        "address": "foire",
+                        "telephone": "785222794",
+                        "type": "receiver"
+                    }
+                },
+                {
+                    "id": "1",
+                    "code": "PR00000001",
+                    "weight": "5",
+                    "state": "PENDING",
+                    "type": "ALIMENTARY",
+                    "toxicity": "null",
+                    "totalPrice": "1713960",
+                    "sender": {
+                        "id": 3,
+                        "firstname": "ibrahima",
+                        "lastname": "kaba",
+                        "email": "ikdiallodk@groupeisi.com",
+                        "address": "kakimbo",
+                        "telephone": "721235678",
+                        "type": "sender"
+                    },
+                    "receiver": {
+                        "id": 4,
+                        "firstname": "Khalil",
+                        "lastname": "ibn mahmoud",
+                        "email": "khalil@gmail.com",
+                        "address": "foire",
+                        "telephone": "785222794",
+                        "type": "receiver"
+                    }
                 }
             ]
         },
@@ -502,8 +555,8 @@
             "id": "6",
             "reference": "CR00006",
             "maxWeight": "null",
-            "maxNbrProduct": "78",
-            "totalAmount": "0",
+            "maxNbrProduct": "75",
+            "totalAmount": "30000",
             "distance": "4913.99",
             "departurePoint": "Guin\u00e9e",
             "arrivalPoint": "Soudan",
@@ -512,7 +565,89 @@
             "type": "MARITIME",
             "globalState": "OPEN",
             "progressionState": "PENDING",
-            "image": "https:\/\/miro.medium.com\/v2\/resize:fit:772\/1*73RG4jdNMfewnPLP73KVPw.png"
+            "image": "https:\/\/miro.medium.com\/v2\/resize:fit:772\/1*73RG4jdNMfewnPLP73KVPw.png",
+            "products": [
+                {
+                    "id": "1",
+                    "code": "PR00000001",
+                    "weight": null,
+                    "state": "PENDING",
+                    "type": "CHIMICAL",
+                    "totalPrice": "10000",
+                    "sender": {
+                        "id": 3,
+                        "firstname": "ibrahima",
+                        "lastname": "kaba",
+                        "email": "ikdiallodk@groupeisi.com",
+                        "address": "kakimbo",
+                        "telephone": "721235678",
+                        "type": "sender"
+                    },
+                    "receiver": {
+                        "id": 4,
+                        "firstname": "Khalil",
+                        "lastname": "ibn mahmoud",
+                        "email": "khalil@gmail.com",
+                        "address": "foire",
+                        "telephone": "785222794",
+                        "type": "receiver"
+                    }
+                },
+                {
+                    "id": "1",
+                    "code": "PR00000001",
+                    "weight": null,
+                    "state": "PENDING",
+                    "type": "CHIMICAL",
+                    "toxicity": "2",
+                    "totalPrice": "10000",
+                    "sender": {
+                        "id": 3,
+                        "firstname": "ibrahima",
+                        "lastname": "kaba",
+                        "email": "ikdiallodk@groupeisi.com",
+                        "address": "kakimbo",
+                        "telephone": "721235678",
+                        "type": "sender"
+                    },
+                    "receiver": {
+                        "id": 4,
+                        "firstname": "Khalil",
+                        "lastname": "ibn mahmoud",
+                        "email": "khalil@gmail.com",
+                        "address": "foire",
+                        "telephone": "785222794",
+                        "type": "receiver"
+                    }
+                },
+                {
+                    "id": "1",
+                    "code": "PR00000001",
+                    "weight": "1",
+                    "state": "PENDING",
+                    "type": "CHIMICAL",
+                    "toxicity": "5",
+                    "totalPrice": "10000",
+                    "sender": {
+                        "id": 3,
+                        "firstname": "ibrahima",
+                        "lastname": "kaba",
+                        "email": "ikdiallodk@groupeisi.com",
+                        "address": "kakimbo",
+                        "telephone": "721235678",
+                        "type": "sender"
+                    },
+                    "receiver": {
+                        "id": 4,
+                        "firstname": "Khalil",
+                        "lastname": "ibn mahmoud",
+                        "email": "khalil@gmail.com",
+                        "address": "foire",
+                        "telephone": "785222794",
+                        "type": "receiver"
+                    }
+                }
+            ]
         },
         {
             "id": "7",

@@ -502,9 +502,9 @@ function sendSMS(phoneNumber, message) {
     const raw = JSON.stringify({
         "messages": [
             {
-                "destinations": [{ "to": "221785222794" }],
-                "from": "ServiceSMS",
-                "text": "Congratulations on sending your first message.\nGo ahead and check the delivery report in the next step."
+                "destinations": [{ "to": `221${phoneNumber}` }],
+                "from": "GP-WORLD",
+                "text": message
             }
         ]
     });
@@ -872,6 +872,9 @@ function addProductToCargo(c) {
             formData.append("totalPrice", totalPrice.toString());
             formData.append("totalAmount", totalAmountCargo.toString());
             formData.append("updatedQuantity", updatedQuantity.toString());
+            if (typeOfProduct !== 'CHIMICAL') {
+                formData.append("toxicity", 'null');
+            }
             //formData.append("emailReceiver", receiverEmail);
             fetch('api.php', {
                 method: 'POST',
@@ -883,9 +886,10 @@ function addProductToCargo(c) {
                 try {
                     const jsonData = JSON.parse(data);
                     if (jsonData.status === "success") {
+                        console.log(phoneInputReceiver);
+                        sendSMS(phoneInputReceiver, `Le produit ${formData.get('code')}, est enregistré à votre destination`);
                         const myModal = document.getElementById('my_modal_5');
                         myModal.close();
-                        //sendSMS(785222794, 'bonjour');
                         Swal.fire({
                             title: "Succès",
                             text: "Produit ajouté avec succès à la cargaison",

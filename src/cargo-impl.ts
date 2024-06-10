@@ -519,7 +519,7 @@ function showAlertErrorMessage(title: string, message: string){
     });
 }
 
-function sendSMS(phoneNumber: number, message: string){
+function sendSMS(phoneNumber: string, message: string){
     const myHeaders = new Headers();
     myHeaders.append("Authorization", "App fad946e39e7d544b4d3799811de32d74-a4b4d6e5-a73c-432c-9791-44388ac3cc81");
     myHeaders.append("Content-Type", "application/json");
@@ -528,9 +528,9 @@ function sendSMS(phoneNumber: number, message: string){
     const raw = JSON.stringify({
         "messages": [
             {
-                "destinations": [{"to":"221785222794"}],
-                "from": "ServiceSMS",
-                "text": "Congratulations on sending your first message.\nGo ahead and check the delivery report in the next step."
+                "destinations": [{"to":`221${phoneNumber}`}],
+                "from": "GP-WORLD",
+                "text": message
             }
         ]
     });
@@ -918,6 +918,9 @@ function addProductToCargo(c: Cargo) {
             formData.append("totalPrice", totalPrice.toString());
             formData.append("totalAmount", totalAmountCargo.toString());
             formData.append("updatedQuantity", updatedQuantity.toString());
+            if(typeOfProduct !== 'CHIMICAL'){
+                formData.append("toxicity", 'null')
+            }
 
             //formData.append("emailReceiver", receiverEmail);
 
@@ -931,9 +934,10 @@ function addProductToCargo(c: Cargo) {
                     try {
                         const jsonData = JSON.parse(data);
                         if (jsonData.status === "success") {
+                            console.log(phoneInputReceiver);
+                            sendSMS(phoneInputReceiver, `Le produit ${formData.get('code')}, est enregistré à votre destination`);
                             const myModal = (document.getElementById('my_modal_5') as HTMLDialogElement);
                             myModal.close();
-                            //sendSMS(785222794, 'bonjour');
                             Swal.fire({
                                 title: "Succès",
                                 text: "Produit ajouté avec succès à la cargaison",

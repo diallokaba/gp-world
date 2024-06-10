@@ -44,6 +44,15 @@
             "address": "sonfonia",
             "telephone": "701234567",
             "type": "receiver"
+        },
+        {
+            "id": 4,
+            "firstname": "Khalil",
+            "lastname": "ibn mahmoud",
+            "email": "khalil@gmail.com",
+            "address": "foire",
+            "telephone": "785222794",
+            "type": "receiver"
         }
     ]
 }

@@ -218,12 +218,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
 
             error_log("Parsed sender: " . print_r($sender, true));
             error_log("Parsed receiver: " . print_r($receiver, true));
+            $weight = "1";
+            if(isset($_POST['weight'])){
+                $weight = $_POST['weight'];
+            }
             $product = [
                 "id" => $_POST['id'],
                 "code" => $_POST['code'],
-                "weight" => $_POST['weight'],
+                "weight" => $weight,
                 "state" => $_POST['state'],
                 "type" => $_POST['type'],
+                "toxicity" => $_POST['toxicity'],
                 "totalPrice" => $_POST['totalPrice'],
                 "sender" => $sender,
                 "receiver" => $receiver
@@ -246,7 +251,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                     // Generate the PDF
                     $attachment = generateInvoicePDF($sender, $receiver, $product, $cargaison);
                     // Send the email
-                    sendMailWithAttachement($sender['email'], 'Facture PDF', 'Votre colis a été enregistré avec succès', $attachment);
+                    sendMailWithAttachement($sender['email'], 'Recu colis', 'Votre colis avec le code <strong>' . $_POST['code'] . '</strong> a été enregistré avec succès.<br>Merci de votre confiance.', $attachment);
                     break;
                 }
             }

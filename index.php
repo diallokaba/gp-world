@@ -42,7 +42,11 @@
 </style>
 <body class="font-nunito">
     <?php
-        include('./templates/partial/layout.html.php')
+        if(isset($_POST["suivi"]) && $_POST["suivi"] == "dashboard"){
+            include("./templates/partial/layout.html.php");
+        }else{
+            include('./templates/suivi-colis.html.php');
+        }
     ?>
 </body>
 </html>
