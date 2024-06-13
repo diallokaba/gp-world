@@ -3,9 +3,9 @@
         {
             "id": "1",
             "reference": "CR00001",
-            "maxWeight": "985",
+            "maxWeight": "970",
             "maxNbrProduct": "null",
-            "totalAmount": "54876720",
+            "totalAmount": "60018600",
             "distance": "3427.92",
             "departurePoint": "Guinnee",
             "arrivalPoint": "Senegal",
@@ -18,7 +18,7 @@
             "products": [
                 {
                     "id": "1",
-                    "code": "PR00000001",
+                    "code": "PR00000002",
                     "weight": "15",
                     "state": "PENDING",
                     "type": "ALIMENTARY",
@@ -42,10 +42,10 @@
                 },
                 {
                     "id": "1",
-                    "code": "PR00000001",
+                    "code": "PR00000003",
                     "weight": "1",
-                    "state": "PENDING",
-                    "type": "ALIMENTARY",
+                    "state": "IN_PROGRESS",
+                    "type": "CHIMICAL",
                     "totalPrice": "342792",
                     "sender": {
                         "id": 3,
@@ -68,10 +68,10 @@
                 },
                 {
                     "id": "1",
-                    "code": "PR00000001",
+                    "code": "PR00000004",
                     "weight": "2",
-                    "state": "PENDING",
-                    "type": "ALIMENTARY",
+                    "state": "RETRIEVED",
+                    "type": "MATERIAL",
                     "totalPrice": "10000",
                     "sender": {
                         "id": 3,
@@ -94,10 +94,10 @@
                 },
                 {
                     "id": "1",
-                    "code": "PR00000001",
+                    "code": "PR00000005",
                     "weight": "1",
-                    "state": "PENDING",
-                    "type": "ALIMENTARY",
+                    "state": "LOST",
+                    "type": "CHIMICAL",
                     "totalPrice": "342792",
                     "sender": {
                         "id": 3,
@@ -120,61 +120,9 @@
                 },
                 {
                     "id": "1",
-                    "code": "PR00000001",
+                    "code": "PR00000006",
                     "weight": "2",
-                    "state": "PENDING",
-                    "type": "ALIMENTARY",
-                    "totalPrice": "685584",
-                    "sender": {
-                        "id": 3,
-                        "firstname": "Ousseynou",
-                        "lastname": "Dieudiou",
-                        "email": "diedhiouousseynou53@gmail.com",
-                        "address": "Pikine",
-                        "telephone": "785304869",
-                        "type": "sender"
-                    },
-                    "receiver": {
-                        "id": 4,
-                        "firstname": "isi",
-                        "lastname": "isi",
-                        "email": "ikdiallodk@groupeisi.com",
-                        "address": "Sam",
-                        "telephone": "701234567",
-                        "type": "receiver"
-                    }
-                },
-                {
-                    "id": "1",
-                    "code": "PR00000001",
-                    "weight": "3",
-                    "state": "PENDING",
-                    "type": "ALIMENTARY",
-                    "totalPrice": "1028376",
-                    "sender": {
-                        "id": 3,
-                        "firstname": "Ousseynou",
-                        "lastname": "Dieudiou",
-                        "email": "diedhiouousseynou53@gmail.com",
-                        "address": "Pikine",
-                        "telephone": "785304869",
-                        "type": "sender"
-                    },
-                    "receiver": {
-                        "id": 4,
-                        "firstname": "isi",
-                        "lastname": "isi",
-                        "email": "ikdiallodk@groupeisi.com",
-                        "address": "Sam",
-                        "telephone": "701234567",
-                        "type": "receiver"
-                    }
-                },
-                {
-                    "id": "1",
-                    "code": "PR00000001",
-                    "weight": "2",
-                    "state": "PENDING",
+                    "state": "ARCHIVED",
                     "type": "ALIMENTARY",
                     "totalPrice": "685584",
                     "sender": {
@@ -198,226 +146,175 @@
                 },
                 {
                     "id": "1",
-                    "code": "PR00000001",
-                    "weight": "2",
-                    "state": "PENDING",
-                    "type": "ALIMENTARY",
-                    "totalPrice": "685584",
-                    "sender": {
-                        "id": 3,
-                        "firstname": "soda",
-                        "lastname": "diop",
-                        "email": "ikdiallodk@groupeisi.com",
-                        "address": "ODC",
-                        "telephone": "761735729",
-                        "type": "sender"
-                    },
-                    "receiver": {
-                        "id": 4,
-                        "firstname": "Elimane",
-                        "lastname": "Gning",
-                        "email": "gningeli03@gmail.com",
-                        "address": "ODC",
-                        "telephone": "776795840",
-                        "type": "receiver"
-                    }
-                },
-                {
-                    "id": "1",
-                    "code": "PR00000001",
-                    "weight": "2",
-                    "state": "PENDING",
-                    "type": "ALIMENTARY",
-                    "totalPrice": "685584",
-                    "sender": {
-                        "id": 3,
-                        "firstname": "soda",
-                        "lastname": "diop",
-                        "email": "ikdiallodk@groupeisi.com",
-                        "address": "ODC",
-                        "telephone": "761735729",
-                        "type": "sender"
-                    },
-                    "receiver": {
-                        "id": 4,
-                        "firstname": "Elimane",
-                        "lastname": "Gning",
-                        "email": "gningeli03@gmail.com",
-                        "address": "ODC",
-                        "telephone": "776795840",
-                        "type": "receiver"
-                    }
-                },
-                {
-                    "id": "1",
-                    "code": "PR00000001",
-                    "weight": "1",
-                    "state": "PENDING",
-                    "type": "ALIMENTARY",
-                    "totalPrice": "342792",
-                    "sender": {
-                        "id": 3,
-                        "firstname": "soda",
-                        "lastname": "diop",
-                        "email": "ikdiallodk@groupeisi.com",
-                        "address": "ODC",
-                        "telephone": "761735729",
-                        "type": "sender"
-                    },
-                    "receiver": {
-                        "id": 4,
-                        "firstname": "Elimane",
-                        "lastname": "Gning",
-                        "email": "gningeli03@gmail.com",
-                        "address": "ODC",
-                        "telephone": "776795840",
-                        "type": "receiver"
-                    }
-                },
-                {
-                    "id": "1",
-                    "code": "PR00000001",
-                    "weight": "1",
-                    "state": "PENDING",
-                    "type": "ALIMENTARY",
-                    "totalPrice": "342792",
-                    "sender": {
-                        "id": 3,
-                        "firstname": "soda",
-                        "lastname": "diop",
-                        "email": "ikdiallodk@groupeisi.com",
-                        "address": "ODC",
-                        "telephone": "761735729",
-                        "type": "sender"
-                    },
-                    "receiver": {
-                        "id": 4,
-                        "firstname": "Elimane",
-                        "lastname": "Gning",
-                        "email": "gningeli03@gmail.com",
-                        "address": "ODC",
-                        "telephone": "776795840",
-                        "type": "receiver"
-                    }
-                },
-                {
-                    "id": "1",
-                    "code": "PR00000001",
-                    "weight": "1",
-                    "state": "PENDING",
-                    "type": "ALIMENTARY",
-                    "totalPrice": "342792",
-                    "sender": {
-                        "id": 3,
-                        "firstname": "soda",
-                        "lastname": "diop",
-                        "email": "ikdiallodk@groupeisi.com",
-                        "address": "ODC",
-                        "telephone": "761735729",
-                        "type": "sender"
-                    },
-                    "receiver": {
-                        "id": 4,
-                        "firstname": "Elimane",
-                        "lastname": "Gning",
-                        "email": "gningeli03@gmail.com",
-                        "address": "ODC",
-                        "telephone": "776795840",
-                        "type": "receiver"
-                    }
-                },
-                {
-                    "id": "1",
-                    "code": "PR00000001",
-                    "weight": "2",
-                    "state": "PENDING",
-                    "type": "ALIMENTARY",
-                    "totalPrice": "685584",
-                    "sender": {
-                        "id": 3,
-                        "firstname": "moi",
-                        "lastname": "moi",
-                        "email": "moi@gmail.com",
-                        "address": "kaffrine",
-                        "telephone": "785662333",
-                        "type": "sender"
-                    },
-                    "receiver": {
-                        "id": 4,
-                        "firstname": "lui",
-                        "lastname": "lui",
-                        "email": "lui@gmail.com",
-                        "address": "timesquare",
-                        "telephone": "72134567",
-                        "type": "receiver"
-                    }
-                },
-                {
-                    "id": "1",
-                    "code": "PR00000001",
-                    "weight": "2",
-                    "state": "PENDING",
-                    "type": "ALIMENTARY",
-                    "totalPrice": "685584",
-                    "sender": {
-                        "id": 3,
-                        "firstname": "moi",
-                        "lastname": "moi",
-                        "email": "moi@gmail.com",
-                        "address": "kaffrine",
-                        "telephone": "785662333",
-                        "type": "sender"
-                    },
-                    "receiver": {
-                        "id": 4,
-                        "firstname": "lui",
-                        "lastname": "lui",
-                        "email": "lui@gmail.com",
-                        "address": "timesquare",
-                        "telephone": "72134567",
-                        "type": "receiver"
-                    }
-                },
-                {
-                    "id": "1",
-                    "code": "PR00000001",
+                    "code": "PR00000007",
                     "weight": "3",
                     "state": "PENDING",
                     "type": "MATERIAL",
                     "totalPrice": "1028376",
                     "sender": {
                         "id": 3,
-                        "firstname": "leaf",
-                        "lastname": "leaf",
-                        "email": "leaf@gmail.com",
-                        "address": "foire",
-                        "telephone": "723445423",
+                        "firstname": "Ousseynou",
+                        "lastname": "Dieudiou",
+                        "email": "diedhiouousseynou53@gmail.com",
+                        "address": "Pikine",
+                        "telephone": "785304869",
                         "type": "sender"
                     },
                     "receiver": {
                         "id": 4,
-                        "firstname": "loves",
-                        "lastname": "loves",
-                        "email": "loves@gmail.com",
-                        "address": "pikine",
-                        "telephone": "723445421",
+                        "firstname": "isi",
+                        "lastname": "isi",
+                        "email": "ikdiallodk@groupeisi.com",
+                        "address": "Sam",
+                        "telephone": "701234567",
+                        "type": "receiver"
+                    }
+                },
+                {
+                    "id": "1",
+                    "code": "PR00000008",
+                    "weight": "2",
+                    "state": "PENDING",
+                    "type": "ALIMENTARY",
+                    "totalPrice": "685584",
+                    "sender": {
+                        "id": 3,
+                        "firstname": "Ousseynou",
+                        "lastname": "Dieudiou",
+                        "email": "diedhiouousseynou53@gmail.com",
+                        "address": "Pikine",
+                        "telephone": "785304869",
+                        "type": "sender"
+                    },
+                    "receiver": {
+                        "id": 4,
+                        "firstname": "isi",
+                        "lastname": "isi",
+                        "email": "ikdiallodk@groupeisi.com",
+                        "address": "Sam",
+                        "telephone": "701234567",
+                        "type": "receiver"
+                    }
+                },
+                {
+                    "id": "1",
+                    "code": "PR00000009",
+                    "weight": "2",
+                    "state": "PENDING",
+                    "type": "ALIMENTARY",
+                    "totalPrice": "685584",
+                    "sender": {
+                        "id": 3,
+                        "firstname": "soda",
+                        "lastname": "diop",
+                        "email": "ikdiallodk@groupeisi.com",
+                        "address": "ODC",
+                        "telephone": "761735729",
+                        "type": "sender"
+                    },
+                    "receiver": {
+                        "id": 4,
+                        "firstname": "Elimane",
+                        "lastname": "Gning",
+                        "email": "gningeli03@gmail.com",
+                        "address": "ODC",
+                        "telephone": "776795840",
+                        "type": "receiver"
+                    }
+                },
+                {
+                    "id": "1",
+                    "code": "PR00000010",
+                    "weight": "2",
+                    "state": "PENDING",
+                    "type": "ALIMENTARY",
+                    "totalPrice": "685584",
+                    "sender": {
+                        "id": 3,
+                        "firstname": "soda",
+                        "lastname": "diop",
+                        "email": "ikdiallodk@groupeisi.com",
+                        "address": "ODC",
+                        "telephone": "761735729",
+                        "type": "sender"
+                    },
+                    "receiver": {
+                        "id": 4,
+                        "firstname": "Elimane",
+                        "lastname": "Gning",
+                        "email": "gningeli03@gmail.com",
+                        "address": "ODC",
+                        "telephone": "776795840",
+                        "type": "receiver"
+                    }
+                },
+                {
+                    "id": "1",
+                    "code": "PR00000011",
+                    "weight": "1",
+                    "state": "PENDING",
+                    "type": "ALIMENTARY",
+                    "totalPrice": "342792",
+                    "sender": {
+                        "id": 3,
+                        "firstname": "soda",
+                        "lastname": "diop",
+                        "email": "ikdiallodk@groupeisi.com",
+                        "address": "ODC",
+                        "telephone": "761735729",
+                        "type": "sender"
+                    },
+                    "receiver": {
+                        "id": 4,
+                        "firstname": "Elimane",
+                        "lastname": "Gning",
+                        "email": "gningeli03@gmail.com",
+                        "address": "ODC",
+                        "telephone": "776795840",
+                        "type": "receiver"
+                    }
+                },
+                {
+                    "id": "1",
+                    "code": "PR00000012",
+                    "weight": "1",
+                    "state": "PENDING",
+                    "type": "ALIMENTARY",
+                    "totalPrice": "342792",
+                    "sender": {
+                        "id": 3,
+                        "firstname": "soda",
+                        "lastname": "diop",
+                        "email": "ikdiallodk@groupeisi.com",
+                        "address": "ODC",
+                        "telephone": "761735729",
+                        "type": "sender"
+                    },
+                    "receiver": {
+                        "id": 4,
+                        "firstname": "Elimane",
+                        "lastname": "Gning",
+                        "email": "gningeli03@gmail.com",
+                        "address": "ODC",
+                        "telephone": "776795840",
                         "type": "receiver"
                     }
                 },
                 {
                     "id": "1",
                     "code": "PR00000001",
-                    "weight": "1",
+                    "weight": "10",
                     "state": "PENDING",
                     "type": "ALIMENTARY",
-                    "totalPrice": "10000",
+                    "toxicity": "null",
+                    "totalPrice": "3427920",
                     "sender": {
                         "id": 3,
-                        "firstname": "ibrahima",
-                        "lastname": "kaba",
+                        "firstname": "Khalil",
+                        "lastname": "ibn mahmoud",
                         "email": "ikdiallodk@groupeisi.com",
-                        "address": "kakimbo",
-                        "telephone": "721235678",
+                        "address": "foire",
+                        "telephone": "785222794",
                         "type": "sender"
                     },
                     "receiver": {
@@ -433,32 +330,6 @@
                 {
                     "id": "1",
                     "code": "PR00000001",
-                    "weight": "2",
-                    "state": "PENDING",
-                    "type": "MATERIAL",
-                    "totalPrice": "685584",
-                    "sender": {
-                        "id": 3,
-                        "firstname": "ibrahima",
-                        "lastname": "kaba",
-                        "email": "ikdiallodk@groupeisi.com",
-                        "address": "kakimbo",
-                        "telephone": "721235678",
-                        "type": "sender"
-                    },
-                    "receiver": {
-                        "id": 4,
-                        "firstname": "Khalil",
-                        "lastname": "ibn mahmoud",
-                        "email": "khalil@gmail.com",
-                        "address": "foire",
-                        "telephone": "785222794",
-                        "type": "receiver"
-                    }
-                },
-                {
-                    "id": "1",
-                    "code": "PR00000001",
                     "weight": "5",
                     "state": "PENDING",
                     "type": "ALIMENTARY",
@@ -466,20 +337,20 @@
                     "totalPrice": "1713960",
                     "sender": {
                         "id": 3,
-                        "firstname": "ibrahima",
-                        "lastname": "kaba",
-                        "email": "ikdiallodk@groupeisi.com",
-                        "address": "kakimbo",
-                        "telephone": "721235678",
+                        "firstname": "Birane",
+                        "lastname": "Wane",
+                        "email": "douvewane85@gmail.com",
+                        "address": "Ouest Foire",
+                        "telephone": "777669595",
                         "type": "sender"
                     },
                     "receiver": {
                         "id": 4,
-                        "firstname": "Khalil",
-                        "lastname": "ibn mahmoud",
-                        "email": "khalil@gmail.com",
-                        "address": "foire",
-                        "telephone": "785222794",
+                        "firstname": "Moi",
+                        "lastname": "moi",
+                        "email": "moi8777@gmail.com",
+                        "address": "Kakimbo",
+                        "telephone": "711223456",
                         "type": "receiver"
                     }
                 }
@@ -744,6 +615,38 @@
             "globalState": "OPEN",
             "progressionState": "PENDING",
             "image": "https:\/\/miro.medium.com\/v2\/resize:fit:772\/1*73RG4jdNMfewnPLP73KVPw.png"
+        },
+        {
+            "id": "13",
+            "reference": "CR0013",
+            "maxWeight": "null",
+            "maxNbrProduct": "500",
+            "totalAmount": "0",
+            "distance": "3310.63",
+            "departurePoint": "Mauritanie",
+            "arrivalPoint": "Libye",
+            "leavingDate": "2024-07-06",
+            "arrivedDate": "2024-10-05",
+            "type": "MARITIME",
+            "globalState": "OPEN",
+            "progressionState": "PENDING",
+            "image": "https:\/\/www.trade-easy.fr\/wp-content\/uploads\/2022\/06\/Cout-fret-maritime-TRADE.EASY_.png"
+        },
+        {
+            "id": "14",
+            "reference": "CR0014",
+            "maxWeight": "null",
+            "maxNbrProduct": "500",
+            "totalAmount": "0",
+            "distance": "2644.90",
+            "departurePoint": "14.43468021529728, -11.601562500000002",
+            "arrivalPoint": "15.453680224345835, 13.0078125",
+            "leavingDate": "2024-06-13",
+            "arrivedDate": "2024-06-29",
+            "type": "MARITIME",
+            "globalState": "OPEN",
+            "progressionState": "PENDING",
+            "image": "https:\/\/www.trade-easy.fr\/wp-content\/uploads\/2022\/06\/Cout-fret-maritime-TRADE.EASY_.png"
         }
     ]
 }

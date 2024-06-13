@@ -1,5 +1,4 @@
 import { Air, Cargo, Maritime, Road } from "./model/cargo.js";
-import { Product } from "./model/product.js";
 import { Receiver, Sender, User } from "./model/user.js";
 
 const byWeight: any = document.querySelector("#byWeight");
@@ -28,8 +27,9 @@ const newProductType = productType.cloneNode(true) as HTMLSelectElement;
 let productMaterialType: HTMLSelectElement;
 const senderInfoDiv = document.getElementById("sender-info") as HTMLDivElement;
 const receiverInfoDiv = document.getElementById("receiver-info") as HTMLDivElement;
+const reload = document.getElementById("reload-page");
 
-byWeight?.addEventListener('click', () =>{
+byWeight.addEventListener('click', () =>{
     if(byWeight.checked === true){
         radioChoice.classList.add('hidden');
         quantity.innerHTML = '';
@@ -43,7 +43,7 @@ byWeight?.addEventListener('click', () =>{
     }
 });
 
-byProduct?.addEventListener('click', () =>{
+byProduct.addEventListener('click', () =>{
     if(byProduct.checked === true){
         radioChoice.classList.add('hidden');
         quantity.innerHTML = '';
@@ -146,7 +146,17 @@ form.addEventListener('submit', (e) =>{
                 }
                 cargaisons.push(cargo);
                 displayThisCagoOnTheTable(cargo);
-                alert(jsonData.message);
+                const myModal = (document.getElementById('my_modal_4') as HTMLDialogElement);
+                myModal.close();
+                Swal.fire({
+                    title: "Succès",
+                    text: jsonData.message,
+                    icon: "success",
+                    timer: 4000,
+                    showConfirmButton: false,
+                    timerProgressBar: true,
+                });
+                //alert(jsonData.message);
                 //const cargo: Cargo = Object.assign(Cargo, formData.entries);
               } else {
                 alert('Erreur lors de l\'ajout de la cargaison');
@@ -414,10 +424,10 @@ function pagination(page: number = currentPage){
                 <td>${cargaison.leavingDate}</td>
                 <td>${cargaison.arrivedDate}</td>
                 <td>${cargaison.distance + ' (KM)'}</td>
-                <td>${cargaison.type}</td>
-                <td>${cargaison.globalState}</td>
-                <td>${cargaison.progressionState}</td>
-                <td><button type="button" class="add-product-btn" data-id="${cargaison.id}">Ajouter produit</button></td>
+                <td>${cargaison.type === 'ROAD' ? 'Routière' : cargaison.type === 'AIR' ? 'Aérienne' : 'Maritime'}</td>
+                <td>${cargaison.globalState === 'OPEN' ? '<span class="rounded-lg bg-green-300 p-2">Ouvert</span>' : '<span class="rounded-lg bg-danger p-2">Fermer</span>'}</td>
+                <td>${cargaison.progressionState === 'PENDING' ? '<span class="rounded-lg bg-gray-300 p-2">En attente</span>' : cargaison.progressionState === 'IN_ROAD' ? '<span class="rounded-lg bg-yellow-300 p-2">En route</span>' : '<span class="rounded-lg bg-green-300 p-2">Arriver</span>'}</td>
+                <td><button type="button" title="Ajouter produit" class="add-product-btn" data-id="${cargaison.id}">Ajouter produit</button></td>
                 `;
                 tbodyCargo.appendChild(row);
             }
@@ -435,9 +445,12 @@ function pagination(page: number = currentPage){
       // Ajoutez des écouteurs d'événements aux boutons
         document.querySelectorAll('.add-product-btn').forEach(button => {
             button.addEventListener('click', (event) => {
+                console.log( (event.target as HTMLButtonElement).getAttribute('data-id'));
                 const cargoId = (event.target as HTMLButtonElement).getAttribute('data-id');
+                
                 const cargaison: Cargo = cargaisons.find(c => Number(c.id) === Number(cargoId))!;
                 let weight = String(cargaison?.maxWeight) != 'null' ? cargaison?.maxWeight : cargaison?.maxNbrProduct;
+                console.log(cargaison);
                 if(cargaison?.globalState !== 'OPEN' || cargaison?.progressionState !== 'PENDING'){
                     showAlertErrorMessage('Impossible d\'ajouter un produit à cette cargaison', 'Pour ajouter un produit, la cargaison doit être en état "Ouvert" et "En attente"');
                 }else if(Number(weight) === 0){
@@ -518,6 +531,17 @@ function showAlertErrorMessage(title: string, message: string){
         }
     });
 }
+
+reload?.addEventListener("click", () =>{
+    console.log("Je suis à l'intérieur");
+    (document.getElementById("cargo-code-search") as HTMLInputElement).value = "";
+    (document.getElementById("departure-point-search") as HTMLInputElement).value = "";
+    (document.getElementById("arrival-point-search") as HTMLInputElement).value = "";
+    (document.getElementById("leaving-date-search") as HTMLInputElement).value = "";
+    (document.getElementById("arrived-date-search") as HTMLInputElement).value = "";
+    (document.getElementById("cargo-type-search") as HTMLInputElement).value = "";
+    pagination(1);
+});
 
 function sendSMS(phoneNumber: string, message: string){
     const myHeaders = new Headers();
@@ -935,7 +959,7 @@ function addProductToCargo(c: Cargo) {
                         const jsonData = JSON.parse(data);
                         if (jsonData.status === "success") {
                             console.log(phoneInputReceiver);
-                            sendSMS(phoneInputReceiver, `Le produit ${formData.get('code')}, est enregistré à votre destination`);
+                            sendSMS(phoneInputReceiver, `Le produit ${formData.get('code')}, est enregistre a votre destination`);
                             const myModal = (document.getElementById('my_modal_5') as HTMLDialogElement);
                             myModal.close();
                             Swal.fire({

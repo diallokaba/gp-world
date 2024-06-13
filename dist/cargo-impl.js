@@ -27,7 +27,8 @@ const newProductType = productType.cloneNode(true);
 let productMaterialType;
 const senderInfoDiv = document.getElementById("sender-info");
 const receiverInfoDiv = document.getElementById("receiver-info");
-byWeight === null || byWeight === void 0 ? void 0 : byWeight.addEventListener('click', () => {
+const reload = document.getElementById("reload-page");
+byWeight.addEventListener('click', () => {
     if (byWeight.checked === true) {
         radioChoice.classList.add('hidden');
         quantity.innerHTML = '';
@@ -40,7 +41,7 @@ byWeight === null || byWeight === void 0 ? void 0 : byWeight.addEventListener('c
         `;
     }
 });
-byProduct === null || byProduct === void 0 ? void 0 : byProduct.addEventListener('click', () => {
+byProduct.addEventListener('click', () => {
     if (byProduct.checked === true) {
         radioChoice.classList.add('hidden');
         quantity.innerHTML = '';
@@ -53,7 +54,6 @@ byProduct === null || byProduct === void 0 ? void 0 : byProduct.addEventListener
         `;
     }
 });
-// Function to initialize the default field
 function initializeDefaultField() {
     quantity.innerHTML = '';
     quantity.innerHTML =
@@ -63,7 +63,6 @@ function initializeDefaultField() {
     </label>
     <div class="pl-2.5 text-red-600 hidden" id="weight-max-err">error</div>`;
 }
-// Initialize the default field on page load
 initializeDefaultField();
 form.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -115,7 +114,6 @@ form.addEventListener('submit', (e) => {
             imageUrl = 'https://miro.medium.com/v2/resize:fit:772/1*73RG4jdNMfewnPLP73KVPw.png';
         }
         formData.append('image', imageUrl);
-        //console.log(formData.entries);
         fetch('api.php', {
             method: 'POST',
             body: formData
@@ -123,7 +121,6 @@ form.addEventListener('submit', (e) => {
             .then(response => response.text())
             .then(data => {
             var _a, _b, _c, _d, _e, _f, _g, _h, _j;
-            //console.log(data);
             const jsonData = JSON.parse(data);
             if (jsonData.status === "success") {
                 let cargo;
@@ -138,8 +135,16 @@ form.addEventListener('submit', (e) => {
                 }
                 cargaisons.push(cargo);
                 displayThisCagoOnTheTable(cargo);
-                alert(jsonData.message);
-                //const cargo: Cargo = Object.assign(Cargo, formData.entries);
+                const myModal = document.getElementById('my_modal_4');
+                myModal.close();
+                Swal.fire({
+                    title: "Succès",
+                    text: jsonData.message,
+                    icon: "success",
+                    timer: 4000,
+                    showConfirmButton: false,
+                    timerProgressBar: true,
+                });
             }
             else {
                 alert('Erreur lors de l\'ajout de la cargaison');
@@ -319,18 +324,6 @@ function displayThisCagoOnTheTable(cargaison) {
     tbodyCargo.appendChild(row);
 }
 let cargaisons = [];
-/*function getAllCargos(){
-    fetch('api.php?action=getCargaison', {
-        method: 'GET'
-      })
-        .then(response => response.text())
-        .then(data => {
-            const jsonData = JSON.parse(data);
-            cargaisons = jsonData.data.cargaisons;
-        })
-        .catch(error => console.error('Erreur:', error));
-}*/
-//getAllCargos();
 function padStart(str, targetLength, padString) {
     str = str.toString();
     padString = padString || ' ';
@@ -396,28 +389,21 @@ function pagination(page = currentPage) {
                 <td>${cargaison.leavingDate}</td>
                 <td>${cargaison.arrivedDate}</td>
                 <td>${cargaison.distance + ' (KM)'}</td>
-                <td>${cargaison.type}</td>
-                <td>${cargaison.globalState}</td>
-                <td>${cargaison.progressionState}</td>
-                <td><button type="button" class="add-product-btn" data-id="${cargaison.id}">Ajouter produit</button></td>
+                <td>${cargaison.type === 'ROAD' ? 'Routière' : cargaison.type === 'AIR' ? 'Aérienne' : 'Maritime'}</td>
+                <td>${cargaison.globalState === 'OPEN' ? '<span class="rounded-lg bg-green-300 p-2">Ouvert</span>' : '<span class="rounded-lg bg-danger p-2">Fermer</span>'}</td>
+                <td>${cargaison.progressionState === 'PENDING' ? '<span class="rounded-lg bg-gray-300 p-2">En attente</span>' : cargaison.progressionState === 'IN_ROAD' ? '<span class="rounded-lg bg-yellow-300 p-2">En route</span>' : '<span class="rounded-lg bg-green-300 p-2">Arriver</span>'}</td>
+                <td><button type="button" title="Ajouter produit" class="add-product-btn" data-id="${cargaison.id}">Ajouter produit</button></td>
                 `;
                 tbodyCargo.appendChild(row);
             }
         });
-        // Mise à jour des événements des boutons "voir"
-        /*document.querySelectorAll(".btn-view").forEach((button) => {
-         button.addEventListener("click", (event) => {
-           const target = event.target as HTMLElement;
-           const cargaisonId = target.getAttribute("data-id");
-           afficherDetailsCargaison(cargaisonId);
-         });
-       });*/
-        // Ajoutez des écouteurs d'événements aux boutons
         document.querySelectorAll('.add-product-btn').forEach(button => {
             button.addEventListener('click', (event) => {
+                console.log(event.target.getAttribute('data-id'));
                 const cargoId = event.target.getAttribute('data-id');
                 const cargaison = cargaisons.find(c => Number(c.id) === Number(cargoId));
                 let weight = String(cargaison === null || cargaison === void 0 ? void 0 : cargaison.maxWeight) != 'null' ? cargaison === null || cargaison === void 0 ? void 0 : cargaison.maxWeight : cargaison === null || cargaison === void 0 ? void 0 : cargaison.maxNbrProduct;
+                console.log(cargaison);
                 if ((cargaison === null || cargaison === void 0 ? void 0 : cargaison.globalState) !== 'OPEN' || (cargaison === null || cargaison === void 0 ? void 0 : cargaison.progressionState) !== 'PENDING') {
                     showAlertErrorMessage('Impossible d\'ajouter un produit à cette cargaison', 'Pour ajouter un produit, la cargaison doit être en état "Ouvert" et "En attente"');
                 }
@@ -443,12 +429,10 @@ function pagination(page = currentPage) {
                 }
             });
         });
-        // Mise à jour des informations de pagination
         const pageInfo = document.getElementById("page-info");
         if (pageInfo) {
             pageInfo.textContent = `Page ${currentPage} Sur ${totalPages}`;
         }
-        // Activer/désactiver les boutons de pagination
         const prevButton = document.getElementById("prev-page");
         const nextButton = document.getElementById("next-page");
         if (prevButton) {
@@ -469,7 +453,6 @@ function pagination(page = currentPage) {
         pagination(currentPage + 1);
     }
 });
-// Ajout d'un événement pour la recherche
 document.querySelectorAll("#cargo-code-search, #leaving-date-search, #arrived-date-search, #departure-point-search, #arrival-point-search, #cargo-type-search")
     .forEach((element) => {
     element.addEventListener("input", () => {
@@ -494,6 +477,16 @@ function showAlertErrorMessage(title, message) {
         }
     });
 }
+reload === null || reload === void 0 ? void 0 : reload.addEventListener("click", () => {
+    console.log("Je suis à l'intérieur");
+    document.getElementById("cargo-code-search").value = "";
+    document.getElementById("departure-point-search").value = "";
+    document.getElementById("arrival-point-search").value = "";
+    document.getElementById("leaving-date-search").value = "";
+    document.getElementById("arrived-date-search").value = "";
+    document.getElementById("cargo-type-search").value = "";
+    pagination(1);
+});
 function sendSMS(phoneNumber, message) {
     const myHeaders = new Headers();
     myHeaders.append("Authorization", "App fad946e39e7d544b4d3799811de32d74-a4b4d6e5-a73c-432c-9791-44388ac3cc81");
@@ -585,11 +578,10 @@ function addProductToCargo(c) {
         }
         (_a = document.getElementById("search-sender")) === null || _a === void 0 ? void 0 : _a.addEventListener("input", (event) => {
             phoneInputSender = event.target.value.trim();
-            senderInfoDiv.innerHTML = ''; // Clear previous content
+            senderInfoDiv.innerHTML = '';
             if (phoneInputSender) {
                 userSender = users.find(u => u.telephone === phoneInputSender);
                 if (userSender !== undefined && userSender.type === "sender") {
-                    // User found and is a sender, display read-only inputs
                     senderInfoDiv.innerHTML = `
                         <div class="flex mt-5">
                             <div class="flex w-full mr-2 items-center">
@@ -628,7 +620,6 @@ function addProductToCargo(c) {
                     `;
                 }
                 else {
-                    // User not found or not a sender, display writable inputs
                     senderInfoDiv.innerHTML = `
                         <div class="flex mt-5">
                             <div class="flex mr-2">
@@ -696,7 +687,7 @@ function addProductToCargo(c) {
                 samePhoneNumberErrorMessage.classList.add("hidden");
                 isValid = true;
             }
-            receiverInfoDiv.innerHTML = ''; // Clear previous content
+            receiverInfoDiv.innerHTML = '';
             if (phoneInputReceiver) {
                 userReceiver = users.find(u => u.telephone === phoneInputReceiver);
                 if (userReceiver !== undefined && userReceiver.type === "receiver") {
@@ -738,7 +729,6 @@ function addProductToCargo(c) {
                     `;
                 }
                 else {
-                    // User not found or not a sender, display writable inputs
                     receiverInfoDiv.innerHTML = `
                         <div class="flex mt-5">
                             <div class="flex mr-2">
@@ -814,7 +804,6 @@ function addProductToCargo(c) {
     formProduct.addEventListener("submit", (e) => {
         e.preventDefault();
         isValid = isValidFieldProduct();
-        //Les infors du client
         let sender = null;
         if (phoneInputSender) {
             const senderFirstname = document.getElementById("sender-firstname").value.trim();
@@ -827,7 +816,6 @@ function addProductToCargo(c) {
                 sender = new Sender(3, senderFirstname, senderLastname, senderEmail, senderAddress, senderPhone, "sender");
             }
         }
-        //Les infos du recepteur
         let receiver = null;
         if (phoneInputReceiver) {
             const receiverFirstname = document.getElementById("receiver-firstname").value.trim();
@@ -875,19 +863,18 @@ function addProductToCargo(c) {
             if (typeOfProduct !== 'CHIMICAL') {
                 formData.append("toxicity", 'null');
             }
-            //formData.append("emailReceiver", receiverEmail);
             fetch('api.php', {
                 method: 'POST',
                 body: formData
             })
                 .then(response => response.text())
                 .then(data => {
-                console.log("Raw server response:", data); // Affiche la réponse brute du serveur
+                console.log("Raw server response:", data);
                 try {
                     const jsonData = JSON.parse(data);
                     if (jsonData.status === "success") {
                         console.log(phoneInputReceiver);
-                        sendSMS(phoneInputReceiver, `Le produit ${formData.get('code')}, est enregistré à votre destination`);
+                        sendSMS(phoneInputReceiver, `Le produit ${formData.get('code')}, est enregistre a votre destination`);
                         const myModal = document.getElementById('my_modal_5');
                         myModal.close();
                         Swal.fire({
@@ -1089,7 +1076,7 @@ function saveUserSender(sender) {
         console.log("data sender:", data);
         const jsonData = JSON.parse(data);
         if (jsonData.status === "success")
-            console.log("J'ajoute le sender"); //alert(jsonData.message);
+            console.log("J'ajoute le sender");
         else
             alert('Erreur lors de l\'ajout de l\'expéditeur');
     }).catch(error => console.error('Erreur:', error));
@@ -1107,14 +1094,11 @@ function saveUserReceiver(receiver) {
         console.log("data sender:", data);
         const jsonData = JSON.parse(data);
         if (jsonData.status === "success")
-            console.log("J'ajoute le receiver"); //alert(jsonData.message);
+            console.log("J'ajoute le receiver");
         else
             alert('Erreur lors de l\'ajout du destinataire');
     }).catch(error => console.error('Erreur:', error));
 }
-// document.getElementById("product-close-top")?.addEventListener("click", () =>{
-//     (document.getElementById('product-material-type') as HTMLSelectElement).value = "0";
-// })
 let users = [];
 function getAllUsers() {
     fetch('users.json')
@@ -1165,14 +1149,6 @@ function displayCargo() {
           `;
             cargaisonList.appendChild(row);
         });
-        // Ajouter des événements aux boutons "voir"
-        /*document.querySelectorAll('.btn-view').forEach(button => {
-          button.addEventListener('click', (event) => {
-            const target = event.target as HTMLElement;
-            const cargaisonId = target.getAttribute('data-id');
-            afficherDetailsCargaison(cargaisonId);
-          });
-        });*/
     })
         .catch(error => console.error('Erreur:', error));
 }

@@ -76,7 +76,7 @@
                         case 'product': 
                             include('product.html.php');
                             break;
-                        default: 
+                        default: 'cargo.html.php';
                     }
                 }else{
                     include('cargo.html.php');

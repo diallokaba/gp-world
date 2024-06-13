@@ -1,58 +1,13 @@
 {
     "users": [
         {
-            "id": 4,
-            "firstname": "soda",
-            "lastname": "diop",
-            "email": "sodadiop065@gmail.com",
-            "address": "ODC",
-            "telephone": "743210099",
-            "type": "sender"
-        },
-        {
-            "id": 6,
-            "firstname": "Ousseynou",
-            "lastname": "Dieudiou",
-            "email": "diedhiouousseynou53@gmail.com",
-            "address": "Pikine",
-            "telephone": "785304869",
-            "type": "sender"
-        },
-        {
-            "id": 4,
-            "firstname": "Elimane",
-            "lastname": "Gning",
-            "email": "gningeli03@gmail.com",
-            "address": "ODC",
-            "telephone": "776795840",
-            "type": "receiver"
-        },
-        {
             "id": 3,
-            "firstname": "ibrahima",
-            "lastname": "kaba",
-            "email": "ikdiallodk@groupeisi.com",
-            "address": "kakimbo",
-            "telephone": "721235678",
+            "firstname": "Birane",
+            "lastname": "Wane",
+            "email": "douvewane85@gmail.com",
+            "address": "Ouest Foire",
+            "telephone": "777669595",
             "type": "sender"
-        },
-        {
-            "id": 4,
-            "firstname": "youssouf",
-            "lastname": "youssouf",
-            "email": "youssouf@gmail.com",
-            "address": "sonfonia",
-            "telephone": "701234567",
-            "type": "receiver"
-        },
-        {
-            "id": 4,
-            "firstname": "Khalil",
-            "lastname": "ibn mahmoud",
-            "email": "khalil@gmail.com",
-            "address": "foire",
-            "telephone": "785222794",
-            "type": "receiver"
         }
     ]
 }

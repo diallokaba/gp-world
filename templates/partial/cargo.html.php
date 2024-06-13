@@ -61,6 +61,7 @@
         <label>Date arrivée</label>
         <input type="date" class="border pl-2 py-1 px-5 rounded-xl mt-1 border-gray-300 outline-none" id="arrived-date-search">
     </div>
+    <div class="mt-6"><button class="btn btn-primary" id="reload-page"><i class="fas fa-sync-alt"></i></button></div>
 </div>
 
 <div class="shadow-sm border-b mt-4"></div>
@@ -180,7 +181,7 @@
                     <td><?= $c['type'] ?></td>
                     <td><?= $c['globalState'] ?></td>
                     <td><?= $c['progressionState'] ?></td>
-                    <td><button type="button" class="add-product-btn" data-id="<?= $c['id'] ?>">Ajouter cargaison</button></td>
+                    <td><button type="button" title="Ajouter produit" class="add-product-btn" data-id="${cargaison.id}"><i class="fas fa-plus p-2 rounded-full bg-blue-700 text-white"></i></button></td>
                 </tr>
             <?php endforeach ?>
         </tbody>
